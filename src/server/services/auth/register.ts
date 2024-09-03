@@ -2,7 +2,6 @@ import type { PrismaClient } from "@prisma/client";
 import type { RegisterInput } from "@/types/auth";
 
 export const register = async (db: PrismaClient, input: RegisterInput) => {
-  console.log("register", input);
   const dbUser = await db.user.findUnique({
     where: {
       email: input.email,
@@ -11,9 +10,15 @@ export const register = async (db: PrismaClient, input: RegisterInput) => {
   if (dbUser) throw new Error("User already exists");
 
   // Create the user
-  const user = await db.user.create({
-    data: input,
-  });
+  if (input.role === "WORKER") {
+    await db.user.create({
+      data: { ...input, worker: { create: {} } },
+    });
+  } else {
+    await db.user.create({
+      data: { ...input, customer: { create: {} } },
+    });
+  }
 
-  return { user };
+  return { success: true };
 };

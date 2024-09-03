@@ -1,52 +1,33 @@
-"use client";
-
-import { api } from "@/trpc/react";
-import { LoginSchema } from "@/types/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
-
-type FormValues = z.infer<typeof LoginSchema>;
-
-const defaultValues: FormValues = {
-  email: "",
-  password: "",
-};
+import { api } from "@/trpc/server";
+import Input from "../form-components/input";
+import Button from "../button";
+import { redirect, RedirectType } from "next/navigation";
 
 const LoginForm = () => {
-  const login = api.auth.user.login.useMutation();
-  const router = useRouter();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues,
-    resolver: zodResolver(LoginSchema),
-  });
-
-  const onSubmit = (values: FormValues) => {
-    login.mutate({ email: values.email, password: values.password });
-    reset();
-    router.push("/login");
-  };
-
   //TODO: error handling
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("email")} placeholder="Email" />
-      {errors.email && (
-        <span className="text-red-500">{errors.email.message}</span>
-      )}
-      <input {...register("password")} type="password" placeholder="Password" />
-      {errors.password && (
-        <span className="text-red-500">{errors.password.message}</span>
-      )}
-      <input type="submit" />
+    <form
+      action={async (formData) => {
+        "use server";
+        const user = await api.auth.user.login({
+          email: formData.get("email")?.toString() ?? "",
+          password: formData.get("password")?.toString() ?? "",
+        });
+        if (user) {
+          redirect("/", RedirectType.replace);
+        }
+      }}
+      className="flex flex-col gap-5"
+    >
+      <Input label="Email" placeholder="Email" type="email" name="email" />
+      <Input
+        label="Password"
+        placeholder="Password"
+        type="password"
+        name="password"
+      />
+      <Button type="submit">Bejelentkezés</Button>
     </form>
   );
 };

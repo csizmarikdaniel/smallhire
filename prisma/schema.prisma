@@ -23,6 +23,10 @@ model User {
   worker    Worker?
   customer  Customer?
   admin     Admin?
+
+  address   String
+  city      String
+  zipCode   String
 }
 
 model Admin {
@@ -37,6 +41,12 @@ model Worker {
   userId    String     @id @default(cuid())
   user      User      @relation(fields: [userId], references: [id])
 
+  trades    Trade[]
+
+  reservations Reservation[]
+
+  references Reference[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -44,16 +54,52 @@ model Worker {
 model Trade {
   id        String     @id @default(cuid())
   name      String
-  price     Float
-  workerId  Int
+  workerId  String
+  worker    Worker    @relation(fields: [workerId], references: [userId])
+
+  yearsOfExperience Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Customer {
-  customerId        String      @id @default(cuid())
-  user             User      @relation(fields: [customerId], references: [id])
+  userId        String      @id @default(cuid())
+  user             User      @relation(fields: [userId], references: [id])
+
+  reservations Reservation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reservation {
+  id          String    @id @default(cuid())
+  startDate   DateTime
+  endDate     DateTime
+  workerId    String
+  customerId  String
+
+  worker      Worker    @relation(fields: [workerId], references: [userId])
+  customer    Customer  @relation(fields: [customerId], references: [userId])
+
+  description String
+  status      String // reserved, rejected, createdOffer, acceptedOffer, rejectedOffer, completed
+
+  price       Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reference {
+  id          String    @id @default(cuid())
+  workerId    String
+
+  worker      Worker    @relation(fields: [workerId], references: [userId])
+
+  description String
+  image       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -6,12 +6,15 @@ export const editCustomer = async (
   input: EditCustomerInput,
 ) => {
   const customer = await db.customer.update({
-    where: { customerId: input.id },
+    where: { userId: input.id },
     data: {
       user: {
         update: {
           email: input.email,
           name: input.name,
+          address: input.address,
+          city: input.city,
+          zipCode: input.zipCode,
         },
       },
     },

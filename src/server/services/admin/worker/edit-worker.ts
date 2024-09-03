@@ -9,6 +9,9 @@ export const editWorker = async (db: PrismaClient, input: EditWorkerInput) => {
         update: {
           name: input.name,
           email: input.email,
+          address: input.address,
+          city: input.city,
+          zipCode: input.zipCode,
         },
       },
     },

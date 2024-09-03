@@ -11,6 +11,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "@/server/db";
+import { getSession } from "@/utils/auth";
 
 /**
  * 1. CONTEXT
@@ -104,3 +105,20 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * are logged in.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+const authMiddleware = t.middleware(async ({ next }) => {
+  const session = await getSession();
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
+
+  return await next();
+});
+
+/**
+ * Authenticated procedure
+ *
+ * This is the base piece you use to build new queries and mutations on your tRPC API. It guarantees
+ * that a user querying is authorized, and you can access user session data.
+ */
+export const authProcedure = t.procedure.use(timingMiddleware);

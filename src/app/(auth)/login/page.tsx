@@ -1,13 +1,10 @@
 import LoginForm from "@/app/_components/auth/loginForm";
-import { getSession } from "@/utils/auth";
 
-export default function LoginPage() {
-  const session = getSession();
+export default async function LoginPage() {
   return (
     <div>
-      <h1>Login</h1>
+      <h1 className="text-center text-3xl">Bejelentkezés</h1>
       <LoginForm />
-      <pre>{JSON.stringify(session, null, 2)}</pre>
     </div>
   );
 }

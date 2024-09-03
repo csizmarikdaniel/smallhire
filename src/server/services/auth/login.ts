@@ -1,3 +1,4 @@
+"use server";
 import type { LoginInput } from "@/types/auth";
 import { encrypt } from "@/utils/auth";
 import type { PrismaClient } from "@prisma/client";
@@ -14,7 +15,7 @@ export const login = async (db: PrismaClient, input: LoginInput) => {
   if (dbUser.password !== input.password) throw new Error("Invalid password");
 
   // Create the session
-  const expires = new Date(Date.now() + 10 * 1000);
+  const expires = new Date(Date.now() + 2 * 60 * 60 * 1000);
   const session = await encrypt({ dbUser, expires });
 
   // Save the session in a cookie

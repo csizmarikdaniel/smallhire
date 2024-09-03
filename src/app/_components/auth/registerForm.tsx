@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import Input from "../form-components/input";
+import Select from "../form-components/select";
+import Button from "../button";
 
 type FormValues = z.infer<typeof RegisterSchema>;
 
@@ -42,24 +45,28 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col">
-        <input {...register("email")} placeholder="Email" />
-        {errors.email && (
-          <span className="text-red-500">{errors.email.message}</span>
-        )}
-        <input {...register("name")} placeholder="Name" />
-        {errors.name && <span>{errors.name.message}</span>}
-        <input
+        <Input
+          label="Email"
+          error={errors.email?.message}
+          {...register("email")}
+        />
+        <Input label="Név" error={errors.name?.message} {...register("name")} />
+        <Input
+          label="Jelszó"
+          error={errors.password?.message}
           {...register("password")}
-          placeholder="Password"
           type="password"
         />
-        {errors.password && <span>{errors.password.message}</span>}
-        <select {...register("role")}>
-          <option value="customer">Customer</option>
-          <option value="worker">Worker</option>
-        </select>
-        {errors.role && <span>{errors.role.message}</span>}
-        <button type="submit">Register</button>
+        <Select
+          label="Szerep"
+          options={[
+            { value: "customer", label: "Customer" },
+            { value: "worker", label: "Szakember" },
+          ]}
+          error={errors.role?.message}
+          {...register("role")}
+        />
+        <Button type="submit">Regisztráció</Button>
       </div>
     </form>
   );
