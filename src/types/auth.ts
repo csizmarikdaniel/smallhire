@@ -18,6 +18,7 @@ export type RegisterInput = {
   address: string;
   city: string;
   zipCode: string;
+  phone: string;
 };
 
 export const RegisterSchema = z.object({
@@ -28,4 +29,5 @@ export const RegisterSchema = z.object({
   address: z.string().min(1),
   city: z.string().min(1),
   zipCode: z.string().min(1),
+  phone: z.string().min(1),
 });

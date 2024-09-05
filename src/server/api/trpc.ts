@@ -121,4 +121,4 @@ const authMiddleware = t.middleware(async ({ next }) => {
  * This is the base piece you use to build new queries and mutations on your tRPC API. It guarantees
  * that a user querying is authorized, and you can access user session data.
  */
-export const authProcedure = t.procedure.use(timingMiddleware);
+export const authProcedure = t.procedure.use(authMiddleware);

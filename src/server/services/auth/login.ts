@@ -14,12 +14,16 @@ export const login = async (db: PrismaClient, input: LoginInput) => {
   if (!dbUser) throw new Error("User not found");
   if (dbUser.password !== input.password) throw new Error("Invalid password");
 
+  const user = {
+    id: dbUser.id,
+    role: dbUser.role,
+  };
   // Create the session
   const expires = new Date(Date.now() + 2 * 60 * 60 * 1000);
-  const session = await encrypt({ dbUser, expires });
+  const session = await encrypt({ user, expires });
 
   // Save the session in a cookie
   cookies().set("session", session, { expires, httpOnly: true });
 
-  return { user: dbUser };
+  return { user: user };
 };

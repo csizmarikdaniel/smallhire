@@ -15,6 +15,7 @@ export const seedCustomers = async (prisma: PrismaClient) => {
           address: faker.location.streetAddress(),
           city: faker.location.city(),
           zipCode: faker.location.zipCode(),
+          phone: faker.phone.number(),
           customer: {
             create: {},
           },

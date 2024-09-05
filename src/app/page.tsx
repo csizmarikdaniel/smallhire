@@ -7,12 +7,11 @@ export default async function Home() {
   return (
     <HydrateClient>
       <div className="container mx-auto">
-        <h1 className="mt-8 text-center text-3xl font-bold">
-          Welcome to the Worker List
-        </h1>
+        <h1 className="mt-8 text-center text-3xl font-bold">SmallHire</h1>
+        <p className="mb-10 text-center">Elérhető szakemberek</p>
         <WorkerList />
       </div>
-      <pre>session {JSON.stringify(session, null, 2)}</pre>
+      <pre>session {JSON.stringify(session?.user, null, 2)}</pre>
     </HydrateClient>
   );
 }

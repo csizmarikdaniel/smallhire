@@ -19,7 +19,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  role      String // admin, worker, customer
+  role      String // ADMIN, WORKER, CUSTOMER
   worker    Worker?
   customer  Customer?
   admin     Admin?
@@ -27,6 +27,7 @@ model User {
   address   String
   city      String
   zipCode   String
+  phone     String
 }
 
 model Admin {

@@ -1,8 +1,8 @@
 import { createCallerFactory, router } from "@/server/api/trpc";
-import adminRouter from "./routers/admin";
 import authRouter from "./routers/auth";
 import workerRouter from "./routers/worker";
 import guestRouter from "./routers/guest";
+import profileRouter from "./routers/profile";
 
 /**
  * This is the primary router for your server.
@@ -10,10 +10,10 @@ import guestRouter from "./routers/guest";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = router({
-  admin: adminRouter,
   auth: authRouter,
   worker: workerRouter,
   guest: guestRouter,
+  profile: profileRouter,
 });
 
 // export type definition of API

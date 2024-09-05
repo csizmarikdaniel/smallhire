@@ -1,9 +1,9 @@
-import { authProcedure, publicProcedure, router } from "@/server/api/trpc";
-import getWorkerData from "@/server/services/worker/get-worker-data";
+import { authProcedure, router } from "@/server/api/trpc";
+import getTrades from "@/server/services/worker/get-trades";
 
 const workerRouter = router({
-  profile: router({
-    get: authProcedure.query(async ({ ctx }) => getWorkerData(ctx.db)),
+  trades: router({
+    list: authProcedure.query(async ({ ctx }) => getTrades(ctx.db)),
   }),
 });
 
