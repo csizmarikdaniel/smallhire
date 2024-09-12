@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { seedWorkers } from "./seeders/worker";
 import { seedCustomers } from "./seeders/customers";
+import { seedReservation } from "./seeders/reservation";
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,9 @@ async function main() {
   console.log();
 
   await seedCustomers(prisma);
+  console.log();
+
+  await seedReservation(prisma);
   console.log();
 
   console.log("✅ Database seeded");

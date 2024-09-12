@@ -3,6 +3,7 @@ import authRouter from "./routers/auth";
 import workerRouter from "./routers/worker";
 import guestRouter from "./routers/guest";
 import profileRouter from "./routers/profile";
+import reservationRouter from "./routers/reservation";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = router({
   worker: workerRouter,
   guest: guestRouter,
   profile: profileRouter,
+  reservation: reservationRouter,
 });
 
 // export type definition of API

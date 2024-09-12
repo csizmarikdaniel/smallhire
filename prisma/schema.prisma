@@ -85,7 +85,7 @@ model Reservation {
   customer    Customer  @relation(fields: [customerId], references: [userId])
 
   description String
-  status      String // reserved, rejected, createdOffer, acceptedOffer, rejectedOffer, completed
+  status      String // reserved, cancelled, rejected, createdOffer, acceptedOffer, rejectedOffer, completed
 
   price       Int?
 

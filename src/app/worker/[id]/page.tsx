@@ -19,9 +19,10 @@ const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
           </li>
         ))}
       </ul>
-      <pre>session {JSON.stringify(session)}</pre>
       {session ? (
-        <Button>Foglalás</Button>
+        session.user.role === "CUSTOMER" && (
+          <Button.Link href={`/worker/${id}/reservation`}>Foglalás</Button.Link>
+        )
       ) : (
         <Button.Link href={"/login"}>Foglaláshoz jelentkezzen be!</Button.Link>
       )}

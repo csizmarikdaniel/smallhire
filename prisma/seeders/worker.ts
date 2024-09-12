@@ -4,6 +4,19 @@ import { fakerHU as faker } from "@faker-js/faker";
 export const seedWorkers = async (prisma: PrismaClient) => {
   console.log("🌱 Seeding workers");
 
+  const trades = [
+    "Villanyszerelő",
+    "Vízvezeték-szerelő",
+    "Asztalos",
+    "Kőműves",
+    "Festő",
+    "Burkoló",
+    "Kertész",
+    "Autószerelő",
+    "Gépész",
+    "Vasbetonszerelő",
+  ];
+
   try {
     for (let i = 0; i < 10; i++) {
       await prisma.user.create({
@@ -19,9 +32,23 @@ export const seedWorkers = async (prisma: PrismaClient) => {
           worker: {
             create: {
               trades: {
-                create: {
-                  name: "Villanyszerelő",
-                  yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
+                createMany: {
+                  data: [
+                    {
+                      name:
+                        trades[
+                          faker.number.int({ min: 0, max: trades.length - 1 })
+                        ] ?? "Villanyszerelő",
+                      yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
+                    },
+                    {
+                      name:
+                        trades[
+                          faker.number.int({ min: 0, max: trades.length - 1 })
+                        ] ?? "Villanyszerelő",
+                      yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
+                    },
+                  ],
                 },
               },
             },

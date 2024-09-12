@@ -5,7 +5,7 @@ const getTrades = async (db: PrismaClient) => {
   const session = await getSession();
   const trades = db.trade.findMany({
     where: { workerId: session?.user.id },
-    select: { name: true, yearsOfExperience: true },
+    select: { name: true, yearsOfExperience: true, id: true },
   });
   return trades;
 };
