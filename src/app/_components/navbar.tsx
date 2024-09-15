@@ -1,7 +1,7 @@
 import { api } from "@/trpc/server";
 import { getSession } from "@/utils/auth";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 const Navbar = async () => {
   const session = await getSession();
@@ -23,7 +23,7 @@ const Navbar = async () => {
                 action={async () => {
                   "use server";
                   await api.auth.user.logout();
-                  redirect("/");
+                  revalidatePath("/");
                 }}
               >
                 <button type="submit">Kijelentkezés</button>

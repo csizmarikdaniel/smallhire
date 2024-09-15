@@ -6,7 +6,8 @@ type WorkerProps = {
   address: string;
   city: string;
   zipCode: string;
-  worker: { trades: { name: string; yearsOfExperience: number }[] } | null;
+  trades: { name: string; yearsOfExperience: number }[] | undefined;
+  earliestFreeDay: Date | undefined;
 };
 
 type WorkerCardProps = {
@@ -22,7 +23,7 @@ const WorkerCard = ({ worker }: WorkerCardProps) => {
           <div>
             <h3 className="font-bold">Mesterség</h3>
             <ul>
-              {worker.worker?.trades.map((trade) => (
+              {worker.trades?.map((trade) => (
                 <li key={trade.name}>
                   {trade.name} ({trade.yearsOfExperience} év)
                 </li>
@@ -30,7 +31,10 @@ const WorkerCard = ({ worker }: WorkerCardProps) => {
             </ul>
           </div>
           <div>
-            Legkorábban elérhető: <span className="text-yellow-300">TODO</span>
+            Legkorábban elérhető:{" "}
+            <span className="">
+              {worker.earliestFreeDay?.toLocaleDateString("hu-HU")}
+            </span>
           </div>
         </div>
       </div>

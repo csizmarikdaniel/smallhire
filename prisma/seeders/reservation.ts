@@ -27,8 +27,15 @@ export const seedReservation = async (db: PrismaClient) => {
     for (let i = 0; i < 10; i++) {
       const worker = workers[Math.floor(Math.random() * workers.length)];
       const customer = customers[Math.floor(Math.random() * customers.length)];
-      const startDate = faker.date.recent();
-      const endDate = faker.date.future();
+      const startDate = faker.date.between({
+        from: new Date("2024-01-01"),
+        to: new Date("2024-12-31"),
+      });
+      const newDate = new Date(startDate);
+      const endDate = faker.date.between({
+        from: startDate,
+        to: newDate.setDate(startDate.getDate() + 10),
+      });
       reservations.push({
         workerId: worker?.id ?? "",
         customerId: customer?.id ?? "",

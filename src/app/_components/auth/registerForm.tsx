@@ -16,7 +16,11 @@ const defaultValues: FormValues = {
   email: "",
   name: "",
   password: "",
-  role: "customer",
+  role: "CUSTOMER",
+  address: "",
+  city: "",
+  zipCode: "",
+  phone: "",
 };
 
 const RegisterForm = () => {
@@ -56,6 +60,26 @@ const RegisterForm = () => {
           error={errors.password?.message}
           {...register("password")}
           type="password"
+        />
+        <Input
+          label="Cím"
+          error={errors.address?.message}
+          {...register("address")}
+        />
+        <Input
+          label="Város"
+          error={errors.city?.message}
+          {...register("city")}
+        />
+        <Input
+          label="Irányítószám"
+          error={errors.zipCode?.message}
+          {...register("zipCode")}
+        />
+        <Input
+          label="Telefonszám"
+          error={errors.phone?.message}
+          {...register("phone")}
         />
         <Select
           label="Szerep"

@@ -10,6 +10,14 @@ const createReservation = async (
     description: string;
   },
 ) => {
+  if (input.startDate > input.endDate) {
+    throw new Error("Start date must be before end date");
+  }
+
+  if (input.startDate <= new Date()) {
+    throw new Error("Start date must be in the future");
+  }
+
   const workerReservations = await db.reservation.findMany({
     where: {
       workerId: input.workerId,

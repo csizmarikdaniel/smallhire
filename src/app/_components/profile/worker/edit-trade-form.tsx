@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 import { type EditTradeInput } from "@/types/worker";
 
 const EditTradeForm = ({
-  id,
+  defaultValues,
   open,
   setOpen,
 }: {
-  id: string;
+  defaultValues: { id: string; name: string; yearsOfExperience: number };
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
@@ -21,8 +21,6 @@ const EditTradeForm = ({
       router.refresh();
     },
   });
-  const defaultValues = api.worker.trades.get.useQuery({ id });
-
   const router = useRouter();
 
   const {
@@ -32,9 +30,9 @@ const EditTradeForm = ({
   } = useForm({
     resolver: zodResolver(EditUserSchema),
     defaultValues: {
-      id: defaultValues.data?.id ?? "",
-      name: defaultValues.data?.name ?? "",
-      yearsOfExperience: defaultValues.data?.yearsOfExperience ?? 0,
+      id: defaultValues.id,
+      name: defaultValues.name,
+      yearsOfExperience: defaultValues.yearsOfExperience,
     },
   });
 

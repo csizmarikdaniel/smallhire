@@ -48,15 +48,16 @@ const DescriptionBlock = ({
             error={errors.description?.message}
           />
           <Input type="hidden" {...register("id")} />
-          <Button type="submit" className="mt-2">
-            Mentés
-          </Button>
+          <div className="mt-2 flex gap-2">
+            <Button type="submit">Mentés</Button>
+            <Button onClick={() => setIsEditing(false)}>Mégse</Button>
+          </div>
         </form>
       ) : (
         <>
           <p>{description}</p>
           <Button onClick={() => setIsEditing(true)} className="mt-2">
-            Módosítás
+            Leírás módosítása
           </Button>
         </>
       )}

@@ -39,7 +39,7 @@ const TradeCard = ({
           Törlés
         </Button>
       </div>
-      <EditTradeForm open={open} setOpen={setOpen} id={trade.id} />
+      <EditTradeForm open={open} setOpen={setOpen} defaultValues={trade} />
     </div>
   );
 };

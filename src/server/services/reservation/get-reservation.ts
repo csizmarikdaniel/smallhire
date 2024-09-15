@@ -36,6 +36,10 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
       description: reservation.description,
       price: reservation.price,
       name: reservation.customer.user.name,
+      address: reservation.customer.user.address,
+      city: reservation.customer.user.city,
+      zipCode: reservation.customer.user.zipCode,
+      phone: reservation.customer.user.phone,
     };
   } else {
     const reservation = await db.reservation.findUnique({
@@ -67,6 +71,10 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
       description: reservation.description,
       price: reservation.price,
       name: reservation.worker.user.name,
+      address: reservation.worker.user.address,
+      city: reservation.worker.user.city,
+      zipCode: reservation.worker.user.zipCode,
+      phone: reservation.worker.user.phone,
     };
   }
 };
