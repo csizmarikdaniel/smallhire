@@ -9,6 +9,7 @@ import acceptOffer from "@/server/services/reservation/accept-offer";
 import rejectOffer from "@/server/services/reservation/reject-offer";
 import createOffer from "@/server/services/reservation/create-offer";
 import completeReservation from "@/server/services/reservation/complete-reservation";
+import rejectReservation from "@/server/services/reservation/reject-reservation";
 
 const reservationRouter = router({
   get: authProcedure
@@ -34,6 +35,9 @@ const reservationRouter = router({
   cancel: authProcedure
     .input(z.object({ reservationId: z.string() }))
     .mutation(async ({ ctx, input }) => await cancelReservation(ctx.db, input)),
+  reject: authProcedure
+    .input(z.object({ reservationId: z.string() }))
+    .mutation(async ({ ctx, input }) => await rejectReservation(ctx.db, input)),
   acceptOffer: authProcedure
     .input(z.object({ reservationId: z.string() }))
     .mutation(async ({ ctx, input }) => await acceptOffer(ctx.db, input)),

@@ -22,8 +22,8 @@ const LoginForm = () => {
     >
       <Input label="Email" placeholder="Email" type="email" name="email" />
       <Input
-        label="Password"
-        placeholder="Password"
+        label="Jelszó"
+        placeholder="Jelszó"
         type="password"
         name="password"
       />

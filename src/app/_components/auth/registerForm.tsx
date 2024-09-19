@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Input from "../form-components/input";
 import Select from "../form-components/select";
 import Button from "../button";
+import { useRouter } from "next/navigation";
 
 type FormValues = z.infer<typeof RegisterSchema>;
 
@@ -25,6 +26,7 @@ const defaultValues: FormValues = {
 
 const RegisterForm = () => {
   const registerMutation = api.auth.user.register.useMutation();
+  const router = useRouter();
 
   const {
     register,
@@ -43,6 +45,7 @@ const RegisterForm = () => {
   useEffect(() => {
     if (registerMutation.isSuccess) {
       reset(defaultValues);
+      router.push("/login");
     }
   }, [registerMutation.isSuccess, reset]);
   //TODO: zod validation
@@ -84,8 +87,8 @@ const RegisterForm = () => {
         <Select
           label="Szerep"
           options={[
-            { value: "customer", label: "Customer" },
-            { value: "worker", label: "Szakember" },
+            { value: "CUSTOMER", label: "Megrendelő" },
+            { value: "WORKER", label: "Szakember" },
           ]}
           error={errors.role?.message}
           {...register("role")}

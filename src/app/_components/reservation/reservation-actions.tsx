@@ -103,6 +103,12 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
     },
   });
 
+  const reject = api.reservation.reject.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
   return (
     <div className="flex gap-4">
       {status == "RESERVED" && (
@@ -113,7 +119,13 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
               <Button onClick={() => setAccepted(true)}>
                 Foglalás elfogadása
               </Button>
-              <Button>Foglalás elutasítása</Button>
+              <Button
+                onClick={() => {
+                  reject.mutate({ reservationId: id });
+                }}
+              >
+                Foglalás elutasítása
+              </Button>
             </>
           ) : (
             <>
@@ -145,7 +157,9 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
         <>
           <p>Ajánlat elfogadva</p>
           <Button
-            onClick={() => completeReservation.mutate({ reservationId: id })}
+            onClick={() => {
+              completeReservation.mutate({ reservationId: id });
+            }}
           >
             Munka befejezve
           </Button>

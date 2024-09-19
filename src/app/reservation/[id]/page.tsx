@@ -22,13 +22,13 @@ const ReservationPage = async ({
         <ReservationStatusTag status={reservation.status} />
         <p>
           {reservation.startDate.toLocaleDateString("hu-HU")} -{" "}
-          {reservation.endDate.toLocaleTimeString("hu-HU")}
+          {reservation.endDate.toLocaleDateString("hu-HU")}
         </p>
         <p>{reservation.address}</p>
         <p>{reservation.city}</p>
         <p>{reservation.zipCode}</p>
         <p>{reservation.phone}</p>
-        <p>{reservation.price}</p>
+        {reservation.price && <p>{reservation.price} Ft</p>}
       </div>
       <DescriptionBlock
         description={reservation.description}
