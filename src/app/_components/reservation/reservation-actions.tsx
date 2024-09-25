@@ -45,7 +45,8 @@ const CustomerActions = ({ status, id }: { status: string; id: string }) => {
       {status == "RESERVED" && (
         <>
           <p>
-            A foglalás metörtént. A kiválasztott szakember hamarosan válaszol
+            Az időpont foglalás megtörtént. A kiválasztott szakember hamarosan
+            válaszol
           </p>
           <Button
             onClick={() => {
@@ -61,7 +62,7 @@ const CustomerActions = ({ status, id }: { status: string; id: string }) => {
       {status == "CREATEDOFFER" && (
         <>
           <p>
-            A szakember árajánlatot adott. Kérem válassza ki hogy elfogdja vagy
+            A szakember árajánlatot adott. Kérem válassza ki hogy elfogadja vagy
             nem!
           </p>
           <Button
