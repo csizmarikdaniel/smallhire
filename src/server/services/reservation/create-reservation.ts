@@ -43,8 +43,16 @@ const createReservation = async (
       status: "RESERVED",
     },
   });
+  await db.notification.create({
+    data: {
+      title: "Új foglalás",
+      description: `Új foglalás érkezett a(z) ${input.startDate.toLocaleDateString("hu-HU")} - ${input.endDate.toLocaleDateString("hu-HU")} időszakra`,
+      reservationId: reservation.id,
+      userId: input.workerId,
+    },
+  });
 
-  return reservation;
+  return;
 };
 
 export default createReservation;

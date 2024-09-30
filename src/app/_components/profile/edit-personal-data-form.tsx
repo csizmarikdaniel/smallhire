@@ -6,14 +6,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EditUserSchema, type EditUserInput } from "@/types/profile";
 
 const EditPersonalDataForm = ({
+  defaultValues,
   open,
   setOpen,
 }: {
+  defaultValues: {
+    id: string;
+    name: string;
+    email: string;
+    address: string;
+    city: string;
+    zipCode: string;
+    phone: string;
+  };
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
   const editPersonalData = api.profile.update.useMutation();
-  const defaultValues = api.profile.get.useQuery();
 
   const {
     handleSubmit,
@@ -22,13 +31,13 @@ const EditPersonalDataForm = ({
   } = useForm({
     resolver: zodResolver(EditUserSchema),
     defaultValues: {
-      id: defaultValues.data?.id ?? "",
-      name: defaultValues.data?.name ?? "",
-      email: defaultValues.data?.email ?? "",
-      address: defaultValues.data?.address ?? "",
-      city: defaultValues.data?.city ?? "",
-      zipCode: defaultValues.data?.zipCode ?? "",
-      phone: defaultValues.data?.phone ?? "",
+      id: defaultValues.id,
+      name: defaultValues.name,
+      email: defaultValues.email,
+      address: defaultValues.address,
+      city: defaultValues.city,
+      zipCode: defaultValues.zipCode,
+      phone: defaultValues.phone,
     },
   });
 

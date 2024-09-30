@@ -11,8 +11,9 @@ export const login = async (db: PrismaClient, input: LoginInput) => {
       email: input.email,
     },
   });
-  if (!dbUser) throw new Error("User not found");
-  if (dbUser.password !== input.password) throw new Error("Invalid password");
+  if (!dbUser) throw new Error("Invalid email or password");
+  if (dbUser.password !== input.password)
+    throw new Error("Invalid email or password");
 
   const user = {
     id: dbUser.id,

@@ -28,6 +28,8 @@ model User {
   city      String
   zipCode   String
   phone     String
+
+  notifications Notification[]
 }
 
 model Admin {
@@ -89,6 +91,8 @@ model Reservation {
 
   price       Int?
 
+  notifications Notification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -101,6 +105,20 @@ model Reference {
 
   description String
   image       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  reservationId String
+  reservation  Reservation @relation(fields: [reservationId], references: [id])
+
+  title       String
+  description String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

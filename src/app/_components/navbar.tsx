@@ -2,6 +2,7 @@ import { api } from "@/trpc/server";
 import { getSession } from "@/utils/auth";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import NotificationDropdown from "./notification-dropdown";
 
 const Navbar = async () => {
   const session = await getSession();
@@ -17,6 +18,9 @@ const Navbar = async () => {
           <>
             <li>
               <Link href="/my-profile">Profilom</Link>
+            </li>
+            <li>
+              <NotificationDropdown />
             </li>
             <li>
               <form

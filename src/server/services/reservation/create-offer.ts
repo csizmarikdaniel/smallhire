@@ -39,6 +39,15 @@ const createOffer = async (
     },
   });
 
+  await db.notification.create({
+    data: {
+      title: "Árajánlat",
+      description: `Az árajánlat elkészült a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra`,
+      reservationId: reservation.id,
+      userId: reservation.customerId,
+    },
+  });
+
   return;
 };
 

@@ -6,6 +6,7 @@ import profileRouter from "./routers/profile";
 import reservationRouter from "./routers/reservation";
 import customerRouter from "./routers/customer";
 import fileRouter from "./routers/file";
+import notificationRouter from "./routers/notification";
 
 /**
  * This is the primary router for your server.
@@ -20,6 +21,7 @@ export const appRouter = router({
   reservation: reservationRouter,
   customer: customerRouter,
   file: fileRouter,
+  notification: notificationRouter,
 });
 
 // export type definition of API

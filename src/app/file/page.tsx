@@ -1,38 +1,16 @@
-"use client";
-
-import { api } from "@/trpc/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { api } from "@/trpc/server";
 import Button from "../_components/button";
 
-const Schema = z.object({
-  file: z.custom<File>(),
-});
-
-type FormValues = z.infer<typeof Schema>;
-
 const FileTestPage = () => {
-  const upload = api.file.upload.useMutation();
-
-  const [file, setFile] = useState<File | undefined>();
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(Schema) });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    upload.mutate(data);
+  const onupload = async (formData: FormData) => {
+    "use server";
+    await api.file.upload(formData);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="file" {...register("file")} />
+      <form action={onupload}>
+        <input type="file" name="file" />
         <Button type="submit">Submit</Button>
       </form>
     </div>
