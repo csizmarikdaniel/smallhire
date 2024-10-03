@@ -5,7 +5,6 @@ import guestRouter from "./routers/guest";
 import profileRouter from "./routers/profile";
 import reservationRouter from "./routers/reservation";
 import customerRouter from "./routers/customer";
-import fileRouter from "./routers/file";
 import notificationRouter from "./routers/notification";
 
 /**
@@ -20,7 +19,6 @@ export const appRouter = router({
   profile: profileRouter,
   reservation: reservationRouter,
   customer: customerRouter,
-  file: fileRouter,
   notification: notificationRouter,
 });
 

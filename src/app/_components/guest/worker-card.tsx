@@ -6,7 +6,7 @@ type WorkerProps = {
   address: string;
   city: string;
   zipCode: string;
-  trades: { name: string; yearsOfExperience: number }[] | undefined;
+  trades: { id: string; name: string; yearsOfExperience: number }[] | undefined;
   earliestFreeDay: Date | undefined;
 };
 
@@ -24,7 +24,7 @@ const WorkerCard = ({ worker }: WorkerCardProps) => {
             <h3 className="font-bold">Mesterség</h3>
             <ul>
               {worker.trades?.map((trade) => (
-                <li key={trade.name}>
+                <li key={trade.id}>
                   {trade.name} ({trade.yearsOfExperience} év)
                 </li>
               ))}

@@ -36,6 +36,17 @@ const cancelReservation = async (
     },
   });
 
+  await db.notification.create({
+    data: {
+      title: "Foglalás törlés",
+      description: `A foglalás törölve lett a(z) ${reservation.startDate.toLocaleDateString(
+        "hu-HU",
+      )} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a megrendelő által`,
+      reservationId: reservation.id,
+      userId: reservation.workerId,
+    },
+  });
+
   return cancelledReservation;
 };
 

@@ -36,6 +36,15 @@ const rejectOffer = async (
       status: "REJECTEDOFFER",
     },
   });
+
+  await db.notification.create({
+    data: {
+      title: "Árajánlat elutasítva",
+      description: `Az árajánlat el lett utasítva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a megrendelő által`,
+      reservationId: reservation.id,
+      userId: reservation.workerId,
+    },
+  });
   return;
 };
 

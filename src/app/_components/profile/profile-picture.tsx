@@ -6,17 +6,25 @@ import { useState } from "react";
 import EditProfilePicture from "./edit-profile-picture";
 import AddImageIcon from "../icons/add-image";
 import EditIcon from "../icons/edit";
+import RemoveIcon from "../icons/remove";
+import { useRouter } from "next/navigation";
 
 const ProfilePicture = ({
   onupload,
 }: {
   onupload: (formdata: FormData) => Promise<void>;
 }) => {
+  const router = useRouter();
   const image = api.profile.image.get.useQuery();
   const [open, setOpen] = useState(false);
+  const removeImage = api.profile.image.remove.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   return (
-    <div>
+    <div className="mb-10">
       {image.data?.image ? (
         <div className="relative mx-auto w-fit">
           <Image
@@ -30,6 +38,12 @@ const ProfilePicture = ({
             onClick={() => setOpen(true)}
           >
             <EditIcon height={20} width={20} />
+          </div>
+          <div
+            className="absolute -bottom-3 -right-3 rounded-full bg-slate-200 p-2 transition-all duration-300 hover:bg-slate-300"
+            onClick={() => removeImage.mutate()}
+          >
+            <RemoveIcon height={20} width={20} />
           </div>
         </div>
       ) : (

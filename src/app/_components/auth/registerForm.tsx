@@ -7,9 +7,9 @@ import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import Input from "../form-components/input";
-import Select from "../form-components/select";
 import Button from "../button";
 import { useRouter } from "next/navigation";
+import RadioGroup from "../form-components/radio-group";
 
 type FormValues = z.infer<typeof RegisterSchema>;
 
@@ -31,7 +31,6 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues,
@@ -44,57 +43,62 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (registerMutation.isSuccess) {
-      reset(defaultValues);
       router.push("/login");
     }
-  }, [registerMutation.isSuccess, reset]);
-  //TODO: zod validation
+  }, [registerMutation.isSuccess, router]);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col">
-        <Input
-          label="Email"
-          error={errors.email?.message}
-          {...register("email")}
-        />
-        <Input label="Név" error={errors.name?.message} {...register("name")} />
-        <Input
-          label="Jelszó"
-          error={errors.password?.message}
-          {...register("password")}
-          type="password"
-        />
-        <Input
-          label="Cím"
-          error={errors.address?.message}
-          {...register("address")}
-        />
-        <Input
-          label="Város"
-          error={errors.city?.message}
-          {...register("city")}
-        />
-        <Input
-          label="Irányítószám"
-          error={errors.zipCode?.message}
-          {...register("zipCode")}
-        />
-        <Input
-          label="Telefonszám"
-          error={errors.phone?.message}
-          {...register("phone")}
-        />
-        <Select
-          label="Szerep"
-          options={[
-            { value: "CUSTOMER", label: "Megrendelő" },
-            { value: "WORKER", label: "Szakember" },
-          ]}
-          error={errors.role?.message}
-          {...register("role")}
-        />
-        <Button type="submit">Regisztráció</Button>
+      <RadioGroup
+        options={[
+          { value: "CUSTOMER", label: "Megrendelő" },
+          { value: "WORKER", label: "Szakember" },
+        ]}
+        align="horizontal"
+        {...register("role")}
+      />
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col">
+          <Input
+            label="Email"
+            error={errors.email?.message}
+            {...register("email")}
+          />
+          <Input
+            label="Név"
+            error={errors.name?.message}
+            {...register("name")}
+          />
+          <Input
+            label="Jelszó"
+            error={errors.password?.message}
+            {...register("password")}
+            type="password"
+          />
+        </div>
+        <div>
+          <Input
+            label="Cím"
+            error={errors.address?.message}
+            {...register("address")}
+          />
+          <Input
+            label="Város"
+            error={errors.city?.message}
+            {...register("city")}
+          />
+          <Input
+            label="Irányítószám"
+            error={errors.zipCode?.message}
+            {...register("zipCode")}
+          />
+          <Input
+            label="Telefonszám"
+            error={errors.phone?.message}
+            {...register("phone")}
+          />
+        </div>
       </div>
+      <Button type="submit">Regisztráció</Button>
     </form>
   );
 };

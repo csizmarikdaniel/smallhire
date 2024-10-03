@@ -17,6 +17,7 @@ const listPublicWorkerData = async (db: PrismaClient) => {
             select: {
               name: true,
               yearsOfExperience: true,
+              id: true,
             },
           },
           reservations: {

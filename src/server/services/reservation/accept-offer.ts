@@ -32,6 +32,15 @@ const acceptOffer = async (
       status: "ACCEPTEDOFFER",
     },
   });
+
+  await db.notification.create({
+    data: {
+      title: "Árajánlat elfogadva",
+      description: `Az árajánlat elfogadva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra`,
+      reservationId: reservation.id,
+      userId: reservation.workerId,
+    },
+  });
   return;
 };
 

@@ -1,5 +1,5 @@
 import { getSession } from "@/utils/auth";
-import { PrismaClient } from "@prisma/client";
+import { type PrismaClient } from "@prisma/client";
 
 const rejectReservation = async (
   db: PrismaClient,
@@ -35,6 +35,15 @@ const rejectReservation = async (
     },
     data: {
       status: "REJECTED",
+    },
+  });
+
+  await db.notification.create({
+    data: {
+      title: "Foglalás elutasítva",
+      description: `A foglalás el lett utasítva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a munkavállaló által`,
+      reservationId: reservation.id,
+      userId: reservation.customerId,
     },
   });
 

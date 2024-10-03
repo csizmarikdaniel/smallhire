@@ -1,5 +1,6 @@
 import { api } from "@/trpc/server";
 import TradeCard from "./trade-card";
+import AddTradeButton from "./add-trade-button";
 
 const TradesList = async () => {
   const trades = await api.worker.trades.list();
@@ -9,6 +10,9 @@ const TradesList = async () => {
       {trades.map((trade) => (
         <TradeCard trade={trade} key={trade.id} />
       ))}
+      <div className="mx-auto mt-5">
+        <AddTradeButton />
+      </div>
     </div>
   );
 };

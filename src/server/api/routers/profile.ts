@@ -6,6 +6,7 @@ import editProfilePicture from "@/server/services/profile/edit-profile-picture";
 import { zfd } from "zod-form-data";
 import { z } from "zod";
 import getProfilePicture from "@/server/services/profile/get-profile-picture";
+import removeProfilePicture from "@/server/services/profile/remove-profile-picture";
 
 const profileRouter = router({
   get: authProcedure.query(async ({ ctx }) => await getPersonalData(ctx.db)),
@@ -21,6 +22,9 @@ const profileRouter = router({
       ),
     get: authProcedure.query(
       async ({ ctx }) => await getProfilePicture(ctx.db),
+    ),
+    remove: authProcedure.mutation(
+      async ({ ctx }) => await removeProfilePicture(ctx.db),
     ),
   }),
 });
