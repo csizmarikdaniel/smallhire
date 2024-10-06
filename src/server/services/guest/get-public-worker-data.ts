@@ -18,6 +18,7 @@ const getPublicWorkerData = async (db: PrismaClient, { id }: IdInput) => {
         select: {
           trades: {
             select: {
+              id: true,
               name: true,
               yearsOfExperience: true,
             },

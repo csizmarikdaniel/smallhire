@@ -5,12 +5,14 @@ import { getUserByIdSchema } from "@/types/guest";
 
 const guestRouter = router({
   worker: router({
-    list: publicProcedure.query(async ({ ctx }) =>
-      listPublicWorkerData(ctx.db),
+    list: publicProcedure.query(
+      async ({ ctx }) => await listPublicWorkerData(ctx.db),
     ),
     get: publicProcedure
       .input(getUserByIdSchema)
-      .query(async ({ ctx, input }) => getPublicWorkerData(ctx.db, input)),
+      .query(
+        async ({ ctx, input }) => await getPublicWorkerData(ctx.db, input),
+      ),
   }),
 });
 

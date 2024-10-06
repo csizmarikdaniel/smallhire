@@ -13,7 +13,9 @@ import { z } from "zod";
 
 const workerRouter = router({
   trades: router({
-    list: authProcedure.query(async ({ ctx }) => getTrades(ctx.db)),
+    list: authProcedure
+      .input(z.object({ id: z.string() }).optional())
+      .query(async ({ ctx, input }) => getTrades(ctx.db, input)),
     edit: authProcedure
       .input(EditTradeSchema)
       .mutation(async ({ ctx, input }) => editTrade(ctx.db, input)),

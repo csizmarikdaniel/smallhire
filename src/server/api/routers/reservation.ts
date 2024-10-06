@@ -14,7 +14,7 @@ import rejectReservation from "@/server/services/reservation/reject-reservation"
 const reservationRouter = router({
   get: authProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => getReservation(ctx.db, input)),
+    .query(async ({ ctx, input }) => await getReservation(ctx.db, input)),
   list: authProcedure.query(async ({ ctx }) => await getReservations(ctx.db)),
   create: authProcedure
     .input(

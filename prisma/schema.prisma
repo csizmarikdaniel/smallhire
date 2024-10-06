@@ -114,8 +114,9 @@ model Notification {
   id          String    @id @default(cuid())
   userId      String
   user        User      @relation(fields: [userId], references: [id])
-  reservationId String
-  reservation  Reservation @relation(fields: [reservationId], references: [id])
+
+  reservationId String?
+  reservation   Reservation? @relation(fields: [reservationId], references: [id])
 
   title       String
   description String

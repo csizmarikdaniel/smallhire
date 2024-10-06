@@ -14,6 +14,13 @@ const listAllNotifications = async (db: PrismaClient) => {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      seen: true,
+      reservationId: true,
+    },
   });
 
   return notifications;

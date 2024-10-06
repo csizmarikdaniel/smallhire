@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import Input from "../form-components/input";
 import Button from "../button";
 import { useRouter } from "next/navigation";
-import RadioGroup from "../form-components/radio-group";
+import Radio from "../form-components/radio";
 
 type FormValues = z.infer<typeof RegisterSchema>;
 
@@ -45,17 +45,11 @@ const RegisterForm = () => {
     if (registerMutation.isSuccess) {
       router.push("/login");
     }
-  }, [registerMutation.isSuccess, router]);
+  }, [registerMutation, router]);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <RadioGroup
-        options={[
-          { value: "CUSTOMER", label: "Megrendelő" },
-          { value: "WORKER", label: "Szakember" },
-        ]}
-        align="horizontal"
-        {...register("role")}
-      />
+      <Radio label="Megrendelő" value="CUSTOMER" {...register("role")} />
+      <Radio label="Szakember" value="WORKER" {...register("role")} />
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col">
           <Input

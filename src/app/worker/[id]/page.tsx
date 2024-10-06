@@ -14,7 +14,7 @@ const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
       <h2>Képzettségek</h2>
       <ul>
         {worker.worker?.trades.map((trade) => (
-          <li key={trade.name}>
+          <li key={trade.id}>
             {trade.name} ({trade.yearsOfExperience} éves tapasztalat)
           </li>
         ))}
