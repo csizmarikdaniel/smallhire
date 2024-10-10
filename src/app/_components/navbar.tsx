@@ -1,11 +1,10 @@
 import { api } from "@/trpc/server";
-import { getSession } from "@/utils/auth";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import NotificationDropdown from "./notification-dropdown";
 
 const Navbar = async () => {
-  const session = await getSession();
+  const session = await api.auth.getSession();
   return (
     <div className="navbar">
       <div className="flex-1">

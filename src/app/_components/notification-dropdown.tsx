@@ -3,9 +3,11 @@
 import { useState } from "react";
 import NotificationCard from "./notification-card";
 import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 const NotificationDropdown = () => {
   const notifications = api.notification.getAll.useQuery();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const unSeenCount = notifications.data?.reduce((acc, noti) => {
     if (!noti.seen) {
@@ -20,11 +22,28 @@ const NotificationDropdown = () => {
     },
   });
 
-  const onOpen = (id: string) => {
-    setOpen(!open);
+  const deleteNotification = api.notification.delete.useMutation({
+    onSuccess: async () => {
+      await notifications.refetch();
+    },
+  });
 
+  const onOpen = (id: string, reservationId?: string) => {
+    setOpen(!open);
+    router.push(
+      reservationId ? `/reservation/${reservationId}` : "/my-profile",
+    );
     setToSeen.mutate({ notificationId: id });
   };
+
+  const onClear = (id: string) => {
+    setToSeen.mutate({ notificationId: id });
+  };
+
+  const onDelete = (id: string) => {
+    deleteNotification.mutate({ notificationId: id });
+  };
+
   return (
     <div className="relative">
       <button onClick={() => setOpen(!open)}>Értesítések</button>
@@ -46,6 +65,8 @@ const NotificationDropdown = () => {
                   notification={noti}
                   key={noti.id}
                   onOpen={onOpen}
+                  onClear={onClear}
+                  onDelete={onDelete}
                 />
               ))
             ) : (

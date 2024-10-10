@@ -15,10 +15,10 @@ const workerRouter = router({
   trades: router({
     list: authProcedure
       .input(z.object({ id: z.string() }).optional())
-      .query(async ({ ctx, input }) => getTrades(ctx.db, input)),
+      .query(async ({ ctx, input }) => await getTrades(ctx.db, input)),
     edit: authProcedure
       .input(EditTradeSchema)
-      .mutation(async ({ ctx, input }) => editTrade(ctx.db, input)),
+      .mutation(async ({ ctx, input }) => await editTrade(ctx.db, input)),
     delete: authProcedure
       .input(DeleteTradeSchema)
       .mutation(async ({ ctx, input }) => await deleteTrade(ctx.db, input)),

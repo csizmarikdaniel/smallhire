@@ -1,5 +1,6 @@
-import Link from "next/link";
-import DotIcon from "./icons/dot";
+import Button from "./button";
+import CheckIcon from "./icons/check";
+import RemoveIcon from "./icons/remove";
 
 type NotificationCardProps = {
   notification: {
@@ -10,34 +11,51 @@ type NotificationCardProps = {
     reservationId?: string | null;
   };
   onOpen: (id: string) => void;
+  onClear: (id: string) => void;
+  onDelete: (id: string) => void;
 };
 
-const NotificationCard = ({ notification, onOpen }: NotificationCardProps) => {
+const NotificationCard = ({
+  notification,
+  onOpen,
+  onClear,
+  onDelete,
+}: NotificationCardProps) => {
   return (
-    <Link
-      href={
-        notification.reservationId
-          ? `/reservation/${notification.reservationId}`
-          : "/my-profile"
-      }
+    <div
       key={notification.id}
+      className={`m-0.5 flex items-center justify-between rounded-sm p-2 shadow-md ${notification.seen ? "bg-white" : "bg-gray-100"}`}
       onClick={() => {
         onOpen(notification.id);
       }}
     >
-      <div
-        key={notification.id}
-        className="m-0.5 flex items-center justify-between rounded-sm shadow-md"
-      >
-        <div>
-          <p>{notification.title}</p>
-          <p>{notification.description}</p>
-        </div>
-        {!notification.seen && (
-          <DotIcon width={50} height={50} color="#FF0000" />
-        )}
+      <div>
+        <p className="font-bold">{notification.title}</p>
+        <p>{notification.description}</p>
       </div>
-    </Link>
+      <div className="flex">
+        {!notification.seen && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear(notification.id);
+            }}
+            className="btn-success"
+          >
+            <CheckIcon height={20} width={20} />
+          </Button>
+        )}
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(notification.id);
+          }}
+          className="btn-square btn-outline btn-error"
+        >
+          <RemoveIcon height={20} width={20} />
+        </Button>
+      </div>
+    </div>
   );
 };
 

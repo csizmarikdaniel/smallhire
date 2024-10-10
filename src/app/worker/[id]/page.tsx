@@ -1,10 +1,9 @@
 import Button from "@/app/_components/button";
 import { api } from "@/trpc/server";
-import { getSession } from "@/utils/auth";
 
 const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
   const worker = await api.guest.worker.get({ id });
-  const session = await getSession();
+  const session = await api.auth.getSession();
   return (
     <div>
       <h1 className="text-center text-xl">{worker.name}</h1>

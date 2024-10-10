@@ -1,8 +1,28 @@
+import { paginate } from "@/utils/paginate";
 import { type PrismaClient } from "@prisma/client";
+import getNumberOfPages from "./get-number-of-pages";
 
-const listPublicWorkerData = async (db: PrismaClient) => {
-  const workers = await db.user.findMany({
+const listPublicWorkerData = async (
+  db: PrismaClient,
+  {
+    search,
+    trades,
+    sort,
+    limit,
+    page,
+  }: {
+    search?: string;
+    trades?: string[];
+    sort?: string;
+    limit?: number;
+    page?: number;
+  },
+) => {
+  const dbWorkers = await db.user.findMany({
     where: {
+      name: {
+        contains: search,
+      },
       role: "WORKER",
     },
     select: {
@@ -31,7 +51,14 @@ const listPublicWorkerData = async (db: PrismaClient) => {
     },
   });
 
-  const earliestFreeDay = workers.map((worker) => {
+  const filteredWorkers = dbWorkers.filter((worker) => {
+    if (trades && trades.length > 0) {
+      return worker.worker?.trades.some((trade) => trades.includes(trade.name));
+    }
+    return true;
+  });
+
+  const earliestFreeDay = filteredWorkers.map((worker) => {
     const reservations = worker.worker?.reservations;
     const reservedDaysMap = reservations?.reduce((acc, reservation) => {
       const start = reservation.startDate;
@@ -62,7 +89,7 @@ const listPublicWorkerData = async (db: PrismaClient) => {
     }
   });
 
-  return workers.map((worker, index) => {
+  const workers = filteredWorkers.map((worker, index) => {
     return {
       id: worker.id,
       name: worker.name,
@@ -73,6 +100,35 @@ const listPublicWorkerData = async (db: PrismaClient) => {
       earliestFreeDay: earliestFreeDay[index],
     };
   });
+
+  const safePage = page
+    ? page < 1
+      ? 1
+      : page > (await getNumberOfPages(db, { pageSize: limit }))
+        ? await getNumberOfPages(db, { pageSize: limit })
+        : page
+    : 1;
+
+  if (sort == "asc") {
+    return paginate(
+      workers.sort((a, b) => a.name.localeCompare(b.name)),
+      { page: safePage, perPage: limit },
+    );
+  } else if (sort == "desc") {
+    return paginate(
+      workers.sort((a, b) => b.name.localeCompare(a.name)),
+      { page: safePage, perPage: limit },
+    );
+  } else if (sort == "earliest") {
+    return paginate(
+      workers.sort(
+        (a, b) => a.earliestFreeDay!.getDate() - b.earliestFreeDay!.getDate(),
+      ),
+      { page: safePage, perPage: limit },
+    );
+  }
+
+  return paginate(workers, { page: safePage, perPage: limit });
 };
 
 export default listPublicWorkerData;

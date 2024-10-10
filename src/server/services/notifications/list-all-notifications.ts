@@ -7,7 +7,7 @@ const listAllNotifications = async (db: PrismaClient) => {
     throw new Error("Unauthorized");
   }
 
-  const notifications = db.notification.findMany({
+  const notifications = await db.notification.findMany({
     where: {
       userId: session.user.id,
     },

@@ -36,6 +36,7 @@
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
     "uploadthing": "^7.0.2",
+    "use-debounce": "^10.0.3",
     "zod": "^3.23.3",
     "zod-form-data": "^2.0.2"
   },

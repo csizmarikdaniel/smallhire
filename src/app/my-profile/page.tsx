@@ -1,12 +1,12 @@
-import { getSession } from "@/utils/auth";
 import { redirect } from "next/navigation";
 import ProfileCard from "../_components/profile/profile-card";
 import TradesList from "../_components/profile/worker/trades-list";
 //import ReferenceList from "../_components/profile/worker/reference-list";
 import ReservationList from "../_components/profile/reservation-list";
+import { api } from "@/trpc/server";
 
 const MyProfilePage = async () => {
-  const session = await getSession();
+  const session = await api.auth.getSession();
   if (!session) redirect("/login");
   return (
     <div className="flex h-full w-full flex-col gap-5">

@@ -1,9 +1,9 @@
 import ReservationForm from "@/app/_components/reservation/reservation-form";
-import { getSession } from "@/utils/auth";
+import { api } from "@/trpc/server";
 import { redirect } from "next/navigation";
 
 const ReservationPage = async () => {
-  const session = await getSession();
+  const session = await api.auth.getSession();
   if (!session) {
     redirect("/login");
   }

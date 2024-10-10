@@ -2,7 +2,6 @@ import ReservationStatusTag from "@/app/_components/profile/reservation-status-t
 import DescriptionBlock from "@/app/_components/reservation/description-block";
 import ReservationActions from "@/app/_components/reservation/reservation-actions";
 import { api } from "@/trpc/server";
-import { getSession } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
 const ReservationPage = async ({
@@ -10,7 +9,7 @@ const ReservationPage = async ({
 }: {
   params: { id: string };
 }) => {
-  const session = await getSession();
+  const session = await api.auth.getSession();
   if (!session) {
     redirect("/login");
   }
