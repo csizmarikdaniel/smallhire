@@ -15,7 +15,7 @@ model User {
   name          String
   email         String    @unique
   password      String
-  image         String?
+  image         Image?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -87,6 +87,7 @@ model Reservation {
   customer    Customer  @relation(fields: [customerId], references: [userId])
 
   description String
+  images      Image[]
   status      String // reserved, cancelled, rejected, createdOffer, acceptedOffer, rejectedOffer, completed
 
   price       Int?
@@ -104,7 +105,7 @@ model Reference {
   worker      Worker    @relation(fields: [workerId], references: [userId])
 
   description String
-  image       String
+  image       Image[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,6 +122,24 @@ model Notification {
   title       String
   description String
   seen        Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id          String    @id @default(cuid())
+
+  userId      String?   @unique
+  user        User?      @relation(fields: [userId], references: [id])
+
+  referenceId String?
+  reference   Reference? @relation(fields: [referenceId], references: [id])
+
+  reservationId String?
+  reservation   Reservation? @relation(fields: [reservationId], references: [id])
+
+  url         String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

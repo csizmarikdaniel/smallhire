@@ -2,7 +2,7 @@ import { utapi } from "@/server/api/uploadthing";
 import { getSession } from "@/utils/auth";
 import { type PrismaClient } from "@prisma/client";
 
-const editProfilePicture = async (db: PrismaClient, input: File) => {
+const uploadReferenceImage = async (db: PrismaClient, input: File) => {
   const session = await getSession();
 
   if (!session) {
@@ -13,20 +13,13 @@ const editProfilePicture = async (db: PrismaClient, input: File) => {
     where: {
       id: session.user.id,
     },
-    include: {
-      image: true,
-    },
   });
   if (!user) {
     throw new Error("User not found");
   }
 
-  if (user.image?.url) {
-    await utapi.deleteFiles(user.image.url);
-  }
-
   const response = await utapi.uploadFiles(input);
-  await db.user.update({
+  await db.reference.update({
     where: {
       id: session.user.id,
     },
@@ -40,4 +33,4 @@ const editProfilePicture = async (db: PrismaClient, input: File) => {
   });
 };
 
-export default editProfilePicture;
+export default uploadReferenceImage;

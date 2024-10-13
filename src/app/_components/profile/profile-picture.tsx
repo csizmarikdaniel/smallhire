@@ -28,7 +28,7 @@ const ProfilePicture = ({
       {image.data?.image ? (
         <div className="relative mx-auto w-fit">
           <Image
-            src={`https://utfs.io/f/${image.data?.image}`}
+            src={`https://utfs.io/f/${image.data?.image.url}`}
             alt="Profilkép"
             width={200}
             height={200}

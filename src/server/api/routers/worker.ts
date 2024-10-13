@@ -2,14 +2,17 @@ import { authProcedure, router } from "@/server/api/trpc";
 import addTrade from "@/server/services/worker/add-trade";
 import deleteTrade from "@/server/services/worker/delete-trade";
 import editTrade from "@/server/services/worker/edit-trade";
+import getOwnReferences from "@/server/services/worker/get-own-references";
 import getTrade from "@/server/services/worker/get-trade";
 import getTrades from "@/server/services/worker/get-trades";
+import uploadReferenceImage from "@/server/services/worker/upload-reference-image";
 import {
   AddTradeSchema,
   DeleteTradeSchema,
   EditTradeSchema,
 } from "@/types/worker";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 const workerRouter = router({
   trades: router({
@@ -28,6 +31,19 @@ const workerRouter = router({
     add: authProcedure
       .input(AddTradeSchema)
       .mutation(async ({ ctx, input }) => await addTrade(ctx.db, input)),
+  }),
+  reference: router({
+    list: authProcedure.query(
+      async ({ ctx }) => await getOwnReferences(ctx.db),
+    ),
+    image: router({
+      upload: authProcedure
+        .input(zfd.formData({ file: z.any() }))
+        .mutation(
+          async ({ ctx, input }) =>
+            await uploadReferenceImage(ctx.db, input.file as File),
+        ),
+    }),
   }),
 });
 
