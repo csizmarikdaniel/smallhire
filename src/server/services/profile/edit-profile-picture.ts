@@ -25,6 +25,10 @@ const editProfilePicture = async (db: PrismaClient, input: File) => {
     await utapi.deleteFiles(user.image.url);
   }
 
+  if (input.type !== "image/png" && input.type !== "image/jpeg") {
+    throw new Error("Invalid file type");
+  }
+
   const response = await utapi.uploadFiles(input);
   await db.user.update({
     where: {

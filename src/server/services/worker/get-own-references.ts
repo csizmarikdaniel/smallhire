@@ -22,6 +22,9 @@ const getOwnReferences = async (db: PrismaClient) => {
     where: {
       workerId: session.user.id,
     },
+    select: {
+      id: true,
+    },
   });
   return references;
 };

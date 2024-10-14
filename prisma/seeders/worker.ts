@@ -18,7 +18,10 @@ export const seedWorkers = async (prisma: PrismaClient) => {
   ];
 
   try {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 30; i++) {
+      const i1 = faker.number.int({ min: 0, max: trades.length - 1 });
+      const i2 = faker.number.int({ min: 0, max: trades.length - 1 });
+      const selectedTrades = [trades[i1], trades[i2 == i1 ? i1 + 1 : i2]];
       await prisma.user.create({
         data: {
           email: `worker${i}@email.com`,
@@ -35,17 +38,11 @@ export const seedWorkers = async (prisma: PrismaClient) => {
                 createMany: {
                   data: [
                     {
-                      name:
-                        trades[
-                          faker.number.int({ min: 0, max: trades.length - 1 })
-                        ] ?? "Villanyszerelő",
+                      name: selectedTrades[0] ?? "Villanyszerelő",
                       yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
                     },
                     {
-                      name:
-                        trades[
-                          faker.number.int({ min: 0, max: trades.length - 1 })
-                        ] ?? "Villanyszerelő",
+                      name: selectedTrades[1] ?? "Vízvezeték-szerelő",
                       yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
                     },
                   ],

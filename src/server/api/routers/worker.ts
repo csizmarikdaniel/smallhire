@@ -3,6 +3,7 @@ import addTrade from "@/server/services/worker/add-trade";
 import deleteTrade from "@/server/services/worker/delete-trade";
 import editTrade from "@/server/services/worker/edit-trade";
 import getOwnReferences from "@/server/services/worker/get-own-references";
+import getReferenceById from "@/server/services/worker/get-reference-by-id";
 import getTrade from "@/server/services/worker/get-trade";
 import getTrades from "@/server/services/worker/get-trades";
 import uploadReferenceImage from "@/server/services/worker/upload-reference-image";
@@ -38,12 +39,18 @@ const workerRouter = router({
     ),
     image: router({
       upload: authProcedure
-        .input(zfd.formData({ file: z.any() }))
+        .input(zfd.formData({ referenceId: z.string(), file: z.any() }))
         .mutation(
           async ({ ctx, input }) =>
-            await uploadReferenceImage(ctx.db, input.file as File),
+            await uploadReferenceImage(
+              ctx.db,
+              input as { referenceId: string; file: File },
+            ),
         ),
     }),
+    get: authProcedure
+      .input(z.object({ referenceId: z.string() }))
+      .query(async ({ ctx, input }) => await getReferenceById(ctx.db, input)),
   }),
 });
 

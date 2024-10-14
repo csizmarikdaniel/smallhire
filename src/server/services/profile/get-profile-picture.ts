@@ -3,7 +3,7 @@ import { type PrismaClient } from "@prisma/client";
 
 const getProfilePicture = async (db: PrismaClient) => {
   const session = await getSession();
-  const user = db.user.findUnique({
+  const user = await db.user.findUnique({
     where: { id: session?.user.id },
     select: {
       image: true,

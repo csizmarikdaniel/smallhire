@@ -11,13 +11,16 @@ const removeProfilePicture = async (db: PrismaClient) => {
     where: {
       id: session.user.id,
     },
+    include: {
+      image: true,
+    },
   });
   if (!user) {
     throw new Error("User not found");
   }
 
   if (user.image) {
-    await utapi.deleteFiles(user.image);
+    await utapi.deleteFiles(user.image.url);
   }
 
   await db.user.update({
@@ -25,7 +28,9 @@ const removeProfilePicture = async (db: PrismaClient) => {
       id: user.id,
     },
     data: {
-      image: null,
+      image: {
+        delete: true,
+      },
     },
   });
 

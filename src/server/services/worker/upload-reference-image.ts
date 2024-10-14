@@ -2,7 +2,10 @@ import { utapi } from "@/server/api/uploadthing";
 import { getSession } from "@/utils/auth";
 import { type PrismaClient } from "@prisma/client";
 
-const uploadReferenceImage = async (db: PrismaClient, input: File) => {
+const uploadReferenceImage = async (
+  db: PrismaClient,
+  input: { referenceId: string; file: File },
+) => {
   const session = await getSession();
 
   if (!session) {
@@ -18,10 +21,28 @@ const uploadReferenceImage = async (db: PrismaClient, input: File) => {
     throw new Error("User not found");
   }
 
-  const response = await utapi.uploadFiles(input);
+  const reference = await db.reference.findUnique({
+    where: {
+      id: input.referenceId,
+    },
+    select: {
+      id: true,
+      workerId: true,
+    },
+  });
+
+  if (!reference) {
+    throw new Error("Reference not found");
+  }
+
+  if (input.file.type !== "image/png" && input.file.type !== "image/jpeg") {
+    throw new Error("Invalid file type");
+  }
+
+  const response = await utapi.uploadFiles(input.file);
   await db.reference.update({
     where: {
-      id: session.user.id,
+      id: reference.id,
     },
     data: {
       image: {
@@ -31,6 +52,8 @@ const uploadReferenceImage = async (db: PrismaClient, input: File) => {
       },
     },
   });
+
+  return { success: true };
 };
 
 export default uploadReferenceImage;

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import ProfileCard from "../_components/profile/profile-card";
 import TradesList from "../_components/profile/worker/trades-list";
-//import ReferenceList from "../_components/profile/worker/reference-list";
+import ReferenceList from "../_components/profile/worker/reference-list";
 import ReservationList from "../_components/profile/reservation-list";
 import { api } from "@/trpc/server";
 
@@ -15,7 +15,7 @@ const MyProfilePage = async () => {
       {session.user.role === "WORKER" && (
         <>
           <TradesList />
-          {/* <ReferenceList /> */}
+          <ReferenceList />
         </>
       )}
       <ReservationList />
