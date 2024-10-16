@@ -6,8 +6,12 @@ export type LoginInput = {
 };
 
 export const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z
+    .string({ message: "Email megadása kötelező!" })
+    .email({ message: "Nem megfelelő email formátum!" }),
+  password: z
+    .string({ message: "Jelszó megadása kötelező!" })
+    .min(8, { message: "A jelszó minimum 8 karakter hosszú kell legyen!" }),
 });
 
 export type RegisterInput = {
@@ -22,12 +26,16 @@ export type RegisterInput = {
 };
 
 export const RegisterSchema = z.object({
-  email: z.string().email(),
-  name: z.string().min(1),
-  password: z.string().min(8),
+  email: z
+    .string({ message: "Email megadása kötelező!" })
+    .email({ message: "Nem megfelelő email formátum!" }),
+  name: z.string({ message: "Név megadása kötelező!" }).min(1),
+  password: z
+    .string({ message: "Jelszó megadása kötelező!" })
+    .min(8, { message: "A jelszó minimum 8 karakter hosszú kell legyen!" }),
   role: z.union([z.literal("WORKER"), z.literal("CUSTOMER")]),
-  address: z.string().min(1),
-  city: z.string().min(1),
-  zipCode: z.string().min(1),
-  phone: z.string().min(1),
+  address: z.string({ message: "Cím megadása kötelező!" }).min(1),
+  city: z.string({ message: "Város megadása kötelező!" }).min(1),
+  zipCode: z.string({ message: "Irányítószám megadása kötelező!" }).min(1),
+  phone: z.string({ message: "Telefonszám megadása kötelező!" }).min(1),
 });

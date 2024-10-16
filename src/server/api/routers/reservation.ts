@@ -10,6 +10,13 @@ import rejectOffer from "@/server/services/reservation/reject-offer";
 import createOffer from "@/server/services/reservation/create-offer";
 import completeReservation from "@/server/services/reservation/complete-reservation";
 import rejectReservation from "@/server/services/reservation/reject-reservation";
+import {
+  type CreateReservationInput,
+  CreateReservationSchema,
+} from "@/types/reservation";
+import removeImage from "@/server/services/reservation/image/remove-image";
+import { zfd } from "zod-form-data";
+import addReservationImage from "@/server/services/reservation/image/add-reservation-image";
 
 const reservationRouter = router({
   get: authProcedure
@@ -17,16 +24,11 @@ const reservationRouter = router({
     .query(async ({ ctx, input }) => await getReservation(ctx.db, input)),
   list: authProcedure.query(async ({ ctx }) => await getReservations(ctx.db)),
   create: authProcedure
-    .input(
-      z.object({
-        customerId: z.string(),
-        workerId: z.string(),
-        startDate: z.date(),
-        endDate: z.date(),
-        description: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => await createReservation(ctx.db, input)),
+    .input(CreateReservationSchema)
+    .mutation(
+      async ({ ctx, input }) =>
+        await createReservation(ctx.db, input as CreateReservationInput),
+    ),
   description: router({
     edit: authProcedure
       .input(z.object({ id: z.string(), description: z.string() }))
@@ -52,6 +54,20 @@ const reservationRouter = router({
     .mutation(
       async ({ ctx, input }) => await completeReservation(ctx.db, input),
     ),
+  image: router({
+    remove: authProcedure
+      .input(z.object({ reservationId: z.string(), imageId: z.string() }))
+      .mutation(async ({ ctx, input }) => await removeImage(ctx.db, input)),
+    add: authProcedure
+      .input(zfd.formData({ images: z.any(), reservationId: z.string() }))
+      .mutation(
+        async ({ ctx, input }) =>
+          await addReservationImage(
+            ctx.db,
+            input as { images: File[] | File | null; reservationId: string },
+          ),
+      ),
+  }),
 });
 
 export default reservationRouter;

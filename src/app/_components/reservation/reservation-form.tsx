@@ -5,48 +5,35 @@ import Calendar from "./calendar";
 import { type DateRange } from "react-day-picker";
 import Textarea from "../form-components/textarea";
 import Button from "../button";
-import { api } from "@/trpc/react";
-import { useParams, useRouter } from "next/navigation";
+import Input from "../form-components/input";
+import { useParams } from "next/navigation";
 
 const ReservationForm = ({
-  sessionUser,
+  onReservation,
 }: {
-  sessionUser: { id: string; role: string };
+  onReservation: (formData: FormData, selectedDays: DateRange) => Promise<void>;
 }) => {
   const [selectedDays, setSelectedDays] = useState<DateRange>();
-  const [description, setDescription] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
-  const reserve = api.reservation.create.useMutation({
-    onSuccess: () => {
-      router.push("/my-profile");
-    },
-  });
   const params = useParams();
 
-  const onSubmit = () => {
-    if (selectedDays?.from === undefined) {
-      setError("Válassz időpontot!");
-      return;
-    } else if (description === "") {
-      setError("Add meg a leírást!");
-      return;
+  const check = (e: FormData) => {
+    if (e.get("description") === "") {
+      setError("Add meg a leírást");
+      return false;
     }
-
-    reserve.mutate({
-      customerId: sessionUser.id,
-      description: description,
-      endDate: selectedDays?.to ?? selectedDays.from,
-      startDate: selectedDays.from,
-      workerId: params.id?.toString() ?? "",
-    });
+    if (selectedDays?.from === undefined) {
+      setError("Válassz időpontot");
+      return false;
+    }
+    return true;
   };
+
   return (
     <form
-      method="post"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit();
+      action={async (e) => {
+        if (check(e))
+          onReservation(e, selectedDays!).catch(() => setError("error"));
       }}
     >
       <Calendar selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
@@ -55,10 +42,10 @@ const ReservationForm = ({
         label="Leírás"
         placeholder="Leírás"
         required
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
       />
       {error && <p>{error}</p>}
+      <Input type="file" name="images" multiple />
+      <Input type="hidden" name="workerId" value={params.id?.toString()} />
       <Button type="submit">Foglalás</Button>
     </form>
   );

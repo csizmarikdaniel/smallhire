@@ -4,7 +4,7 @@ import { type PrismaClient } from "@prisma/client";
 
 const uploadReferenceImage = async (
   db: PrismaClient,
-  input: { referenceId: string; file: File },
+  input: { referenceId: string; images: File[] },
 ) => {
   const session = await getSession();
 
@@ -35,23 +35,25 @@ const uploadReferenceImage = async (
     throw new Error("Reference not found");
   }
 
-  if (input.file.type !== "image/png" && input.file.type !== "image/jpeg") {
-    throw new Error("Invalid file type");
-  }
+  for (const image of input.images) {
+    if (image.type !== "image/png" && image.type !== "image/jpeg") {
+      throw new Error("Invalid file type");
+    }
 
-  const response = await utapi.uploadFiles(input.file);
-  await db.reference.update({
-    where: {
-      id: reference.id,
-    },
-    data: {
-      image: {
-        create: {
-          url: response.data?.key ?? "",
+    const response = await utapi.uploadFiles(image);
+    await db.reference.update({
+      where: {
+        id: reference.id,
+      },
+      data: {
+        image: {
+          create: {
+            url: response.data?.key ?? "",
+          },
         },
       },
-    },
-  });
+    });
+  }
 
   return { success: true };
 };

@@ -58,6 +58,7 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
             user: true,
           },
         },
+        images: true,
       },
     });
     if (!reservation) {
@@ -75,6 +76,7 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
       city: reservation.worker.user.city,
       zipCode: reservation.worker.user.zipCode,
       phone: reservation.worker.user.phone,
+      images: reservation.images,
     };
   }
 };

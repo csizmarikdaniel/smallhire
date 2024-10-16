@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export type EditTradeInput = {
   id: string;
@@ -28,4 +29,14 @@ export const AddTradeSchema = z.object({
   yearsOfExperience: z.coerce.number({
     message: "Évek számának megadása kötelező",
   }),
+});
+
+export type AddReferenceInput = {
+  description: string;
+  images: File[];
+};
+
+export const AddReferenceSchema = zfd.formData({
+  description: z.string({ message: "Leírás megadása kötelező" }),
+  images: z.array(z.any()),
 });

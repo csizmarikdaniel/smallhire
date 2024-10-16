@@ -26,7 +26,10 @@ const ReferenceCard = async ({ referenceId }: { referenceId: string }) => {
                 height={50}
                 width={100}
               />
-              <RemoveReferenceImage />
+              <RemoveReferenceImage
+                imageId={image.id}
+                referenceId={reference.id}
+              />
             </div>
           ))}
           <AddReferenceImage onupload={onupload} referenceId={reference.id} />

@@ -1,12 +1,14 @@
 import { authProcedure, router } from "@/server/api/trpc";
-import addTrade from "@/server/services/worker/add-trade";
-import deleteTrade from "@/server/services/worker/delete-trade";
-import editTrade from "@/server/services/worker/edit-trade";
-import getOwnReferences from "@/server/services/worker/get-own-references";
-import getReferenceById from "@/server/services/worker/get-reference-by-id";
-import getTrade from "@/server/services/worker/get-trade";
-import getTrades from "@/server/services/worker/get-trades";
-import uploadReferenceImage from "@/server/services/worker/upload-reference-image";
+import addReference from "@/server/services/worker/reference/add-reference";
+import addTrade from "@/server/services/worker/trade/add-trade";
+import deleteTrade from "@/server/services/worker/trade/delete-trade";
+import editTrade from "@/server/services/worker/trade/edit-trade";
+import getOwnReferences from "@/server/services/worker/reference/get-own-references";
+import getReferenceById from "@/server/services/worker/reference/get-reference-by-id";
+import getTrade from "@/server/services/worker/trade/get-trade";
+import getTrades from "@/server/services/worker/trade/get-trades";
+import removeReferenceImage from "@/server/services/worker/reference/remove-reference-image";
+import uploadReferenceImage from "@/server/services/worker/reference/upload-reference-image";
 import {
   AddTradeSchema,
   DeleteTradeSchema,
@@ -39,18 +41,42 @@ const workerRouter = router({
     ),
     image: router({
       upload: authProcedure
-        .input(zfd.formData({ referenceId: z.string(), file: z.any() }))
+        .input(
+          zfd.formData({
+            referenceId: z.string(),
+            file: z.array(z.any()).optional(),
+          }),
+        )
         .mutation(
           async ({ ctx, input }) =>
             await uploadReferenceImage(
               ctx.db,
-              input as { referenceId: string; file: File },
+              input as { referenceId: string; images: File[] },
             ),
+        ),
+      delete: authProcedure
+        .input(z.object({ referenceId: z.string(), imageId: z.string() }))
+        .mutation(
+          async ({ ctx, input }) => await removeReferenceImage(ctx.db, input),
         ),
     }),
     get: authProcedure
       .input(z.object({ referenceId: z.string() }))
       .query(async ({ ctx, input }) => await getReferenceById(ctx.db, input)),
+    create: authProcedure
+      .input(
+        zfd.formData({
+          description: z.string(),
+          images: z.array(z.any()).optional(),
+        }),
+      )
+      .mutation(
+        async ({ ctx, input }) =>
+          await addReference(
+            ctx.db,
+            input as { description: string; images: File[] },
+          ),
+      ),
   }),
 });
 

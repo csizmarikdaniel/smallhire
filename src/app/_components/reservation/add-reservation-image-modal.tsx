@@ -1,16 +1,16 @@
-import Button from "../../button";
-import Input from "../../form-components/input";
+import Button from "../button";
+import Input from "../form-components/input";
 
-const AddReferenceImageModal = ({
+const AddReservationImageModal = ({
   open,
   setOpen,
   onupload,
-  referenceId,
+  reservationId,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   onupload: (formData: FormData) => Promise<void>;
-  referenceId: string;
+  reservationId: string;
 }) => {
   return (
     <dialog open={open} className="modal">
@@ -19,11 +19,11 @@ const AddReferenceImageModal = ({
         <form action={onupload}>
           <Input
             type="file"
-            name="file"
-            label="Referencia kép(ek) feltöltése"
+            name="images"
+            label="Foglaláshoz tartozó kiegészítő kép(ek) feltöltése"
             multiple
           />
-          <Input type="hidden" value={referenceId} name="referenceId" />
+          <Input type="hidden" value={reservationId} name="reservationId" />
           <div className="mt-6 flex justify-end gap-4">
             <Button
               type="submit"
@@ -42,4 +42,4 @@ const AddReferenceImageModal = ({
   );
 };
 
-export default AddReferenceImageModal;
+export default AddReservationImageModal;
