@@ -1,45 +1,45 @@
-import { api } from "@/trpc/react";
-import Button from "../../button";
-import Input from "../../form-components/input";
 import { useForm } from "react-hook-form";
+import Input from "../../../form-components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditUserSchema } from "@/types/profile";
+import { type AddTradeInput, AddTradeSchema } from "@/types/worker";
+import Button from "../../../button";
+import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { type EditTradeInput } from "@/types/worker";
 
-const EditTradeForm = ({
-  defaultValues,
+const AddTradeModal = ({
   open,
   setOpen,
 }: {
-  defaultValues: { id: string; name: string; yearsOfExperience: number };
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
-  const editTrade = api.worker.trades.edit.useMutation({
+  const router = useRouter();
+  const addTrade = api.worker.trades.add.useMutation({
     onSuccess: () => {
       router.refresh();
     },
+    onError: (error) => {
+      alert(error.message);
+    },
   });
-  const router = useRouter();
-
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditUserSchema),
+    resolver: zodResolver(AddTradeSchema),
     defaultValues: {
-      id: defaultValues.id,
-      name: defaultValues.name,
-      yearsOfExperience: defaultValues.yearsOfExperience,
+      name: "",
+      yearsOfExperience: 0,
     },
   });
 
-  const onSubmit = async (data: EditTradeInput) => {
-    editTrade.mutate(data);
+  const onSubmit = async (data: AddTradeInput) => {
+    console.log(data);
+    addTrade.mutate(data);
     setOpen(false);
   };
+
   return (
     <dialog open={open} className="modal">
       <div className="absolute h-screen w-screen bg-black/70" />
@@ -56,7 +56,6 @@ const EditTradeForm = ({
             type="number"
             error={errors.yearsOfExperience?.message}
           />
-          <Input type="hidden" {...register("id")} />
 
           <div className="mt-6 flex justify-end gap-4">
             <Button type="submit" className="btn-primary">
@@ -72,4 +71,4 @@ const EditTradeForm = ({
   );
 };
 
-export default EditTradeForm;
+export default AddTradeModal;

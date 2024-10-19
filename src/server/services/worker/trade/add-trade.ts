@@ -8,6 +8,18 @@ const addTrade = async (db: PrismaClient, input: AddTradeInput) => {
     throw new Error("Unauthorized");
   }
 
+  const trades = await db.trade.findMany({
+    where: {
+      workerId: session.user.id,
+    },
+  });
+
+  trades.forEach((trade) => {
+    if (trade.name === input.name) {
+      throw new Error("Ez a szakma már létezik");
+    }
+  });
+
   return db.trade.create({
     data: {
       ...input,

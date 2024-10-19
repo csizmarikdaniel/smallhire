@@ -9,6 +9,9 @@ const NotificationDropdown = () => {
   const notifications = api.notification.getAll.useQuery();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  if (notifications.error) {
+    router.push("/login");
+  }
   const unSeenCount = notifications.data?.reduce((acc, noti) => {
     if (!noti.seen) {
       return acc + 1;

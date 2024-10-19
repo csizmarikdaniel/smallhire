@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddIcon from "../../icons/add";
+import AddIcon from "../../../icons/add";
 import AddReferenceImageModal from "./add-reference-image-modal";
 
 const AddReferenceImage = ({

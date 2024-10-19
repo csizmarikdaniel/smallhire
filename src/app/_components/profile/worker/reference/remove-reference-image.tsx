@@ -1,6 +1,6 @@
 "use client";
 
-import RemoveIcon from "../../icons/remove";
+import RemoveIcon from "../../../icons/remove";
 import { api } from "@/trpc/react";
 
 const RemoveReferenceImage = ({

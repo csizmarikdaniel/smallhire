@@ -1,6 +1,6 @@
 "use client";
 import { api } from "@/trpc/react";
-import Button from "../../button";
+import Button from "../../../button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EditTradeForm from "./edit-trade-form";

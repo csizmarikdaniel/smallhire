@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Button from "../../button";
+import Button from "../../../button";
 import AddTradeModal from "./add-trade-modal";
 
 const AddTradeButton = () => {

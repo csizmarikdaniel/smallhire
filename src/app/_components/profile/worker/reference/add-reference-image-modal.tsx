@@ -1,22 +1,29 @@
-import Button from "../../button";
-import Input from "../../form-components/input";
+import Button from "../../../button";
+import Input from "../../../form-components/input";
 
-const AddReferenceModal = ({
+const AddReferenceImageModal = ({
   open,
   setOpen,
-  onCreate,
+  onupload,
+  referenceId,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onCreate: (formData: FormData) => Promise<void>;
+  onupload: (formData: FormData) => Promise<void>;
+  referenceId: string;
 }) => {
   return (
     <dialog open={open} className="modal">
       <div className="absolute h-screen w-screen bg-black/70" />
       <div className="modal-box flex flex-col gap-4 p-10">
-        <form action={onCreate}>
-          <Input name="description" label="Leírás" />
-          <Input type="file" name="images" label="Képek" multiple />
+        <form action={onupload}>
+          <Input
+            type="file"
+            name="file"
+            label="Referencia kép(ek) feltöltése"
+            multiple
+          />
+          <Input type="hidden" value={referenceId} name="referenceId" />
           <div className="mt-6 flex justify-end gap-4">
             <Button
               type="submit"
@@ -35,4 +42,4 @@ const AddReferenceModal = ({
   );
 };
 
-export default AddReferenceModal;
+export default AddReferenceImageModal;
