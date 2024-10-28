@@ -7,19 +7,18 @@ import EditProfilePicture from "./edit-profile-picture";
 import AddImageIcon from "../icons/add-image";
 import EditIcon from "../icons/edit";
 import RemoveIcon from "../icons/remove";
-import { useRouter } from "next/navigation";
+import { getImageUrl } from "@/utils/get-image-url";
 
 const ProfilePicture = ({
   onupload,
 }: {
   onupload: (formdata: FormData) => Promise<void>;
 }) => {
-  const router = useRouter();
   const image = api.profile.image.get.useQuery();
   const [open, setOpen] = useState(false);
   const removeImage = api.profile.image.remove.useMutation({
-    onSuccess: () => {
-      router.refresh();
+    onSuccess: async () => {
+      await image.refetch();
     },
   });
 
@@ -28,7 +27,7 @@ const ProfilePicture = ({
       {image.data?.image ? (
         <div className="relative mx-auto w-fit">
           <Image
-            src={`https://utfs.io/f/${image.data?.image.url}`}
+            src={getImageUrl(image.data.image.url)}
             alt="Profilkép"
             width={200}
             height={200}

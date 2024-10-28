@@ -44,14 +44,14 @@ const workerRouter = router({
         .input(
           zfd.formData({
             referenceId: z.string(),
-            file: z.array(z.any()).optional(),
+            images: z.any().optional(),
           }),
         )
         .mutation(
           async ({ ctx, input }) =>
             await uploadReferenceImage(
               ctx.db,
-              input as { referenceId: string; images: File[] },
+              input as { referenceId: string; images: File[] | File | null },
             ),
         ),
       delete: authProcedure

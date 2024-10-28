@@ -1,10 +1,8 @@
 import ReservationStatusTag from "@/app/_components/profile/reservation-status-tag";
-import AddReservationImage from "@/app/_components/reservation/add-reservation-image";
 import DescriptionBlock from "@/app/_components/reservation/description-block";
-import RemoveReservationImage from "@/app/_components/reservation/remove-reservation-image";
+import ImagesBlock from "@/app/_components/reservation/images-block";
 import ReservationActions from "@/app/_components/reservation/reservation-actions";
 import { api } from "@/trpc/server";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 const ReservationPage = async ({
@@ -40,20 +38,7 @@ const ReservationPage = async ({
         description={reservation.description}
         reservationId={reservation.id}
       />
-      <div className="relative mt-5 flex flex-wrap justify-center gap-5">
-        {reservation.images?.map((image) => (
-          <div className="relative" key={image.id}>
-            <Image
-              src={`https://utfs.io/f/${image.url}`}
-              alt="description"
-              width={200}
-              height={200}
-            />
-            <RemoveReservationImage imageId={image.id} />
-          </div>
-        ))}
-        <AddReservationImage onupload={onupload} />
-      </div>
+      <ImagesBlock images={reservation.images} onupload={onupload} />
       <ReservationActions
         id={reservation.id}
         status={reservation.status}

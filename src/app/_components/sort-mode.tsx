@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import ArrowIcon from "./icons/arrow";
 
 const SortMode = () => {
   const router = useRouter();
@@ -19,6 +20,7 @@ const SortMode = () => {
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn m-1">
         Rendezés
+        <ArrowIcon direction="down" height={20} width={20} />
       </div>
       <ul
         tabIndex={0}
