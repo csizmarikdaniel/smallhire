@@ -18,7 +18,11 @@ const SortMode = () => {
   };
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn m-1">
+      <div
+        tabIndex={0}
+        role="button"
+        className="m-1 flex gap-2 rounded-full border-2 border-sky-500 bg-white px-4 py-2 transition-all duration-200 hover:bg-sky-100"
+      >
         Rendezés
         <ArrowIcon direction="down" height={20} width={20} />
       </div>

@@ -6,7 +6,7 @@ const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
   const session = await api.auth.getSession();
   return (
     <div>
-      <h1 className="text-center text-xl">{worker.name}</h1>
+      <h1 className="mt-10 text-center text-3xl">{worker.name}</h1>
       <p className="text-center">{worker.address}</p>
       <p className="text-center">{worker.city}</p>
       <p className="text-center">{worker.zipCode}</p>

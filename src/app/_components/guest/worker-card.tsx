@@ -17,22 +17,22 @@ type WorkerCardProps = {
 const WorkerCard = ({ worker }: WorkerCardProps) => {
   return (
     <Link href={`/worker/${worker.id}`}>
-      <div className="card w-96 bg-base-100 shadow-xl">
+      <div className="card bg-white shadow-xl transition-all duration-300 hover:bg-sky-100">
         <div className="card-body">
-          <h2 className="card-title">{worker.name}</h2>
-          <div>
-            <h3 className="font-bold">Mesterség</h3>
-            <ul>
-              {worker.trades?.map((trade) => (
-                <li key={trade.id}>
-                  {trade.name} ({trade.yearsOfExperience} év)
-                </li>
-              ))}
-            </ul>
+          <h2 className="text-center text-xl font-semibold">{worker.name}</h2>
+          <div className="mx-auto flex gap-2">
+            {worker.trades?.map((trade) => (
+              <div
+                key={trade.id}
+                className="rounded-full bg-sky-500 px-3 text-white"
+              >
+                {trade.name}
+              </div>
+            ))}
           </div>
           <div>
             Legkorábban elérhető:{" "}
-            <span className="">
+            <span className="font-semibold">
               {worker.earliestFreeDay?.toLocaleDateString("hu-HU")}
             </span>
           </div>

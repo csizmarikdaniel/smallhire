@@ -15,7 +15,11 @@ const TextArea = forwardRef(function TextAreaInput(
       <div className="label">
         <span className="label-text text-lg">{label}</span>
       </div>
-      <textarea ref={ref} {...props} className="textarea textarea-bordered" />
+      <textarea
+        ref={ref}
+        {...props}
+        className="textarea border-2 border-sky-500 focus:border-sky-700 focus:outline-none"
+      />
       {error && <span className="label text-red-500">{error}</span>}
     </label>
   );

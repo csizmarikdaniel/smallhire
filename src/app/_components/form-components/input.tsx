@@ -11,10 +11,14 @@ const Input = forwardRef(function InputInput(
 ) {
   return (
     <label className="form-control">
-      <div className="label">
+      <div className={label ? "label" : "hidden"}>
         <span className="label-text text-lg">{label}</span>
       </div>
-      <input ref={ref} {...props} className="input input-bordered" />
+      <input
+        ref={ref}
+        {...props}
+        className="input rounded-full border-2 border-sky-500 focus:border-sky-700 focus:outline-none"
+      />
       {error && <span className="label text-red-500">{error}</span>}
     </label>
   );

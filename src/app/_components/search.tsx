@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Input from "../form-components/input";
+import Input from "./form-components/input";
 import { useDebouncedCallback } from "use-debounce";
 
 const Search = () => {
@@ -22,7 +22,6 @@ const Search = () => {
   return (
     <Input
       defaultValue={searchParams.get("search")?.toString()}
-      label="Keresés"
       placeholder="Keresés..."
       onChange={(e) => {
         handleSearch(e.target.value);

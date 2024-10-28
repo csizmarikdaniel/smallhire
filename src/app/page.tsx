@@ -1,6 +1,6 @@
 import WorkerList from "./_components/guest/worker-list";
 import ReservationList from "./_components/profile/reservation-list";
-import Search from "./_components/guest/search";
+import Search from "./_components/search";
 import CategoryFilter from "./_components/category-filter";
 import SortMode from "./_components/sort-mode";
 import Pagination from "./_components/pagination";
@@ -31,8 +31,10 @@ export default async function Home({
       ) : (
         <>
           <p className="mb-10 text-center">Elérhető szakemberek</p>
-          <div className="flex justify-between">
-            <Search />
+          <div className="flex">
+            <div className="grow">
+              <Search />
+            </div>
             <SortMode />
           </div>
           <CategoryFilter />
