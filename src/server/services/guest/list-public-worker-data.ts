@@ -1,27 +1,15 @@
 import { paginate } from "@/utils/paginate";
 import { type PrismaClient } from "@prisma/client";
-import getNumberOfPages from "./get-number-of-pages";
+import { type ListWorkersInput } from "@/types/guest";
 
 const listPublicWorkerData = async (
   db: PrismaClient,
-  {
-    search,
-    trades,
-    sort,
-    limit,
-    page,
-  }: {
-    search?: string;
-    trades?: string[];
-    sort?: string;
-    limit?: number;
-    page?: number;
-  },
+  input: ListWorkersInput,
 ) => {
   const dbWorkers = await db.user.findMany({
     where: {
       name: {
-        contains: search,
+        contains: input.search,
       },
       role: "WORKER",
     },
@@ -52,8 +40,10 @@ const listPublicWorkerData = async (
   });
 
   const filteredWorkers = dbWorkers.filter((worker) => {
-    if (trades && trades.length > 0) {
-      return worker.worker?.trades.some((trade) => trades.includes(trade.name));
+    if (input.trades && input.trades.length > 0) {
+      return worker.worker?.trades.some((trade) =>
+        input.trades?.includes(trade.name),
+      );
     }
     return true;
   });
@@ -101,34 +91,37 @@ const listPublicWorkerData = async (
     };
   });
 
-  const safePage = page
-    ? page < 1
+  const safePage = input.page
+    ? input.page < 1
       ? 1
-      : page > (await getNumberOfPages(db, { pageSize: limit }))
-        ? await getNumberOfPages(db, { pageSize: limit })
-        : page
+      : input.page > Math.ceil(workers.length / (input.limit ?? 10))
+        ? Math.ceil(workers.length / (input.limit ?? 10))
+        : input.page
     : 1;
 
-  if (sort == "asc") {
+  if (input.sort == "asc") {
     return paginate(
       workers.sort((a, b) => a.name.localeCompare(b.name)),
-      { page: safePage, perPage: limit },
+      { page: safePage, perPage: input.limit },
     );
-  } else if (sort == "desc") {
+  } else if (input.sort == "desc") {
     return paginate(
       workers.sort((a, b) => b.name.localeCompare(a.name)),
-      { page: safePage, perPage: limit },
+      { page: safePage, perPage: input.limit },
     );
-  } else if (sort == "earliest") {
+  } else if (input.sort == "earliest") {
     return paginate(
       workers.sort(
         (a, b) => a.earliestFreeDay!.getDate() - b.earliestFreeDay!.getDate(),
       ),
-      { page: safePage, perPage: limit },
+      { page: safePage, perPage: input.limit },
     );
   }
 
-  return paginate(workers, { page: safePage, perPage: limit });
+  return {
+    fullListLength: workers.length,
+    workers: paginate(workers, { page: safePage, perPage: input.limit }),
+  };
 };
 
 export default listPublicWorkerData;

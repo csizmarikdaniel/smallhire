@@ -122,3 +122,20 @@ const authMiddleware = t.middleware(async ({ next }) => {
  * that a user querying is authorized, and you can access user session data.
  */
 export const authProcedure = t.procedure.use(authMiddleware);
+
+const adminMiddleware = t.middleware(async ({ next }) => {
+  const session = await getSession();
+  if (!session || session.user.role !== "ADMIN") {
+    throw new Error("Not authorized");
+  }
+
+  return await next();
+});
+
+/**
+ * Admin procedure
+ *
+ * This is the base piece you use to build new queries and mutations on your tRPC API. It guarantees
+ * that a user querying is authorized and is an admin, and you can access user session data.
+ */
+export const adminProcedure = t.procedure.use(adminMiddleware);

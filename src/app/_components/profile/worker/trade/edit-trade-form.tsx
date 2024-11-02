@@ -3,9 +3,8 @@ import Button from "../../../button";
 import Input from "../../../form-components/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditUserSchema } from "@/types/profile";
 import { useRouter } from "next/navigation";
-import { type EditTradeInput } from "@/types/worker";
+import { EditTradeSchema, type EditTradeInput } from "@/types/worker";
 
 const EditTradeForm = ({
   defaultValues,
@@ -28,7 +27,7 @@ const EditTradeForm = ({
     register,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditUserSchema),
+    resolver: zodResolver(EditTradeSchema),
     defaultValues: {
       id: defaultValues.id,
       name: defaultValues.name,

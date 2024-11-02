@@ -3,12 +3,9 @@ import ReservationList from "./_components/profile/reservation-list";
 import Search from "./_components/search";
 import CategoryFilter from "./_components/category-filter";
 import SortMode from "./_components/sort-mode";
-import Pagination from "./_components/pagination";
 import { api } from "@/trpc/server";
 
-export default async function Home({
-  searchParams,
-}: {
+type HomePageProps = {
   searchParams?: {
     search?: string;
     trade?: string;
@@ -16,7 +13,9 @@ export default async function Home({
     page?: string;
     limit?: string;
   };
-}) {
+};
+
+export default async function Home({ searchParams }: HomePageProps) {
   const session = await api.auth.getSession();
   const search = searchParams?.search;
   const trades = searchParams?.trade?.split("&");
@@ -45,7 +44,6 @@ export default async function Home({
             page={parseInt(page ?? "1")}
             limit={parseInt(limit ?? "10")}
           />
-          <Pagination />
         </>
       )}
     </div>

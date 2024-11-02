@@ -1,5 +1,6 @@
 import type { LinkProps } from "next/link";
 import Link from "next/link";
+import { twMerge } from "tailwind-merge";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -8,7 +9,7 @@ const ButtonClassName =
 
 export function Button({ children, className, ...props }: ButtonProps) {
   return (
-    <button className={`${ButtonClassName} ${className}`} {...props}>
+    <button className={twMerge(ButtonClassName, className)} {...props}>
       {children}
     </button>
   );
@@ -20,7 +21,7 @@ type LinkButtonProps = LinkProps & {
 };
 function LinkButton({ children, className, ...props }: LinkButtonProps) {
   return (
-    <Link {...props} className={`${ButtonClassName} ${className}`}>
+    <Link {...props} className={twMerge(ButtonClassName, className)}>
       {children}
     </Link>
   );

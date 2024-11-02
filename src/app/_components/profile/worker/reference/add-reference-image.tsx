@@ -14,7 +14,10 @@ const AddReferenceImage = ({
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <div className="h-50 w-50 bg-slate-400 p-2" onClick={() => setOpen(true)}>
+      <div
+        className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-sky-500 p-2 transition-all duration-300 hover:bg-sky-100"
+        onClick={() => setOpen(true)}
+      >
         <AddIcon height={40} width={40} />
       </div>
       <AddReferenceImageModal

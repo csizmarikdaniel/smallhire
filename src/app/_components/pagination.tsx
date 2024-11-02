@@ -1,21 +1,21 @@
 "use client";
 
-import { api } from "@/trpc/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Button from "./button";
 import ArrowIcon from "./icons/arrow";
 
-const Pagination = () => {
+type PaginationProps = {
+  listLength: number;
+};
+
+const Pagination = ({ listLength }: PaginationProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const pages =
-    api.guest.numberOfPages.useQuery({
-      pageSize: 10,
-      search: new URLSearchParams(searchParams).get("search") ?? undefined,
-      trades:
-        new URLSearchParams(searchParams).get("trade")?.split("&") ?? undefined,
-    }).data ?? 1;
+  const pages = Math.ceil(
+    listLength /
+      parseInt(new URLSearchParams(searchParams).get("limit") ?? "10"),
+  );
 
   const handlePagination = (page: number | "prev" | "next") => {
     const params = new URLSearchParams(searchParams);
@@ -34,10 +34,8 @@ const Pagination = () => {
     router.replace(`${pathname}?${params.toString()}`);
   };
 
-  console.log(new URLSearchParams(searchParams).get("page"));
-
   return (
-    <div className="mt-8 flex justify-between">
+    <div className="mb-10 mt-8 flex justify-between">
       <div>
         Limit:
         <div className="dropdown dropdown-top">

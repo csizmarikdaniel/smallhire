@@ -2,10 +2,13 @@ import { api } from "@/trpc/server";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import NotificationDropdown from "./notification-dropdown";
+import AdminNavbar from "./admin/admin-navbar";
 
 const Navbar = async () => {
   const session = await api.auth.getSession();
-  return (
+  return session?.user.role === "ADMIN" ? (
+    <AdminNavbar />
+  ) : (
     <div className="navbar sticky top-0 z-10 bg-gradient-to-b from-sky-600 to-transparent">
       <div className="flex-1">
         <h1 className="text-2xl font-bold">

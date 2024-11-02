@@ -36,6 +36,7 @@
     "react-hook-form": "^7.52.2",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
+    "tailwind-merge": "^2.5.4",
     "uploadthing": "^7.0.2",
     "use-debounce": "^10.0.3",
     "zod": "^3.23.3",

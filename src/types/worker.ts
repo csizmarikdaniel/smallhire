@@ -9,7 +9,7 @@ export type EditTradeInput = {
 export const EditTradeSchema = z.object({
   id: z.string(),
   name: z.string(),
-  yearsOfExperience: z.number(),
+  yearsOfExperience: z.coerce.number(),
 });
 
 export type DeleteTradeInput = {
@@ -26,17 +26,38 @@ export type AddTradeInput = {
 };
 export const AddTradeSchema = z.object({
   name: z.string({ message: "Név megadása kötelező" }),
-  yearsOfExperience: z.coerce.number({
-    message: "Évek számának megadása kötelező",
-  }),
+  yearsOfExperience: z
+    .string()
+    .min(1, "Évek számának megadása kötelező!")
+    .pipe(z.coerce.number()),
 });
 
 export type AddReferenceInput = {
   description: string;
-  images: File[];
+  images: File[] | File | null;
 };
 
 export const AddReferenceSchema = zfd.formData({
   description: z.string({ message: "Leírás megadása kötelező" }),
   images: z.array(z.any()),
+});
+
+export type EditReferenceInput = {
+  id: string;
+  description: string;
+};
+
+export const EditReferenceSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+});
+
+export type AddReferenceImageInput = {
+  referenceId: string;
+  images: File[] | File | null;
+};
+
+export const AddReferenceImageSchema = zfd.formData({
+  referenceId: z.string(),
+  images: z.any(),
 });

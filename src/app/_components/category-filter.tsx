@@ -2,6 +2,7 @@
 
 import { api } from "@/trpc/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Button from "./button";
 
 const CategoryFilter = () => {
   const trades = api.guest.trades.useQuery();
@@ -27,15 +28,15 @@ const CategoryFilter = () => {
   return (
     <div className="mb-5 mt-4 flex flex-wrap gap-2">
       {trades.data?.map((trade) => (
-        <button
+        <Button
           key={trade.id}
-          className={`rounded-full border-2 border-sky-500 bg-white px-4 py-2 transition-all duration-300 hover:bg-sky-200 ${new URLSearchParams(searchParams).get("trade")?.split("&").includes(trade.name) ? "bg-sky-500" : ""}`}
+          className={`${new URLSearchParams(searchParams).get("trade")?.split("&").includes(trade.name) ? "bg-sky-500" : ""}`}
           onClick={() => {
             handleFilter(trade.name);
           }}
         >
           {trade.name}
-        </button>
+        </Button>
       ))}
     </div>
   );

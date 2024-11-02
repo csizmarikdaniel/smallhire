@@ -10,12 +10,15 @@ import getTrades from "@/server/services/worker/trade/get-trades";
 import removeReferenceImage from "@/server/services/worker/reference/remove-reference-image";
 import uploadReferenceImage from "@/server/services/worker/reference/upload-reference-image";
 import {
+  type AddReferenceImageInput,
+  AddReferenceImageSchema,
+  type AddReferenceInput,
+  AddReferenceSchema,
   AddTradeSchema,
   DeleteTradeSchema,
   EditTradeSchema,
 } from "@/types/worker";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 const workerRouter = router({
   trades: router({
@@ -41,18 +44,10 @@ const workerRouter = router({
     ),
     image: router({
       upload: authProcedure
-        .input(
-          zfd.formData({
-            referenceId: z.string(),
-            images: z.any().optional(),
-          }),
-        )
+        .input(AddReferenceImageSchema)
         .mutation(
           async ({ ctx, input }) =>
-            await uploadReferenceImage(
-              ctx.db,
-              input as { referenceId: string; images: File[] | File | null },
-            ),
+            await uploadReferenceImage(ctx.db, input as AddReferenceImageInput),
         ),
       delete: authProcedure
         .input(z.object({ referenceId: z.string(), imageId: z.string() }))
@@ -64,18 +59,10 @@ const workerRouter = router({
       .input(z.object({ referenceId: z.string() }))
       .query(async ({ ctx, input }) => await getReferenceById(ctx.db, input)),
     create: authProcedure
-      .input(
-        zfd.formData({
-          description: z.string(),
-          images: z.array(z.any()).optional(),
-        }),
-      )
+      .input(AddReferenceSchema)
       .mutation(
         async ({ ctx, input }) =>
-          await addReference(
-            ctx.db,
-            input as { description: string; images: File[] },
-          ),
+          await addReference(ctx.db, input as AddReferenceInput),
       ),
   }),
 });
