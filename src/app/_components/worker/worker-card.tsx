@@ -6,7 +6,7 @@ type WorkerProps = {
   address: string;
   city: string;
   zipCode: string;
-  trades: { id: string; name: string; yearsOfExperience: number }[] | undefined;
+  trades: { id: string; name: string }[] | undefined;
   earliestFreeDay: Date | undefined;
 };
 

@@ -1,7 +1,6 @@
 import { createCallerFactory, router } from "@/server/api/trpc";
 import authRouter from "./routers/auth";
 import workerRouter from "./routers/worker";
-import guestRouter from "./routers/guest";
 import profileRouter from "./routers/profile";
 import reservationRouter from "./routers/reservation";
 import customerRouter from "./routers/customer";
@@ -16,7 +15,6 @@ import adminRouter from "./routers/admin";
 export const appRouter = router({
   auth: authRouter,
   worker: workerRouter,
-  guest: guestRouter,
   profile: profileRouter,
   reservation: reservationRouter,
   customer: customerRouter,

@@ -6,7 +6,7 @@ const AdminPage = async () => {
   try {
     await api.admin.get();
   } catch (error) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   return (

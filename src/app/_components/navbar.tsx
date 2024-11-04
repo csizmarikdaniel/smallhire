@@ -16,36 +16,28 @@ const Navbar = async () => {
         </h1>
       </div>
       <ul className="menu menu-horizontal">
-        {session?.user !== undefined ? (
-          <>
-            <li>
-              <Link href="/my-profile">Profilom</Link>
-            </li>
-            <li>
-              <NotificationDropdown />
-            </li>
-            <li>
-              <form
-                action={async () => {
-                  "use server";
-                  await api.auth.user.logout();
-                  revalidatePath("/");
-                }}
-              >
-                <button type="submit">Kijelentkezés</button>
-              </form>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link href="/login">Bejelentkezés</Link>
-            </li>
-            <li>
-              <Link href="/register">Regisztráció</Link>
-            </li>
-          </>
-        )}
+        <>
+          <li>
+            <Link href="/my-profile">Profilom</Link>
+          </li>
+          <li>
+            <Link href="/reservation">Foglalásaim</Link>
+          </li>
+          <li>
+            <NotificationDropdown />
+          </li>
+          <li>
+            <form
+              action={async () => {
+                "use server";
+                await api.auth.user.logout();
+                revalidatePath("/");
+              }}
+            >
+              <button type="submit">Kijelentkezés</button>
+            </form>
+          </li>
+        </>
       </ul>
     </div>
   );

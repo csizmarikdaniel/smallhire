@@ -11,11 +11,17 @@ const ReferenceList = async () => {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[1000px] flex-col rounded-lg p-5 shadow-xl">
+    <div className="mx-auto flex w-full max-w-[1000px] flex-col rounded-lg bg-white p-5 shadow-xl">
       <h1 className="mb-10 text-center text-3xl">Referenciák</h1>
-      {references.map((reference) => (
-        <ReferenceCard key={reference.id} referenceId={reference.id} />
-      ))}
+      {references.length === 0 ? (
+        <p className="text-center">Még nincs megadva referencia</p>
+      ) : (
+        <>
+          {references.map((reference) => (
+            <ReferenceCard key={reference.id} referenceId={reference.id} />
+          ))}
+        </>
+      )}
       <div className="mx-auto mt-5">
         <AddReferenceButton onCreate={onCreate} />
       </div>

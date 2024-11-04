@@ -3,10 +3,12 @@ import Link from "next/link";
 
 export default async function RegisterPage() {
   return (
-    <div>
-      <h1 className="text-center text-3xl">Regisztráció</h1>
+    <div className="mx-auto mt-10 max-w-[1000px] rounded-lg bg-white p-5">
+      <h1 className="mb-5 text-center text-3xl">Regisztráció</h1>
       <RegisterForm />
-      <Link href="/login">Van már fiókod?</Link>
+      <Link href="/login" className="text-sky-700 underline">
+        Van már fiókod?
+      </Link>
     </div>
   );
 }

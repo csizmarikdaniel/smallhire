@@ -1,50 +1,47 @@
-import WorkerList from "./_components/guest/worker-list";
-import ReservationList from "./_components/profile/reservation-list";
-import Search from "./_components/search";
-import CategoryFilter from "./_components/category-filter";
-import SortMode from "./_components/sort-mode";
 import { api } from "@/trpc/server";
+import Button from "./_components/button";
 
-type HomePageProps = {
-  searchParams?: {
-    search?: string;
-    trade?: string;
-    sort?: string;
-    page?: string;
-    limit?: string;
-  };
-};
-
-export default async function Home({ searchParams }: HomePageProps) {
+export default async function Home() {
   const session = await api.auth.getSession();
-  const search = searchParams?.search;
-  const trades = searchParams?.trade?.split("&");
-  const sort = searchParams?.sort;
-  const page = searchParams?.page;
-  const limit = searchParams?.limit;
+
   return (
-    <div className="container mx-auto">
-      <h1 className="mt-8 text-center text-3xl font-bold">SmallHire</h1>
-      {session && session.user.role === "WORKER" ? (
-        <ReservationList />
-      ) : (
-        <>
-          <p className="mb-10 text-center">Elérhető szakemberek</p>
-          <div className="flex">
-            <div className="grow">
-              <Search />
-            </div>
-            <SortMode />
+    <div className="container mx-auto flex h-screen flex-col items-center justify-center">
+      <h1 className="mb-8 text-center text-6xl font-bold">SmallHire</h1>
+      {session ? (
+        session.user.role === "WORKER" ? (
+          <div className="flex items-center gap-4">
+            <Button.Link href="/my-profile" className="mt-4">
+              Profilom
+            </Button.Link>
+            <Button.Link href="/reservation" className="mt-4">
+              Foglalásaim
+            </Button.Link>
+            <Button>Kijelentkezés</Button>
           </div>
-          <CategoryFilter />
-          <WorkerList
-            search={search}
-            trades={trades}
-            sort={sort}
-            page={parseInt(page ?? "1")}
-            limit={parseInt(limit ?? "10")}
-          />
-        </>
+        ) : (
+          <div>
+            <Button.Link href="/worker" className="mt-4">
+              Szakemberek
+            </Button.Link>
+            <Button.Link href="/reservation" className="mt-4">
+              Foglalásaim
+            </Button.Link>
+            <Button.Link href="/my-profile" className="mt-4">
+              Profilom
+            </Button.Link>
+            <Button>Kijelentkezés</Button>
+          </div>
+        )
+      ) : (
+        <div className="flex items-center gap-4">
+          <Button.Link href="/register" className="mt-4">
+            Regisztráció
+          </Button.Link>
+          <p className="mt-4 text-center">Vagy</p>
+          <Button.Link href="/login" className="mt-4">
+            Bejelentkezés
+          </Button.Link>
+        </div>
       )}
     </div>
   );

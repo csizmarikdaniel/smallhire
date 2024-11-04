@@ -15,7 +15,7 @@ model User {
   name          String
   email         String    @unique
   password      String
-  image         Image?
+  images  Image[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -61,6 +61,8 @@ model Trade {
   worker    Worker    @relation(fields: [workerId], references: [userId])
 
   yearsOfExperience Int
+
+  pricePerHour Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -130,8 +132,9 @@ model Notification {
 model Image {
   id          String    @id @default(cuid())
 
-  userId      String?   @unique
+  userId      String?  
   user        User?      @relation(fields: [userId], references: [id])
+  profileImage Boolean @default(false)
 
   referenceId String?
   reference   Reference? @relation(fields: [referenceId], references: [id])

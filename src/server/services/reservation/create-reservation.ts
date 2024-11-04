@@ -74,17 +74,21 @@ const createReservation = async (
           data: {
             url: file.data?.key ?? "",
             reservationId: reservation.id,
+            userId: session.user.id,
           },
         });
       }
     } else {
-      const response = await utapi.uploadFiles(input.formData.images);
-      await db.image.create({
-        data: {
-          url: response.data?.key ?? "",
-          reservationId: reservation.id,
-        },
-      });
+      if (input.formData.images.size !== 0) {
+        const response = await utapi.uploadFiles(input.formData.images);
+        await db.image.create({
+          data: {
+            url: response.data?.key ?? "",
+            reservationId: reservation.id,
+            userId: session.user.id,
+          },
+        });
+      }
     }
   }
   return reservation.id;

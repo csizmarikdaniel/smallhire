@@ -8,10 +8,6 @@ const removeImage = async (
 ) => {
   const session = await getSession();
 
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const reservation = await db.reservation.findUnique({
     where: {
       id: input.reservationId,
@@ -23,8 +19,8 @@ const removeImage = async (
   }
 
   if (
-    reservation.customerId !== session.user.id &&
-    reservation.workerId !== session.user.id
+    reservation.customerId !== session?.user.id &&
+    reservation.workerId !== session?.user.id
   ) {
     throw new Error("Unauthorized");
   }
@@ -41,6 +37,10 @@ const removeImage = async (
 
   if (image.reservationId !== input.reservationId) {
     throw new Error("Image not found in reservation");
+  }
+
+  if (image.userId !== session?.user.id) {
+    throw new Error("Unauthorized");
   }
 
   await utapi.deleteFiles(image.url);

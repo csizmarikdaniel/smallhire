@@ -44,6 +44,7 @@ const AdminWorkerRow = ({ worker }: AdminWorkerRowProps) => {
         <Button.Link href={`/admin/workers/${worker.id}`}>
           Részletek
         </Button.Link>
+        <Button>Törlés</Button>
       </div>
     </div>
   );

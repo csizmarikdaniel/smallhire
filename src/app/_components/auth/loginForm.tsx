@@ -11,14 +11,19 @@ const LoginForm = () => {
       action={async (formData) => {
         "use server";
         try {
-          const user = await api.auth.user.login({
+          await api.auth.user.login({
             email: formData.get("email")?.toString() ?? "",
             password: formData.get("password")?.toString() ?? "",
           });
         } catch (error) {
           console.error(error);
         }
-        redirect("/", RedirectType.replace);
+        const session = await api.auth.getSession();
+        if (session?.user.role === "ADMIN") {
+          redirect("/admin", RedirectType.replace);
+        } else {
+          redirect("/", RedirectType.replace);
+        }
       }}
       className="flex flex-col gap-5"
     >

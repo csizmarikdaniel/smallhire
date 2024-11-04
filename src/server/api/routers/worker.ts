@@ -17,10 +17,26 @@ import {
   AddTradeSchema,
   DeleteTradeSchema,
   EditTradeSchema,
+  GetUserByIdSchema,
 } from "@/types/worker";
 import { z } from "zod";
+import listPublicWorkerData from "@/server/services/worker/list-public-worker-data";
+import { ListWorkersSchema } from "@/types/worker";
+import getPublicWorkerData from "@/server/services/worker/get-public-worker-data";
+import getTradeNames from "@/server/services/worker/get-trade-names";
 
 const workerRouter = router({
+  list: authProcedure
+    .input(ListWorkersSchema)
+    .query(
+      async ({ ctx, input }) => await listPublicWorkerData(ctx.db, input ?? {}),
+    ),
+  get: authProcedure
+    .input(GetUserByIdSchema)
+    .query(async ({ ctx, input }) => await getPublicWorkerData(ctx.db, input)),
+  tradeNames: authProcedure.query(
+    async ({ ctx }) => await getTradeNames(ctx.db),
+  ),
   trades: router({
     list: authProcedure
       .input(z.object({ id: z.string() }).optional())

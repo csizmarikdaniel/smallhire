@@ -6,11 +6,9 @@ import AddReservationImage from "./add-reservation-image";
 import Image from "next/image";
 import FsLightbox from "fslightbox-react";
 import { useState } from "react";
+import { api } from "@/trpc/react";
 
-const ImagesBlock = ({
-  images,
-  onupload,
-}: {
+type ImagesBlockProps = {
   images:
     | {
         id: string;
@@ -23,8 +21,12 @@ const ImagesBlock = ({
       }[]
     | undefined;
   onupload: (formdata: FormData) => Promise<void>;
-}) => {
+};
+
+const ImagesBlock = ({ images, onupload }: ImagesBlockProps) => {
   const [toggler, setToggler] = useState(false);
+  const session = api.auth.getSession.useQuery().data;
+  console.log(images);
   return (
     <div className="relative mt-5 flex flex-wrap justify-center gap-5">
       {images?.map((image) => (
@@ -36,7 +38,9 @@ const ImagesBlock = ({
             height={200}
             onClick={() => setToggler(!toggler)}
           />
-          <RemoveReservationImage imageId={image.id} />
+          {image.userId == session?.user.id && (
+            <RemoveReservationImage imageId={image.id} />
+          )}
         </div>
       ))}
       <AddReservationImage onupload={onupload} />

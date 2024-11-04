@@ -20,7 +20,7 @@ import {
   AdminListWorkersSchema,
 } from "@/types/admin";
 import addWorker from "@/server/services/admin/worker/add-worker";
-import { GetUserByIdSchema } from "@/types/guest";
+import { GetUserByIdSchema } from "@/types/worker";
 import getWorker from "@/server/services/admin/worker/get-worker";
 import getWorkerTradeIds from "@/server/services/admin/worker/trade/get-worker-trades";
 import getTrade from "@/server/services/admin/worker/trade/get-trade";
@@ -40,6 +40,7 @@ import editReference from "@/server/services/admin/worker/reference/edit-referen
 import addReference from "@/server/services/admin/worker/reference/add-reference";
 import deleteReferenceImage from "@/server/services/admin/worker/reference/delete-reference-image";
 import addReferenceImage from "@/server/services/admin/worker/reference/add-reference-image";
+import deleteWorker from "@/server/services/admin/worker/delete-worker";
 
 const adminRouter = router({
   get: adminProcedure.query(async ({ ctx }) => await getAdmin(ctx.db)),
@@ -61,6 +62,9 @@ const adminRouter = router({
       .mutation(
         async ({ ctx, input }) => await editPersonalData(ctx.db, input),
       ),
+    delete: adminProcedure
+      .input(z.object({ workerId: z.string() }))
+      .mutation(async ({ ctx, input }) => await deleteWorker(ctx.db, input)),
     trade: router({
       list: adminProcedure
         .input(z.object({ workerId: z.string() }))

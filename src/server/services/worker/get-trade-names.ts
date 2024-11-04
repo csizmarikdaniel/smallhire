@@ -1,6 +1,6 @@
 import { type PrismaClient } from "@prisma/client";
 
-const getTrades = async (db: PrismaClient) => {
+const getTradeNames = async (db: PrismaClient) => {
   const trades = await db.trade.findMany({
     distinct: ["name"],
     select: {
@@ -12,4 +12,4 @@ const getTrades = async (db: PrismaClient) => {
   return trades;
 };
 
-export default getTrades;
+export default getTradeNames;

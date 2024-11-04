@@ -1,4 +1,4 @@
-import { type IdInput } from "@/types/guest";
+import { type IdInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
 const getPublicWorkerData = async (db: PrismaClient, input: IdInput) => {
@@ -13,7 +13,11 @@ const getPublicWorkerData = async (db: PrismaClient, input: IdInput) => {
       address: true,
       city: true,
       zipCode: true,
-      image: true,
+      images: {
+        where: {
+          profileImage: true,
+        },
+      },
       worker: {
         select: {
           trades: {
@@ -21,6 +25,7 @@ const getPublicWorkerData = async (db: PrismaClient, input: IdInput) => {
               id: true,
               name: true,
               yearsOfExperience: true,
+              pricePerHour: true,
             },
           },
         },

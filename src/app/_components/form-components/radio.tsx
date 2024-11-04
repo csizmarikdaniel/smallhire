@@ -10,7 +10,12 @@ const Radio = forwardRef(function RadioInput(
 ) {
   return (
     <label className="label justify-start">
-      <input ref={ref} type="radio" className="radio" {...props} />
+      <input
+        ref={ref}
+        type="radio"
+        className="radio checked:bg-sky-500"
+        {...props}
+      />
       <span className="ml-2">{label}</span>
     </label>
   );

@@ -8,10 +8,6 @@ const addReservationImage = async (
 ) => {
   const session = await getSession();
 
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const reservation = await db.reservation.findUnique({
     where: {
       id: input.reservationId,
@@ -23,8 +19,8 @@ const addReservationImage = async (
   }
 
   if (
-    reservation.customerId !== session.user.id &&
-    reservation.workerId !== session.user.id
+    reservation.customerId !== session?.user.id &&
+    reservation.workerId !== session?.user.id
   ) {
     throw new Error("Unauthorized");
   }
@@ -41,17 +37,21 @@ const addReservationImage = async (
           data: {
             url: file.data?.key ?? "",
             reservationId: reservation.id,
+            userId: session.user.id,
           },
         });
       }
     } else {
-      const response = await utapi.uploadFiles(input.images);
-      await db.image.create({
-        data: {
-          url: response.data?.key ?? "",
-          reservationId: reservation.id,
-        },
-      });
+      if (input.images.size !== 0) {
+        const response = await utapi.uploadFiles(input.images);
+        await db.image.create({
+          data: {
+            url: response.data?.key ?? "",
+            reservationId: reservation.id,
+            userId: session.user.id,
+          },
+        });
+      }
     }
   }
 

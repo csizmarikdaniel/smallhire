@@ -3,10 +3,7 @@ import { type PrismaClient } from "@prisma/client";
 
 const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
   const session = await getSession();
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-  if (session.user.role === "WORKER") {
+  if (session?.user.role === "WORKER") {
     const reservation = await db.reservation.findUnique({
       where: {
         id,
@@ -23,6 +20,7 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
             user: true,
           },
         },
+        images: true,
       },
     });
     if (!reservation) {
@@ -40,6 +38,7 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
       city: reservation.customer.user.city,
       zipCode: reservation.customer.user.zipCode,
       phone: reservation.customer.user.phone,
+      images: reservation.images,
     };
   } else {
     const reservation = await db.reservation.findUnique({

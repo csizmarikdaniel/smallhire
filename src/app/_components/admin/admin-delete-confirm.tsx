@@ -19,7 +19,7 @@ const AdminDeleteConfirm = ({
       onSubmit={onDelete}
     >
       <h2 className="text-xl font-bold">
-        Biztosan törölni szeretné a következő felhasználót?
+        Biztosan törölni szeretné a következő bejegyzést?
       </h2>
       <p>{name}</p>
     </Modal>

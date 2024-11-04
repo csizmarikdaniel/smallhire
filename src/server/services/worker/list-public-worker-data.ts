@@ -1,6 +1,6 @@
 import { paginate } from "@/utils/paginate";
 import { type PrismaClient } from "@prisma/client";
-import { type ListWorkersInput } from "@/types/guest";
+import { type ListWorkersInput } from "@/types/worker";
 
 const listPublicWorkerData = async (
   db: PrismaClient,
@@ -24,7 +24,6 @@ const listPublicWorkerData = async (
           trades: {
             select: {
               name: true,
-              yearsOfExperience: true,
               id: true,
             },
           },

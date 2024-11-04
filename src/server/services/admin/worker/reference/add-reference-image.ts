@@ -35,6 +35,7 @@ const addReferenceImage = async (
             image: {
               create: {
                 url: file.data?.key ?? "",
+                userId: reference.workerId,
               },
             },
           },
@@ -56,6 +57,7 @@ const addReferenceImage = async (
           image: {
             create: {
               url: response.data?.key ?? "",
+              userId: reference.workerId,
             },
           },
         },

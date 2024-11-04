@@ -24,10 +24,10 @@ const ProfilePicture = ({
 
   return (
     <div className="mb-10">
-      {image.data?.image ? (
+      {image.data ? (
         <div className="relative mx-auto w-fit">
           <Image
-            src={getImageUrl(image.data.image.url)}
+            src={getImageUrl(image.data.url)}
             alt="Profilkép"
             width={200}
             height={200}

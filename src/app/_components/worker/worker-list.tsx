@@ -17,7 +17,7 @@ const WorkerList = async ({
   page,
   limit,
 }: WorkerListProps) => {
-  const { workers, fullListLength } = await api.guest.worker.list({
+  const { workers, fullListLength } = await api.worker.list({
     search,
     trades,
     sort,

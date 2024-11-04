@@ -4,9 +4,6 @@ import { type PrismaClient } from "@prisma/client";
 
 const editPersonalData = async (db: PrismaClient, input: EditUserInput) => {
   const session = await getSession();
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
   const user = await db.user.findUnique({ where: { id: session?.user.id } });
   if (!user) {
     throw new Error("User not found");

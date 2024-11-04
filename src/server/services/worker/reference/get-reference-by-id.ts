@@ -7,10 +7,6 @@ const getReferenceById = async (
 ) => {
   const session = await getSession();
 
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,
@@ -27,7 +23,7 @@ const getReferenceById = async (
     throw new Error("Reference not found");
   }
 
-  if (reference.workerId !== session.user.id) {
+  if (reference.workerId !== session?.user.id) {
     throw new Error("Unauthorized");
   }
 

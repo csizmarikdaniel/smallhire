@@ -1,3 +1,5 @@
+import { api } from "@/trpc/server";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const AdminNavbar = async () => {
@@ -14,6 +16,17 @@ const AdminNavbar = async () => {
         </li>
         <li>
           <Link href="/admin/customers">Megrendelők</Link>
+        </li>
+        <li>
+          <form
+            action={async () => {
+              "use server";
+              await api.auth.user.logout();
+              redirect("/");
+            }}
+          >
+            <button type="submit">Kijelentkezés</button>
+          </form>
         </li>
       </ul>
     </div>

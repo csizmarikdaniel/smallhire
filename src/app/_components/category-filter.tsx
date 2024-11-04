@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Button from "./button";
 
 const CategoryFilter = () => {
-  const trades = api.guest.trades.useQuery();
+  const trades = api.worker.tradeNames.useQuery();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();

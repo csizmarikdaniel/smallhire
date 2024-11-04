@@ -40,10 +40,12 @@ export const seedWorkers = async (prisma: PrismaClient) => {
                     {
                       name: selectedTrades[0] ?? "Villanyszerelő",
                       yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
+                      pricePerHour: faker.number.int({ min: 1000, max: 5000 }),
                     },
                     {
                       name: selectedTrades[1] ?? "Vízvezeték-szerelő",
                       yearsOfExperience: faker.number.int({ min: 1, max: 20 }),
+                      pricePerHour: faker.number.int({ min: 1000, max: 5000 }),
                     },
                   ],
                 },

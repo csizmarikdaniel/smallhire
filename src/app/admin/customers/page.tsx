@@ -1,5 +1,5 @@
-import AdminAddCustomer from "@/app/_components/admin/admin-add-customer";
-import AdminCustomerRow from "@/app/_components/admin/admin-customer-row";
+import AdminAddCustomer from "@/app/_components/admin/customer/admin-add-customer";
+import AdminCustomerRow from "@/app/_components/admin/customer/admin-customer-row";
 import Pagination from "@/app/_components/pagination";
 import Search from "@/app/_components/search";
 import { api } from "@/trpc/server";
@@ -19,7 +19,7 @@ const AdminCustomersPage = async ({
   try {
     await api.admin.get();
   } catch (error) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   const search = searchParams?.search;

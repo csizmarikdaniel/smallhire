@@ -8,13 +8,9 @@ const addReference = async (
 ) => {
   const session = await getSession();
 
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const user = await db.user.findUnique({
     where: {
-      id: session.user.id,
+      id: session?.user.id,
     },
   });
 
@@ -50,6 +46,7 @@ const addReference = async (
             image: {
               create: {
                 url: file.data?.key ?? "",
+                userId: reference.workerId,
               },
             },
           },
@@ -71,6 +68,7 @@ const addReference = async (
           image: {
             create: {
               url: response.data?.key ?? "",
+              userId: reference.workerId,
             },
           },
         },

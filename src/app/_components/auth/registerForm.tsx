@@ -47,10 +47,12 @@ const RegisterForm = () => {
     }
   }, [registerMutation, router]);
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Radio label="Megrendelő" value="CUSTOMER" {...register("role")} />
-      <Radio label="Szakember" value="WORKER" {...register("role")} />
-      <div className="grid grid-cols-2 gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+      <div className="flex justify-center">
+        <Radio label="Megrendelő" value="CUSTOMER" {...register("role")} />
+        <Radio label="Szakember" value="WORKER" {...register("role")} />
+      </div>
+      <div className="grid grid-cols-2 items-center gap-5">
         <div className="flex flex-col">
           <Input
             label="Email"

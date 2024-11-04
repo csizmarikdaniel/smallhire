@@ -19,7 +19,7 @@ const AdminWorkersPage = async ({ searchParams }: AdminWorkersPageProps) => {
   try {
     await api.admin.get();
   } catch (error) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   const search = searchParams?.search;
