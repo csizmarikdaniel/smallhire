@@ -1,70 +1,102 @@
 import getReservation from "@/server/services/reservation/get-reservation";
 import { authProcedure, router } from "../trpc";
-import { z } from "zod";
 import getReservations from "@/server/services/reservation/get-reservations";
 import editDescription from "@/server/services/reservation/edit-description";
-import createReservation from "@/server/services/reservation/create-reservation";
-import cancelReservation from "@/server/services/reservation/cancel-reservation";
-import acceptOffer from "@/server/services/reservation/accept-offer";
-import rejectOffer from "@/server/services/reservation/reject-offer";
-import createOffer from "@/server/services/reservation/create-offer";
-import completeReservation from "@/server/services/reservation/complete-reservation";
-import rejectReservation from "@/server/services/reservation/reject-reservation";
+import createReservation from "@/server/services/reservation/customer/create-reservation";
+import cancelReservation from "@/server/services/reservation/customer/cancel-reservation";
+import acceptOffer from "@/server/services/reservation/customer/accept-offer";
+import rejectOffer from "@/server/services/reservation/customer/reject-offer";
+import createOffer from "@/server/services/reservation/worker/create-offer";
+import completeReservation from "@/server/services/reservation/worker/complete-reservation";
+import rejectReservation from "@/server/services/reservation/worker/reject-reservation";
 import {
+  AddReservationImageInput,
+  AddReservationImageSchema,
+  CreateOfferSchema,
   type CreateReservationInput,
   CreateReservationSchema,
+  EditDescriptionSchema,
+  RemoveReservationImageSchema,
 } from "@/types/reservation";
 import removeImage from "@/server/services/reservation/image/remove-image";
-import { zfd } from "zod-form-data";
 import addReservationImage from "@/server/services/reservation/image/add-reservation-image";
+import { ReservationIdSchema } from "@/types";
 
 const reservationRouter = router({
   get: authProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => await getReservation(ctx.db, input)),
-  list: authProcedure.query(async ({ ctx }) => await getReservations(ctx.db)),
+    .input(ReservationIdSchema)
+    .query(
+      async ({ ctx, input }) =>
+        await getReservation(ctx.db, ctx.session, input),
+    ),
+  list: authProcedure.query(
+    async ({ ctx }) => await getReservations(ctx.db, ctx.session),
+  ),
   create: authProcedure
     .input(CreateReservationSchema)
     .mutation(
       async ({ ctx, input }) =>
-        await createReservation(ctx.db, input as CreateReservationInput),
+        await createReservation(
+          ctx.db,
+          ctx.session,
+          input as CreateReservationInput,
+        ),
     ),
   description: router({
     edit: authProcedure
-      .input(z.object({ id: z.string(), description: z.string() }))
-      .mutation(async ({ ctx, input }) => await editDescription(ctx.db, input)),
+      .input(EditDescriptionSchema)
+      .mutation(
+        async ({ ctx, input }) =>
+          await editDescription(ctx.db, ctx.session, input),
+      ),
   }),
   cancel: authProcedure
-    .input(z.object({ reservationId: z.string() }))
-    .mutation(async ({ ctx, input }) => await cancelReservation(ctx.db, input)),
-  reject: authProcedure
-    .input(z.object({ reservationId: z.string() }))
-    .mutation(async ({ ctx, input }) => await rejectReservation(ctx.db, input)),
-  acceptOffer: authProcedure
-    .input(z.object({ reservationId: z.string() }))
-    .mutation(async ({ ctx, input }) => await acceptOffer(ctx.db, input)),
-  rejectOffer: authProcedure
-    .input(z.object({ reservationId: z.string() }))
-    .mutation(async ({ ctx, input }) => await rejectOffer(ctx.db, input)),
-  createOffer: authProcedure
-    .input(z.object({ reservationId: z.string(), price: z.number() }))
-    .mutation(async ({ ctx, input }) => await createOffer(ctx.db, input)),
-  complete: authProcedure
-    .input(z.object({ reservationId: z.string() }))
+    .input(ReservationIdSchema)
     .mutation(
-      async ({ ctx, input }) => await completeReservation(ctx.db, input),
+      async ({ ctx, input }) =>
+        await cancelReservation(ctx.db, ctx.session, input),
+    ),
+  reject: authProcedure
+    .input(ReservationIdSchema)
+    .mutation(
+      async ({ ctx, input }) =>
+        await rejectReservation(ctx.db, ctx.session, input),
+    ),
+  acceptOffer: authProcedure
+    .input(ReservationIdSchema)
+    .mutation(
+      async ({ ctx, input }) => await acceptOffer(ctx.db, ctx.session, input),
+    ),
+  rejectOffer: authProcedure
+    .input(ReservationIdSchema)
+    .mutation(
+      async ({ ctx, input }) => await rejectOffer(ctx.db, ctx.session, input),
+    ),
+  createOffer: authProcedure
+    .input(CreateOfferSchema)
+    .mutation(
+      async ({ ctx, input }) => await createOffer(ctx.db, ctx.session, input),
+    ),
+  complete: authProcedure
+    .input(ReservationIdSchema)
+    .mutation(
+      async ({ ctx, input }) =>
+        await completeReservation(ctx.db, ctx.session, input),
     ),
   image: router({
     remove: authProcedure
-      .input(z.object({ reservationId: z.string(), imageId: z.string() }))
-      .mutation(async ({ ctx, input }) => await removeImage(ctx.db, input)),
+      .input(RemoveReservationImageSchema)
+      .mutation(
+        async ({ ctx, input }) => await removeImage(ctx.db, ctx.session, input),
+      ),
     add: authProcedure
-      .input(zfd.formData({ images: z.any(), reservationId: z.string() }))
+      .input(AddReservationImageSchema)
       .mutation(
         async ({ ctx, input }) =>
           await addReservationImage(
             ctx.db,
-            input as { images: File[] | File | null; reservationId: string },
+            ctx.session,
+            input as AddReservationImageInput,
           ),
       ),
   }),

@@ -1,13 +1,13 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type RemoveReservationImageInput } from "@/types/reservation";
 import { type PrismaClient } from "@prisma/client";
 
 const removeImage = async (
   db: PrismaClient,
-  input: { reservationId: string; imageId: string },
+  session: SessionType,
+  input: RemoveReservationImageInput,
 ) => {
-  const session = await getSession();
-
   const reservation = await db.reservation.findUnique({
     where: {
       id: input.reservationId,

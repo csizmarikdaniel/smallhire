@@ -1,17 +1,15 @@
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type EditDescriptionInput } from "@/types/reservation";
 import { type PrismaClient } from "@prisma/client";
 
 const editDescription = async (
   db: PrismaClient,
-  input: { id: string; description: string },
+  session: SessionType,
+  input: EditDescriptionInput,
 ) => {
-  const session = await getSession();
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
   const reservation = await db.reservation.update({
     where: {
-      id: input.id,
+      id: input.reservationId,
     },
     data: {
       description: input.description,
@@ -22,9 +20,9 @@ const editDescription = async (
     data: {
       title: "Leírás módosítás",
       description: `A leírás módosítva lett a foglaláshoz`,
-      reservationId: input.id,
+      reservationId: input.reservationId,
       userId:
-        session.user.role === "CUSTOMER"
+        session?.user.role === "CUSTOMER"
           ? reservation.workerId
           : reservation.customerId,
     },

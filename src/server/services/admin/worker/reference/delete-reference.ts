@@ -1,10 +1,8 @@
 import { utapi } from "@/server/api/uploadthing";
+import { type ReferenceIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const deleteReference = async (
-  db: PrismaClient,
-  input: { referenceId: string },
-) => {
+const deleteReference = async (db: PrismaClient, input: ReferenceIdInput) => {
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,

@@ -1,13 +1,13 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type DeleteReferenceImageInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
 const removeReferenceImage = async (
   db: PrismaClient,
-  input: { referenceId: string; imageId: string },
+  session: SessionType,
+  input: DeleteReferenceImageInput,
 ) => {
-  const session = await getSession();
-
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,

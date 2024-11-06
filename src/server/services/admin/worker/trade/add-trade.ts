@@ -7,6 +7,7 @@ const addTrade = async (db: PrismaClient, input: AdminAddTradeInput) => {
       name: input.name,
       yearsOfExperience: input.yearsOfExperience,
       workerId: input.workerId,
+      pricePerHour: input.pricePerHour,
     },
   });
 };

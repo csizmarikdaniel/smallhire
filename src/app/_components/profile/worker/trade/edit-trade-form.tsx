@@ -5,13 +5,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { EditTradeSchema, type EditTradeInput } from "@/types/worker";
+import { setNumberValueAs } from "@/utils/form-value-conversion";
 
 const EditTradeForm = ({
   defaultValues,
   open,
   setOpen,
 }: {
-  defaultValues: { id: string; name: string; yearsOfExperience: number };
+  defaultValues: {
+    id: string;
+    name: string;
+    yearsOfExperience: number;
+    pricePerHour: number;
+  };
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
@@ -26,12 +32,13 @@ const EditTradeForm = ({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
+  } = useForm<EditTradeInput>({
     resolver: zodResolver(EditTradeSchema),
     defaultValues: {
       id: defaultValues.id,
       name: defaultValues.name,
       yearsOfExperience: defaultValues.yearsOfExperience,
+      pricePerHour: defaultValues.pricePerHour,
     },
   });
 
@@ -50,10 +57,16 @@ const EditTradeForm = ({
             error={errors.name?.message}
           />
           <Input
-            {...register("yearsOfExperience")}
+            {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}
             label="Évek száma"
             type="number"
             error={errors.yearsOfExperience?.message}
+          />
+          <Input
+            {...register("pricePerHour", { setValueAs: setNumberValueAs })}
+            label="Óradíj (Ft/óra)"
+            type="number"
+            error={errors.pricePerHour?.message}
           />
           <Input type="hidden" {...register("id")} />
 

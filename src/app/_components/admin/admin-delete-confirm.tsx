@@ -21,7 +21,7 @@ const AdminDeleteConfirm = ({
       <h2 className="text-xl font-bold">
         Biztosan törölni szeretné a következő bejegyzést?
       </h2>
-      <p>{name}</p>
+      <p className="mt-5 text-center">{name}</p>
     </Modal>
   );
 };

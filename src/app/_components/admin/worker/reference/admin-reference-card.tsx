@@ -35,7 +35,7 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
       return;
     }
     mutate({
-      id: id,
+      referenceId: id,
       description: description,
     });
     setIsEditing(false);

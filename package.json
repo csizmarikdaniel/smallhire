@@ -14,10 +14,12 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@next/env": "^15.0.2",
     "@prisma/client": "^5.14.0",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tanstack/react-query": "^5.50.0",
@@ -44,6 +46,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
     "@types/eslint": "^8.56.10",
     "@types/fslightbox-react": "^1.7.7",
     "@types/node": "^20.14.10",
@@ -51,8 +55,10 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
+    "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.4",
+    "jsdom": "^25.0.1",
     "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
@@ -60,7 +66,9 @@
     "tailwindcss": "^3.4.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.1.4"
   },
   "ct3aMetadata": {
     "initVersion": "7.36.2"

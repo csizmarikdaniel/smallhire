@@ -4,7 +4,7 @@ import { type PrismaClient } from "@prisma/client";
 const editReference = async (db: PrismaClient, input: EditReferenceInput) => {
   const reference = await db.reference.findUnique({
     where: {
-      id: input.id,
+      id: input.referenceId,
     },
   });
 
@@ -14,7 +14,7 @@ const editReference = async (db: PrismaClient, input: EditReferenceInput) => {
 
   return db.reference.update({
     where: {
-      id: input.id,
+      id: input.referenceId,
     },
     data: {
       description: input.description,

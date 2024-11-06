@@ -1,13 +1,7 @@
-import { getSession } from "@/utils/auth";
+import { type CustomerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getCustomer = async (db: PrismaClient, input: { customerId: string }) => {
-  const session = await getSession();
-
-  if (!session || session.user.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
+const getCustomer = async (db: PrismaClient, input: CustomerIdInput) => {
   const customer = await db.user.findUnique({
     where: {
       id: input.customerId,

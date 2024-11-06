@@ -1,14 +1,7 @@
 import { type EditUserInput } from "@/types/profile";
-import { getSession } from "@/utils/auth";
 import { type PrismaClient } from "@prisma/client";
 
 const editPersonalData = async (db: PrismaClient, input: EditUserInput) => {
-  const session = await getSession();
-
-  if (!session || session.user.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
   const user = await db.user.update({
     where: {
       id: input.id,

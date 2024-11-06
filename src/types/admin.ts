@@ -103,16 +103,16 @@ export type AdminAddTradeInput = {
   name: string;
   yearsOfExperience: number;
   workerId: string;
+  pricePerHour: number;
 };
 
 export const AdminAddTradeSchema = z.object({
   name: z
     .string({ message: "A név csak szöveg lehet!" })
     .min(3, { message: "A névnek legalább 3 karakternek kell lennie!" }),
-  yearsOfExperience: z.coerce
-    .number({ message: "Az évek száma csak szám lehet!" })
-    .min(1, { message: "Az évek számának legalább 1-nek kell lennie!" }),
+  yearsOfExperience: z.coerce.number(),
   workerId: z.string({ message: "A munkás ID megadása kötelező!" }),
+  pricePerHour: z.coerce.number(),
 });
 
 export type AdminAddReferenceInput = {

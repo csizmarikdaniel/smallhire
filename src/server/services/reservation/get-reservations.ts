@@ -1,9 +1,7 @@
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getReservations = async (db: PrismaClient) => {
-  const session = await getSession();
-
+const getReservations = async (db: PrismaClient, session: SessionType) => {
   if (session?.user.role === "WORKER") {
     // Get reservations for worker
     const reservations = await db.reservation.findMany({

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 
 const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
-  const worker = await api.worker.get({ id });
+  const worker = await api.worker.get({ workerId: id });
   const session = await api.auth.getSession();
   if (!session) {
     redirect("/login");

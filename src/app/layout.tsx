@@ -4,6 +4,8 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "SmallHire",
@@ -20,7 +22,9 @@ export default function RootLayout({
       data-theme="light"
     >
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </TRPCReactProvider>
       </body>
     </html>
   );

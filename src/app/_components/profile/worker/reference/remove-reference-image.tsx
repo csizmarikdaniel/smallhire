@@ -3,13 +3,15 @@
 import RemoveIcon from "../../../icons/remove";
 import { api } from "@/trpc/react";
 
+type RemoveReferenceImageProps = {
+  referenceId: string;
+  imageId: string;
+};
+
 const RemoveReferenceImage = ({
   referenceId,
   imageId,
-}: {
-  referenceId: string;
-  imageId: string;
-}) => {
+}: RemoveReferenceImageProps) => {
   const deleteImage = api.worker.reference.image.delete.useMutation();
 
   return (

@@ -1,14 +1,13 @@
 import getWorkerReservedDays from "@/server/services/customer/get-worker-reserved-days";
 import { authProcedure, router } from "../trpc";
-import { z } from "zod";
+import { WorkerIdSchema } from "@/types";
 
 const customerRouter = router({
   worker: router({
-    reserved: authProcedure
-      .input(z.object({ workerId: z.string() }))
+    reservedDays: authProcedure
+      .input(WorkerIdSchema)
       .query(
-        async ({ ctx, input }) =>
-          await getWorkerReservedDays(ctx.db, input.workerId),
+        async ({ ctx, input }) => await getWorkerReservedDays(ctx.db, input),
       ),
   }),
 });

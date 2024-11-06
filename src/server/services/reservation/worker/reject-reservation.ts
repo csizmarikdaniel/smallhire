@@ -1,17 +1,12 @@
-import { getSession } from "@/utils/auth";
+import { type ReservationIdInput, type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const createOffer = async (
+const rejectReservation = async (
   db: PrismaClient,
-  input: { reservationId: string; price: number },
+  session: SessionType,
+  input: ReservationIdInput,
 ) => {
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
-  if (session.user.role !== "WORKER") {
+  if (session?.user.role !== "WORKER") {
     throw new Error("Unauthorized");
   }
 
@@ -34,15 +29,14 @@ const createOffer = async (
       id: input.reservationId,
     },
     data: {
-      status: "CREATEDOFFER",
-      price: input.price,
+      status: "REJECTED",
     },
   });
 
   await db.notification.create({
     data: {
-      title: "Árajánlat",
-      description: `Az árajánlat elkészült a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra`,
+      title: "Foglalás elutasítva",
+      description: `A foglalás el lett utasítva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a munkavállaló által`,
       reservationId: reservation.id,
       userId: reservation.customerId,
     },
@@ -51,4 +45,4 @@ const createOffer = async (
   return;
 };
 
-export default createOffer;
+export default rejectReservation;

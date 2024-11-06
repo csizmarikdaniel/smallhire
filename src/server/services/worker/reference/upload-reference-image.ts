@@ -1,20 +1,16 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type AddReferenceImageInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
 const uploadReferenceImage = async (
   db: PrismaClient,
-  input: { referenceId: string; images: File[] | File | null },
+  session: SessionType,
+  input: AddReferenceImageInput,
 ) => {
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error("User not authenticated");
-  }
-
   const user = await db.user.findUnique({
     where: {
-      id: session.user.id,
+      id: session?.user.id,
     },
   });
   if (!user) {

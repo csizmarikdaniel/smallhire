@@ -1,10 +1,13 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type EditProfilePictureInput } from "@/types/profile";
 import { type PrismaClient } from "@prisma/client";
 
-const editProfilePicture = async (db: PrismaClient, input: File) => {
-  const session = await getSession();
-
+const editProfilePicture = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: EditProfilePictureInput,
+) => {
   const user = await db.user.findUnique({
     where: {
       id: session?.user.id,
@@ -45,11 +48,11 @@ const editProfilePicture = async (db: PrismaClient, input: File) => {
     });
   }
 
-  if (input.type !== "image/png" && input.type !== "image/jpeg") {
+  if (input.image.type !== "image/png" && input.image.type !== "image/jpeg") {
     throw new Error("Invalid file type");
   }
 
-  const response = await utapi.uploadFiles(input);
+  const response = await utapi.uploadFiles(input.image);
   await db.user.update({
     where: {
       id: session?.user.id,

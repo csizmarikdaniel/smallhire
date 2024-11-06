@@ -1,9 +1,7 @@
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const listAllNotifications = async (db: PrismaClient) => {
-  const session = await getSession();
-
+const listAllNotifications = async (db: PrismaClient, session: SessionType) => {
   const notifications = await db.notification.findMany({
     where: {
       userId: session?.user.id,

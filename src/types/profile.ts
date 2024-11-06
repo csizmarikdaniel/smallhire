@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export type EditUserInput = {
   id: string;
@@ -31,3 +32,9 @@ export const EditUserSchema = z.object({
     .string({ message: "Telefonszám megadása kötelező!" })
     .min(1, { message: "Telefonszám megadása kötelező!" }),
 });
+
+export type EditProfilePictureInput = {
+  image: File;
+};
+
+export const EditProfilePictureSchema = zfd.formData({ image: z.any() });

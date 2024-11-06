@@ -1,9 +1,7 @@
+import { type NotificationIdInput } from "@/types/notification";
 import { type PrismaClient } from "@prisma/client";
 
-const setToSeen = async (
-  db: PrismaClient,
-  input: { notificationId: string },
-) => {
+const setToSeen = async (db: PrismaClient, input: NotificationIdInput) => {
   const notification = await db.notification.findUnique({
     where: {
       id: input.notificationId,

@@ -28,6 +28,7 @@ import { getSession } from "@/utils/auth";
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     db,
+    session: await getSession(),
     ...opts,
   };
 };

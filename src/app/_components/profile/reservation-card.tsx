@@ -14,7 +14,7 @@ const ReservationCard = ({
   };
 }) => {
   return (
-    <div className="m-5 flex items-center justify-between rounded-lg p-3 shadow-lg">
+    <div className="my-5 flex items-center justify-between rounded-lg p-3 shadow-lg">
       <div className="flex flex-col">
         <h3>{reservation.name}</h3>
         <p>

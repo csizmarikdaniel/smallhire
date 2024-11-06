@@ -35,7 +35,9 @@ const ProfileCard = async () => {
             <p>{user?.zipCode}</p>
           </div>
         </div>
-        {user && <EditPersonalData data={user} />}
+        <div className="text-center">
+          {user && <EditPersonalData data={user} />}
+        </div>
       </div>
     </div>
   );

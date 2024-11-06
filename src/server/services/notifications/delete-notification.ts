@@ -1,8 +1,9 @@
+import { type NotificationIdInput } from "@/types/notification";
 import { type PrismaClient } from "@prisma/client";
 
 const deleteNotification = async (
   db: PrismaClient,
-  input: { notificationId: string },
+  input: NotificationIdInput,
 ) => {
   const notification = await db.notification.findUnique({
     where: {

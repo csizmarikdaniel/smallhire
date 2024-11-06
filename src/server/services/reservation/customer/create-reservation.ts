@@ -1,26 +1,14 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type CreateReservationInput } from "@/types/reservation";
 import { type PrismaClient } from "@prisma/client";
 
 const createReservation = async (
   db: PrismaClient,
-  input: {
-    startDate: Date;
-    endDate?: Date;
-    formData: {
-      workerId: string;
-      description: string;
-      images: File[] | File | null;
-    };
-  },
+  session: SessionType,
+  input: CreateReservationInput,
 ) => {
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
-  if (session.user.role !== "CUSTOMER") {
+  if (session?.user.role !== "CUSTOMER") {
     throw new Error("Unauthorized");
   }
 

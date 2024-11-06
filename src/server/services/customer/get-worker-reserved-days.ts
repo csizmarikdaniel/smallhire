@@ -1,11 +1,15 @@
+import { type WorkerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getWorkerReservedDays = async (db: PrismaClient, workerId: string) => {
+const getWorkerReservedDays = async (
+  db: PrismaClient,
+  input: WorkerIdInput,
+) => {
   const reservations = await db.reservation.findMany({
     where: {
       AND: [
         {
-          workerId,
+          workerId: input.workerId,
         },
         {
           OR: [

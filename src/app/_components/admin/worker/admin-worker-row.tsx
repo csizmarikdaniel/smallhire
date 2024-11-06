@@ -1,4 +1,5 @@
 import Button from "../../button";
+import AdminDeleteWorker from "./admin-delete-worker";
 
 type AdminWorkerRowProps = {
   worker: {
@@ -21,30 +22,25 @@ const AdminWorkerRow = ({ worker }: AdminWorkerRowProps) => {
         <p>{worker.email}</p>
         <p>{worker.phone}</p>
       </div>
-      <div>
-        <p>{worker.address}</p>
-        <p>{worker.city}</p>
-        <p>{worker.zipCode}</p>
-      </div>
-      <div className="flex flex-col">
+      <div className="flex flex-wrap items-center justify-start gap-2">
         {worker.worker?.trades && worker.worker?.trades.length > 0 ? (
-          <div className="flex flex-wrap items-start gap-2">
-            {worker.worker?.trades.map((trade) => (
-              <div
-                key={trade.name}
-                className="rounded-full bg-sky-500 px-3 text-white"
-              >
-                {trade.name}
-              </div>
-            ))}
-          </div>
+          worker.worker?.trades.map((trade) => (
+            <div
+              key={trade.name}
+              className="rounded-full bg-sky-500 px-3 text-white"
+            >
+              {trade.name}
+            </div>
+          ))
         ) : (
           <p>Nincs megadva mesterség</p>
         )}
+      </div>
+      <div className="flex items-center justify-center">
         <Button.Link href={`/admin/workers/${worker.id}`}>
           Részletek
         </Button.Link>
-        <Button>Törlés</Button>
+        <AdminDeleteWorker name={worker.name} workerId={worker.id} />
       </div>
     </div>
   );

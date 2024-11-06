@@ -1,13 +1,13 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type AddReferenceInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
 const addReference = async (
   db: PrismaClient,
-  input: { description: string; images: File[] | File | null },
+  session: SessionType,
+  input: AddReferenceInput,
 ) => {
-  const session = await getSession();
-
   const user = await db.user.findUnique({
     where: {
       id: session?.user.id,

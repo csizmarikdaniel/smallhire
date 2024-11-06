@@ -1,10 +1,9 @@
-"use server";
 import type { LoginInput } from "@/types/auth";
 import { encrypt } from "@/utils/auth";
 import type { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";
 
-export const login = async (db: PrismaClient, input: LoginInput) => {
+const login = async (db: PrismaClient, input: LoginInput) => {
   // Verify credentials && get the user
   const dbUser = await db.user.findUnique({
     where: {
@@ -28,3 +27,5 @@ export const login = async (db: PrismaClient, input: LoginInput) => {
 
   return { user: user };
 };
+
+export default login;

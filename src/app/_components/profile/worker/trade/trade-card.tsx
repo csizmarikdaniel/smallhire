@@ -8,7 +8,12 @@ import EditTradeForm from "./edit-trade-form";
 const TradeCard = ({
   trade,
 }: {
-  trade: { id: string; name: string; yearsOfExperience: number };
+  trade: {
+    id: string;
+    name: string;
+    yearsOfExperience: number;
+    pricePerHour: number;
+  };
 }) => {
   const deleteTrade = api.worker.trades.delete.useMutation({
     onSuccess: () => {
@@ -24,16 +29,10 @@ const TradeCard = ({
         <div>{trade.yearsOfExperience}</div>
       </div>
       <div className="flex items-center">
+        <Button onClick={() => setOpen(true)}>Módosítás</Button>
         <Button
-          className="rounded-lg bg-blue-500 px-4 py-2 text-white"
-          onClick={() => setOpen(true)}
-        >
-          Módosítás
-        </Button>
-        <Button
-          className="rounded-lg bg-red-500 px-4 py-2 text-white"
           onClick={() => {
-            deleteTrade.mutate({ id: trade.id });
+            deleteTrade.mutate({ tradeId: trade.id });
           }}
         >
           Törlés

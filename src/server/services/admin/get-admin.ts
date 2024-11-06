@@ -1,16 +1,10 @@
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getAdmin = async (db: PrismaClient) => {
-  const session = await getSession();
-
-  if (!session || session.user.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
+const getAdmin = async (db: PrismaClient, session: SessionType) => {
   const admin = await db.user.findUnique({
     where: {
-      id: session.user.id,
+      id: session?.user.id,
     },
   });
 

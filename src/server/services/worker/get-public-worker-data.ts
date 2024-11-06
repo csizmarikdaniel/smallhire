@@ -1,10 +1,10 @@
-import { type IdInput } from "@/types/worker";
+import { type WorkerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getPublicWorkerData = async (db: PrismaClient, input: IdInput) => {
+const getPublicWorkerData = async (db: PrismaClient, input: WorkerIdInput) => {
   const worker = await db.user.findFirst({
     where: {
-      id: input.id,
+      id: input.workerId,
       role: "WORKER",
     },
     select: {
@@ -33,7 +33,7 @@ const getPublicWorkerData = async (db: PrismaClient, input: IdInput) => {
     },
   });
   if (!worker) {
-    throw new Error(`Worker with id ${input.id} not found`);
+    throw new Error(`Worker with id ${input.workerId} not found`);
   }
   return worker;
 };

@@ -8,6 +8,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "../form-components/input";
+import {
+  EditDescriptionInput,
+  EditDescriptionSchema,
+} from "@/types/reservation";
 
 type DescriptionBlockProps = {
   description: string;
@@ -24,17 +28,15 @@ const DescriptionBlock = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<EditDescriptionInput>({
     defaultValues: {
       description,
-      id: reservationId,
+      reservationId,
     },
-    resolver: zodResolver(
-      z.object({ id: z.string(), description: z.string().min(1) }),
-    ),
+    resolver: zodResolver(EditDescriptionSchema),
   });
 
-  const onSubmit = async (values: { id: string; description: string }) => {
+  const onSubmit = async (values: EditDescriptionInput) => {
     editDescription.mutate(values);
     setIsEditing(false);
   };
@@ -47,7 +49,7 @@ const DescriptionBlock = ({
             {...register("description")}
             error={errors.description?.message}
           />
-          <Input type="hidden" {...register("id")} />
+          <Input type="hidden" {...register("reservationId")} />
           <div className="mt-2 flex gap-2">
             <Button type="submit">Mentés</Button>
             <Button onClick={() => setIsEditing(false)}>Mégse</Button>

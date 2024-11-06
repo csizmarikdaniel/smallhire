@@ -9,7 +9,9 @@ import EditWorkerForm from "./edit-worker-form";
 const UserDataBlock = ({ id }: { id: string }) => {
   const [editing, setEditing] = useState(false);
 
-  const { data, refetch } = api.admin.worker.getPersonalData.useQuery({ id });
+  const { data, refetch } = api.admin.worker.getPersonalData.useQuery({
+    workerId: id,
+  });
   const { mutate } = api.admin.worker.edit.useMutation({
     onSuccess: async () => {
       setEditing(false);

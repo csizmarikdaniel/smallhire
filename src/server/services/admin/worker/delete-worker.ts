@@ -1,7 +1,8 @@
 import { utapi } from "@/server/api/uploadthing";
+import { type WorkerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const deleteWorker = async (db: PrismaClient, input: { workerId: string }) => {
+const deleteWorker = async (db: PrismaClient, input: WorkerIdInput) => {
   const reservations = await db.reservation.findMany({
     where: {
       workerId: input.workerId,
@@ -35,6 +36,18 @@ const deleteWorker = async (db: PrismaClient, input: { workerId: string }) => {
   await db.reference.deleteMany({
     where: {
       workerId: input.workerId,
+    },
+  });
+
+  await db.notification.deleteMany({
+    where: {
+      userId: input.workerId,
+    },
+  });
+
+  await db.worker.delete({
+    where: {
+      userId: input.workerId,
     },
   });
 

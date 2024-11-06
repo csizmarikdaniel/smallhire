@@ -5,6 +5,7 @@ import Input from "@/app/_components/form-components/input";
 import Modal from "@/app/_components/modal";
 import { api } from "@/trpc/react";
 import { type AddTradeInput, AddTradeSchema } from "@/types/worker";
+import { setNumberValueAs } from "@/utils/form-value-conversion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -47,8 +48,13 @@ const AdminAddTrade = ({ id }: { id: string }) => {
         />
         <Input
           label="Tapasztalat (év)"
-          {...register("yearsOfExperience")}
+          {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}
           error={errors.yearsOfExperience?.message}
+        />
+        <Input
+          label="Óradíj (Ft/óra)"
+          {...register("pricePerHour", { setValueAs: setNumberValueAs })}
+          error={errors.pricePerHour?.message}
         />
       </Modal>
     </>

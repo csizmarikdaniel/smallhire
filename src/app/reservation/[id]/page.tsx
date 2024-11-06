@@ -14,7 +14,7 @@ const ReservationPage = async ({
   if (!session) {
     redirect("/login");
   }
-  const reservation = await api.reservation.get({ id });
+  const reservation = await api.reservation.get({ reservationId: id });
   const onupload = async (formData: FormData) => {
     "use server";
     await api.reservation.image.add(formData);

@@ -1,11 +1,20 @@
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
+import { type ListTradesInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
-const getTrades = async (db: PrismaClient, input?: { id: string }) => {
-  const session = await getSession();
+const getTrades = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: ListTradesInput,
+) => {
   const trades = await db.trade.findMany({
     where: { workerId: input ? input.id : session?.user.id },
-    select: { name: true, yearsOfExperience: true, id: true },
+    select: {
+      name: true,
+      yearsOfExperience: true,
+      id: true,
+      pricePerHour: true,
+    },
   });
   return trades;
 };

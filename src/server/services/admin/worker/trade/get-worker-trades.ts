@@ -1,9 +1,7 @@
+import { type WorkerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getWorkerTradeIds = async (
-  db: PrismaClient,
-  input: { workerId: string },
-) => {
+const getWorkerTradeIds = async (db: PrismaClient, input: WorkerIdInput) => {
   const worker = await db.user.findUnique({
     where: {
       id: input.workerId,

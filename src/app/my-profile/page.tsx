@@ -9,8 +9,8 @@ const MyProfilePage = async () => {
   const session = await api.auth.getSession();
   if (!session) redirect("/login");
   return (
-    <div className="flex h-full w-full flex-col gap-5">
-      <h1>Profilom</h1>
+    <div className="my-5 flex h-full w-full flex-col gap-5">
+      <h1 className="text-center text-3xl">Profilom</h1>
       <ProfileCard />
       {session.user.role === "WORKER" && (
         <>

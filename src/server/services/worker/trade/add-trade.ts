@@ -1,16 +1,15 @@
+import { type SessionType } from "@/types";
 import { type AddTradeInput } from "@/types/worker";
-import { getSession } from "@/utils/auth";
 import { type PrismaClient } from "@prisma/client";
 
-const addTrade = async (db: PrismaClient, input: AddTradeInput) => {
-  const session = await getSession();
-  if (!session || session.user.role !== "WORKER") {
-    throw new Error("Unauthorized");
-  }
-
+const addTrade = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: AddTradeInput,
+) => {
   const trades = await db.trade.findMany({
     where: {
-      workerId: session.user.id,
+      workerId: session?.user.id,
     },
   });
 
@@ -22,8 +21,10 @@ const addTrade = async (db: PrismaClient, input: AddTradeInput) => {
 
   return db.trade.create({
     data: {
-      ...input,
-      workerId: session.user.id,
+      name: input.name,
+      yearsOfExperience: input.yearsOfExperience,
+      pricePerHour: input.pricePerHour,
+      workerId: session?.user.id as string,
     },
   });
 };

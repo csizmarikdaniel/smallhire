@@ -1,9 +1,9 @@
-import { type DeleteTradeInput } from "@/types/worker";
+import { type TradeIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const deleteTrade = async (db: PrismaClient, input: DeleteTradeInput) => {
+const deleteTrade = async (db: PrismaClient, input: TradeIdInput) => {
   const trade = await db.trade.delete({
-    where: { id: input.id },
+    where: { id: input.tradeId },
   });
   return trade;
 };

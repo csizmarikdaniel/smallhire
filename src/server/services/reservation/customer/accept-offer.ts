@@ -1,17 +1,11 @@
-import { getSession } from "@/utils/auth";
+import { type ReservationIdInput, type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
-
-const rejectOffer = async (
+const acceptOffer = async (
   db: PrismaClient,
-  input: { reservationId: string },
+  session: SessionType,
+  input: ReservationIdInput,
 ) => {
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
-  if (session.user.role !== "CUSTOMER") {
+  if (session?.user.role !== "CUSTOMER") {
     throw new Error("Unauthorized");
   }
 
@@ -23,24 +17,22 @@ const rejectOffer = async (
   if (!reservation) {
     throw new Error("Reservation not found");
   }
-
   if (reservation.status !== "CREATEDOFFER") {
     throw new Error("Reservation is not in the correct status");
   }
-
   await db.reservation.update({
     where: {
       id: input.reservationId,
     },
     data: {
-      status: "REJECTEDOFFER",
+      status: "ACCEPTEDOFFER",
     },
   });
 
   await db.notification.create({
     data: {
-      title: "Árajánlat elutasítva",
-      description: `Az árajánlat el lett utasítva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a megrendelő által`,
+      title: "Árajánlat elfogadva",
+      description: `Az árajánlat elfogadva a(z) ${reservation.startDate.toLocaleDateString("hu-HU")} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra`,
       reservationId: reservation.id,
       userId: reservation.workerId,
     },
@@ -48,4 +40,4 @@ const rejectOffer = async (
   return;
 };
 
-export default rejectOffer;
+export default acceptOffer;

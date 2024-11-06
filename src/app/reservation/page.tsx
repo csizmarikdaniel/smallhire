@@ -1,11 +1,7 @@
 import ReservationList from "../_components/profile/reservation-list";
 
 const ReservationsPage = () => {
-  return (
-    <div>
-      <ReservationList />
-    </div>
-  );
+  return <ReservationList />;
 };
 
 export default ReservationsPage;

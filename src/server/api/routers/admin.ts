@@ -1,11 +1,8 @@
 import getAdmin from "@/server/services/admin/get-admin";
-import { adminProcedure, publicProcedure, router } from "../trpc";
-import adminLogin from "@/server/services/admin/admin-login";
-import { LoginSchema } from "@/types/auth";
+import { adminProcedure, router } from "../trpc";
 import getWorkers from "@/server/services/admin/worker/get-workers";
 import getCustomers from "@/server/services/admin/customer/get-customers";
 import getCustomer from "@/server/services/admin/customer/get-customer";
-import { z } from "zod";
 import { EditUserSchema } from "@/types/profile";
 import editPersonalData from "@/server/services/admin/edit-personal-data";
 import deleteCustomer from "@/server/services/admin/customer/delete-customer";
@@ -20,7 +17,7 @@ import {
   AdminListWorkersSchema,
 } from "@/types/admin";
 import addWorker from "@/server/services/admin/worker/add-worker";
-import { GetUserByIdSchema } from "@/types/worker";
+import { DeleteReferenceImageSchema } from "@/types/worker";
 import getWorker from "@/server/services/admin/worker/get-worker";
 import getWorkerTradeIds from "@/server/services/admin/worker/trade/get-worker-trades";
 import getTrade from "@/server/services/admin/worker/trade/get-trade";
@@ -41,12 +38,17 @@ import addReference from "@/server/services/admin/worker/reference/add-reference
 import deleteReferenceImage from "@/server/services/admin/worker/reference/delete-reference-image";
 import addReferenceImage from "@/server/services/admin/worker/reference/add-reference-image";
 import deleteWorker from "@/server/services/admin/worker/delete-worker";
+import {
+  CustomerIdSchema,
+  ReferenceIdSchema,
+  TradeIdSchema,
+  WorkerIdSchema,
+} from "@/types";
 
 const adminRouter = router({
-  get: adminProcedure.query(async ({ ctx }) => await getAdmin(ctx.db)),
-  login: publicProcedure
-    .input(LoginSchema)
-    .mutation(async ({ ctx, input }) => await adminLogin(ctx.db, input)),
+  get: adminProcedure.query(
+    async ({ ctx }) => await getAdmin(ctx.db, ctx.session),
+  ),
   worker: router({
     list: adminProcedure
       .input(AdminListWorkersSchema)
@@ -55,7 +57,7 @@ const adminRouter = router({
       .input(AddWorkerSchema)
       .mutation(async ({ ctx, input }) => await addWorker(ctx.db, input)),
     getPersonalData: adminProcedure
-      .input(GetUserByIdSchema)
+      .input(WorkerIdSchema)
       .query(async ({ ctx, input }) => await getWorker(ctx.db, input)),
     edit: adminProcedure
       .input(EditUserSchema)
@@ -63,19 +65,19 @@ const adminRouter = router({
         async ({ ctx, input }) => await editPersonalData(ctx.db, input),
       ),
     delete: adminProcedure
-      .input(z.object({ workerId: z.string() }))
+      .input(WorkerIdSchema)
       .mutation(async ({ ctx, input }) => await deleteWorker(ctx.db, input)),
     trade: router({
       list: adminProcedure
-        .input(z.object({ workerId: z.string() }))
+        .input(WorkerIdSchema)
         .query(
           async ({ ctx, input }) => await getWorkerTradeIds(ctx.db, input),
         ),
       get: adminProcedure
-        .input(z.object({ tradeId: z.string() }))
+        .input(TradeIdSchema)
         .query(async ({ ctx, input }) => await getTrade(ctx.db, input)),
       delete: adminProcedure
-        .input(z.object({ tradeId: z.string() }))
+        .input(TradeIdSchema)
         .mutation(async ({ ctx, input }) => await deleteTrade(ctx.db, input)),
       edit: adminProcedure
         .input(EditTradeSchema)
@@ -86,13 +88,13 @@ const adminRouter = router({
     }),
     reference: router({
       list: adminProcedure
-        .input(z.object({ workerId: z.string() }))
+        .input(WorkerIdSchema)
         .query(async ({ ctx, input }) => await getReferences(ctx.db, input)),
       get: adminProcedure
-        .input(z.object({ referenceId: z.string() }))
+        .input(ReferenceIdSchema)
         .query(async ({ ctx, input }) => await getReference(ctx.db, input)),
       delete: adminProcedure
-        .input(z.object({ referenceId: z.string() }))
+        .input(ReferenceIdSchema)
         .mutation(
           async ({ ctx, input }) => await deleteReference(ctx.db, input),
         ),
@@ -107,7 +109,7 @@ const adminRouter = router({
         ),
       image: router({
         delete: adminProcedure
-          .input(z.object({ referenceId: z.string(), imageId: z.string() }))
+          .input(DeleteReferenceImageSchema)
           .mutation(
             async ({ ctx, input }) => await deleteReferenceImage(ctx.db, input),
           ),
@@ -125,7 +127,7 @@ const adminRouter = router({
       .input(AdminListCustomersSchema)
       .query(async ({ ctx, input }) => await getCustomers(ctx.db, input ?? {})),
     get: adminProcedure
-      .input(z.object({ customerId: z.string() }))
+      .input(CustomerIdSchema)
       .query(async ({ ctx, input }) => await getCustomer(ctx.db, input)),
     edit: adminProcedure
       .input(EditUserSchema)
@@ -133,11 +135,8 @@ const adminRouter = router({
         async ({ ctx, input }) => await editPersonalData(ctx.db, input),
       ),
     delete: adminProcedure
-      .input(z.object({ customerId: z.string() }))
-      .mutation(
-        async ({ ctx, input }) =>
-          await deleteCustomer(ctx.db, input.customerId),
-      ),
+      .input(CustomerIdSchema)
+      .mutation(async ({ ctx, input }) => await deleteCustomer(ctx.db, input)),
     add: adminProcedure
       .input(AddCustomerSchema)
       .mutation(async ({ ctx, input }) => await addCustomer(ctx.db, input)),

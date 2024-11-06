@@ -1,9 +1,12 @@
+import { type SessionType } from "@/types";
 import { type EditUserInput } from "@/types/profile";
-import { getSession } from "@/utils/auth";
 import { type PrismaClient } from "@prisma/client";
 
-const editPersonalData = async (db: PrismaClient, input: EditUserInput) => {
-  const session = await getSession();
+const editPersonalData = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: EditUserInput,
+) => {
   const user = await db.user.findUnique({ where: { id: session?.user.id } });
   if (!user) {
     throw new Error("User not found");

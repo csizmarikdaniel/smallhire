@@ -1,9 +1,10 @@
 import { utapi } from "@/server/api/uploadthing";
+import { type AddReferenceImageInput } from "@/types/worker";
 import { type PrismaClient } from "@prisma/client";
 
 const addReferenceImage = async (
   db: PrismaClient,
-  input: { referenceId: string; images: File[] | File | null },
+  input: AddReferenceImageInput,
 ) => {
   const reference = await db.reference.findUnique({
     where: {

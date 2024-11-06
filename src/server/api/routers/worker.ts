@@ -15,15 +15,15 @@ import {
   type AddReferenceInput,
   AddReferenceSchema,
   AddTradeSchema,
-  DeleteTradeSchema,
+  DeleteReferenceImageSchema,
   EditTradeSchema,
-  GetUserByIdSchema,
+  ListTradesSchema,
 } from "@/types/worker";
-import { z } from "zod";
 import listPublicWorkerData from "@/server/services/worker/list-public-worker-data";
 import { ListWorkersSchema } from "@/types/worker";
 import getPublicWorkerData from "@/server/services/worker/get-public-worker-data";
 import getTradeNames from "@/server/services/worker/get-trade-names";
+import { ReferenceIdSchema, TradeIdSchema, WorkerIdSchema } from "@/types";
 
 const workerRouter = router({
   list: authProcedure
@@ -32,53 +32,65 @@ const workerRouter = router({
       async ({ ctx, input }) => await listPublicWorkerData(ctx.db, input ?? {}),
     ),
   get: authProcedure
-    .input(GetUserByIdSchema)
+    .input(WorkerIdSchema)
     .query(async ({ ctx, input }) => await getPublicWorkerData(ctx.db, input)),
   tradeNames: authProcedure.query(
     async ({ ctx }) => await getTradeNames(ctx.db),
   ),
   trades: router({
     list: authProcedure
-      .input(z.object({ id: z.string() }).optional())
-      .query(async ({ ctx, input }) => await getTrades(ctx.db, input)),
+      .input(ListTradesSchema)
+      .query(
+        async ({ ctx, input }) => await getTrades(ctx.db, ctx.session, input),
+      ),
     edit: authProcedure
       .input(EditTradeSchema)
       .mutation(async ({ ctx, input }) => await editTrade(ctx.db, input)),
     delete: authProcedure
-      .input(DeleteTradeSchema)
+      .input(TradeIdSchema)
       .mutation(async ({ ctx, input }) => await deleteTrade(ctx.db, input)),
     get: authProcedure
-      .input(z.object({ id: z.string() }))
+      .input(TradeIdSchema)
       .query(async ({ ctx, input }) => await getTrade(ctx.db, input)),
     add: authProcedure
       .input(AddTradeSchema)
-      .mutation(async ({ ctx, input }) => await addTrade(ctx.db, input)),
+      .mutation(
+        async ({ ctx, input }) => await addTrade(ctx.db, ctx.session, input),
+      ),
   }),
   reference: router({
     list: authProcedure.query(
-      async ({ ctx }) => await getOwnReferences(ctx.db),
+      async ({ ctx }) => await getOwnReferences(ctx.db, ctx.session),
     ),
     image: router({
       upload: authProcedure
         .input(AddReferenceImageSchema)
         .mutation(
           async ({ ctx, input }) =>
-            await uploadReferenceImage(ctx.db, input as AddReferenceImageInput),
+            await uploadReferenceImage(
+              ctx.db,
+              ctx.session,
+              input as AddReferenceImageInput,
+            ),
         ),
       delete: authProcedure
-        .input(z.object({ referenceId: z.string(), imageId: z.string() }))
+        .input(DeleteReferenceImageSchema)
         .mutation(
-          async ({ ctx, input }) => await removeReferenceImage(ctx.db, input),
+          async ({ ctx, input }) =>
+            await removeReferenceImage(ctx.db, ctx.session, input),
         ),
     }),
     get: authProcedure
-      .input(z.object({ referenceId: z.string() }))
-      .query(async ({ ctx, input }) => await getReferenceById(ctx.db, input)),
+      .input(ReferenceIdSchema)
+      .query(
+        async ({ ctx, input }) =>
+          await getReferenceById(ctx.db, ctx.session, input),
+      ),
     create: authProcedure
       .input(AddReferenceSchema)
       .mutation(
         async ({ ctx, input }) =>
-          await addReference(ctx.db, input as AddReferenceInput),
+          await addReference(ctx.db, ctx.session, input as AddReferenceInput),
       ),
   }),
 });

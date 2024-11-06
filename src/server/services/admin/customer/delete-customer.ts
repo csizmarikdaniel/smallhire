@@ -1,16 +1,10 @@
-import { getSession } from "@/utils/auth";
+import { type CustomerIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const deleteCustomer = async (db: PrismaClient, customerId: string) => {
-  const session = await getSession();
-
-  if (!session || session.user.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
+const deleteCustomer = async (db: PrismaClient, input: CustomerIdInput) => {
   const reservations = await db.reservation.findMany({
     where: {
-      customerId,
+      customerId: input.customerId,
     },
   });
 
@@ -30,13 +24,13 @@ const deleteCustomer = async (db: PrismaClient, customerId: string) => {
 
   await db.customer.delete({
     where: {
-      userId: customerId,
+      userId: input.customerId,
     },
   });
 
   await db.user.delete({
     where: {
-      id: customerId,
+      id: input.customerId,
     },
   });
 

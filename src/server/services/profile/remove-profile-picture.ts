@@ -1,15 +1,11 @@
 import { utapi } from "@/server/api/uploadthing";
-import { getSession } from "@/utils/auth";
+import { type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const removeProfilePicture = async (db: PrismaClient) => {
-  const session = await getSession();
-  if (!session) {
-    throw new Error("Not authenticated");
-  }
+const removeProfilePicture = async (db: PrismaClient, session: SessionType) => {
   const user = await db.user.findUnique({
     where: {
-      id: session.user.id,
+      id: session?.user.id,
     },
     include: {
       images: {

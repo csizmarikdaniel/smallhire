@@ -20,8 +20,10 @@ const WorkerListPage = ({ searchParams }: HomePageProps) => {
   const page = searchParams?.page;
   const limit = searchParams?.limit;
   return (
-    <>
-      <p className="mb-10 text-center">Elérhető szakemberek</p>
+    <div className="mx-auto max-w-[1000px]">
+      <p className="mb-10 mt-5 text-center text-4xl font-bold">
+        Elérhető szakemberek
+      </p>
       <div className="flex">
         <div className="grow">
           <Search />
@@ -36,7 +38,7 @@ const WorkerListPage = ({ searchParams }: HomePageProps) => {
         page={parseInt(page ?? "1")}
         limit={parseInt(limit ?? "10")}
       />
-    </>
+    </div>
   );
 };
 export default WorkerListPage;

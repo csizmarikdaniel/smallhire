@@ -4,6 +4,7 @@ import { useState } from "react";
 import NotificationCard from "./notification-card";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import NotificationList from "./notification-list";
 
 const NotificationDropdown = () => {
   const notifications = api.notification.getAll.useQuery();
@@ -19,34 +20,6 @@ const NotificationDropdown = () => {
     return acc;
   }, 0);
 
-  const setToSeen = api.notification.setToSeen.useMutation({
-    onSuccess: async () => {
-      await notifications.refetch();
-    },
-  });
-
-  const deleteNotification = api.notification.delete.useMutation({
-    onSuccess: async () => {
-      await notifications.refetch();
-    },
-  });
-
-  const onOpen = (id: string, reservationId?: string) => {
-    setOpen(!open);
-    router.push(
-      reservationId ? `/reservation/${reservationId}` : "/my-profile",
-    );
-    setToSeen.mutate({ notificationId: id });
-  };
-
-  const onClear = (id: string) => {
-    setToSeen.mutate({ notificationId: id });
-  };
-
-  const onDelete = (id: string) => {
-    deleteNotification.mutate({ notificationId: id });
-  };
-
   return (
     <div className="relative">
       <button onClick={() => setOpen(!open)}>Értesítések</button>
@@ -59,23 +32,12 @@ const NotificationDropdown = () => {
         <>
           <div
             className="fixed left-0 top-0 h-full w-full"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpen !== undefined && setOpen(false)}
           ></div>
-          <div className="absolute right-0 top-10 min-w-96 rounded-sm bg-white p-4 shadow-lg">
-            {notifications.data?.length !== 0 ? (
-              notifications.data?.map((noti) => (
-                <NotificationCard
-                  notification={noti}
-                  key={noti.id}
-                  onOpen={onOpen}
-                  onClear={onClear}
-                  onDelete={onDelete}
-                />
-              ))
-            ) : (
-              <p>Nincs új értesítés</p>
-            )}
-          </div>
+          <NotificationList
+            setOpen={setOpen}
+            className="absolute right-0 top-10 w-96"
+          />
         </>
       )}
     </div>

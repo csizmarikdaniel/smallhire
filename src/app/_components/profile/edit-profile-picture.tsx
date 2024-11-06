@@ -17,7 +17,12 @@ const EditProfilePicture = ({
       type="server"
       action={onupload}
     >
-      <Input type="file" name="file" label="Profilkép feltöltése" />
+      <Input
+        type="file"
+        name="image"
+        label="Profilkép feltöltése"
+        accept="image/*"
+      />
     </Modal>
   );
 };

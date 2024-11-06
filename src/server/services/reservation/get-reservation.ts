@@ -1,12 +1,15 @@
-import { getSession } from "@/utils/auth";
+import { type ReservationIdInput, type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
-const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
-  const session = await getSession();
+const getReservation = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: ReservationIdInput,
+) => {
   if (session?.user.role === "WORKER") {
     const reservation = await db.reservation.findUnique({
       where: {
-        id,
+        id: input.reservationId,
       },
       select: {
         id: true,
@@ -43,7 +46,7 @@ const getReservation = async (db: PrismaClient, { id }: { id: string }) => {
   } else {
     const reservation = await db.reservation.findUnique({
       where: {
-        id,
+        id: input.reservationId,
       },
       select: {
         id: true,

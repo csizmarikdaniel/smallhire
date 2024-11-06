@@ -5,31 +5,24 @@ export type EditTradeInput = {
   id: string;
   name: string;
   yearsOfExperience: number;
+  pricePerHour: number;
 };
 export const EditTradeSchema = z.object({
   id: z.string(),
   name: z.string(),
   yearsOfExperience: z.coerce.number(),
-});
-
-export type DeleteTradeInput = {
-  id: string;
-};
-
-export const DeleteTradeSchema = z.object({
-  id: z.string(),
+  pricePerHour: z.coerce.number(),
 });
 
 export type AddTradeInput = {
   name: string;
   yearsOfExperience: number;
+  pricePerHour: number;
 };
 export const AddTradeSchema = z.object({
   name: z.string({ message: "Név megadása kötelező" }),
-  yearsOfExperience: z
-    .string()
-    .min(1, "Évek számának megadása kötelező!")
-    .pipe(z.coerce.number()),
+  yearsOfExperience: z.coerce.number(),
+  pricePerHour: z.coerce.number(),
 });
 
 export type AddReferenceInput = {
@@ -43,12 +36,12 @@ export const AddReferenceSchema = zfd.formData({
 });
 
 export type EditReferenceInput = {
-  id: string;
+  referenceId: string;
   description: string;
 };
 
 export const EditReferenceSchema = z.object({
-  id: z.string(),
+  referenceId: z.string(),
   description: z.string(),
 });
 
@@ -61,9 +54,6 @@ export const AddReferenceImageSchema = zfd.formData({
   referenceId: z.string(),
   images: z.any(),
 });
-
-export const GetUserByIdSchema = z.object({ id: z.string() });
-export type IdInput = z.infer<typeof GetUserByIdSchema>;
 
 export type ListWorkersInput = {
   search?: string;
@@ -82,3 +72,25 @@ export const ListWorkersSchema = z
     page: z.number().optional(),
   })
   .optional();
+
+export type ListTradesInput =
+  | {
+      id: string;
+    }
+  | undefined;
+
+export const ListTradesSchema = z
+  .object({
+    id: z.string(),
+  })
+  .optional();
+
+export type DeleteReferenceImageInput = {
+  referenceId: string;
+  imageId: string;
+};
+
+export const DeleteReferenceImageSchema = z.object({
+  referenceId: z.string(),
+  imageId: z.string(),
+});

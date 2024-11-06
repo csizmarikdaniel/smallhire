@@ -1,15 +1,12 @@
-import { getSession } from "@/utils/auth";
+import { type ReservationIdInput, type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
 const cancelReservation = async (
   db: PrismaClient,
-  input: { reservationId: string },
+  session: SessionType,
+  input: ReservationIdInput,
 ) => {
-  const session = await getSession();
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-  if (session.user.role !== "CUSTOMER") {
+  if (session?.user.role !== "CUSTOMER") {
     throw new Error("Unauthorized");
   }
 

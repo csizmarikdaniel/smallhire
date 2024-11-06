@@ -1,12 +1,11 @@
-import { getSession } from "@/utils/auth";
+import { type ReferenceIdInput, type SessionType } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
 const getReferenceById = async (
   db: PrismaClient,
-  input: { referenceId: string },
+  session: SessionType,
+  input: ReferenceIdInput,
 ) => {
-  const session = await getSession();
-
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,

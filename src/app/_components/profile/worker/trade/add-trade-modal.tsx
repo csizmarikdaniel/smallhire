@@ -5,6 +5,7 @@ import { type AddTradeInput, AddTradeSchema } from "@/types/worker";
 import Button from "../../../button";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { setNumberValueAs } from "@/utils/form-value-conversion";
 
 const AddTradeModal = ({
   open,
@@ -26,16 +27,16 @@ const AddTradeModal = ({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
+  } = useForm<AddTradeInput>({
     resolver: zodResolver(AddTradeSchema),
     defaultValues: {
       name: "",
       yearsOfExperience: 0,
+      pricePerHour: 0,
     },
   });
 
   const onSubmit = async (data: AddTradeInput) => {
-    console.log(data);
     addTrade.mutate(data);
     setOpen(false);
   };
@@ -51,10 +52,16 @@ const AddTradeModal = ({
             error={errors.name?.message}
           />
           <Input
-            {...register("yearsOfExperience")}
+            {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}
             label="Évek száma"
             type="number"
             error={errors.yearsOfExperience?.message}
+          />
+          <Input
+            {...register("pricePerHour", { setValueAs: setNumberValueAs })}
+            label="Óradíj"
+            type="number"
+            error={errors.pricePerHour?.message}
           />
 
           <div className="mt-6 flex justify-end gap-4">
