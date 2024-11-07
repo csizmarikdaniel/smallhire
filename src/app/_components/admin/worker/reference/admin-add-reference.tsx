@@ -13,7 +13,7 @@ const AdminAddReference = ({ onCreate }: AdminAddReferenceProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <div className="flex justify-center">
+      <div className="mt-5 flex justify-center">
         <Button onClick={() => setIsOpen(true)}>
           Új referencia hozzáadása
         </Button>

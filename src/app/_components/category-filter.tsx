@@ -13,7 +13,6 @@ const CategoryFilter = () => {
   const handleFilter = (trade: string) => {
     const params = new URLSearchParams(searchParams);
     const trades = params.get("trade")?.split("&") ?? [];
-    console.log(trades);
     if (trades.includes(trade)) {
       params.set("trade", trades.filter((t) => t !== trade).join("&"));
       if (params.get("trade") === "") {

@@ -15,7 +15,7 @@ const ReservationActions = ({
   role: string;
 }) => {
   return (
-    <div className="">
+    <div className="rounded-lg p-5 shadow-lg">
       {role == "CUSTOMER" && <CustomerActions status={status} id={id} />}
       {role == "WORKER" && <WorkerActions status={status} id={id} />}
     </div>
@@ -41,9 +41,9 @@ const CustomerActions = ({ status, id }: { status: string; id: string }) => {
   });
 
   return (
-    <div className="flex gap-4">
+    <div className="flex items-center justify-center gap-4">
       {status == "RESERVED" && (
-        <>
+        <div className="flex flex-col items-center">
           <p>
             Az időpont foglalás megtörtént. A kiválasztott szakember hamarosan
             válaszol
@@ -55,31 +55,33 @@ const CustomerActions = ({ status, id }: { status: string; id: string }) => {
           >
             Lemondás
           </Button>
-        </>
+        </div>
       )}
       {status == "CANCELLED" && <p>A foglalás lemondva</p>}
       {status == "REJECTED" && <p>A foglalást a szakember elutasította</p>}
       {status == "CREATEDOFFER" && (
-        <>
+        <div className="flex flex-col items-center">
           <p>
             A szakember árajánlatot adott. Kérem válassza ki hogy elfogadja vagy
             nem!
           </p>
-          <Button
-            onClick={() => {
-              acceptOffer.mutate({ reservationId: id });
-            }}
-          >
-            Ajánlat elfogadása
-          </Button>
-          <Button
-            onClick={() => {
-              rejectOffer.mutate({ reservationId: id });
-            }}
-          >
-            Ajánlat elutasítása
-          </Button>
-        </>
+          <div className="flex gap-4">
+            <Button
+              onClick={() => {
+                acceptOffer.mutate({ reservationId: id });
+              }}
+            >
+              Ajánlat elfogadása
+            </Button>
+            <Button
+              onClick={() => {
+                rejectOffer.mutate({ reservationId: id });
+              }}
+            >
+              Ajánlat elutasítása
+            </Button>
+          </div>
+        </div>
       )}
       {status == "ACCEPTEDOFFER" && <p>Ajánlat elfogadva</p>}
       {status == "REJECTEDOFFER" && <p>Ajánlat elutasítva</p>}
@@ -113,10 +115,10 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
   return (
     <div className="flex gap-4">
       {status == "RESERVED" && (
-        <>
+        <div className="flex flex-col items-center gap-4">
           <p>Új foglalás érkezett. Kérem válaszoljon a foglalásra!</p>
           {!accepted ? (
-            <>
+            <div className="flex gap-4">
               <Button onClick={() => setAccepted(true)}>
                 Foglalás elfogadása
               </Button>
@@ -127,9 +129,9 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
               >
                 Foglalás elutasítása
               </Button>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex gap-4">
               <Input
                 label="Ár"
                 type="number"
@@ -140,6 +142,7 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
                 onClick={() => {
                   if (price <= 0) {
                     alert("Az ár nem lehet nulla vagy negatív szám");
+                    return;
                   }
                   createOffer.mutate({ price: price, reservationId: id });
                 }}
@@ -147,15 +150,15 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
                 Mentés
               </Button>
               <Button onClick={() => setAccepted(false)}>Mégse</Button>
-            </>
+            </div>
           )}
-        </>
+        </div>
       )}
       {status == "CANCELLED" && <p>A foglalást lemondta a megrendelő</p>}
       {status == "REJECTED" && <p>A foglalást a szakember elutasította</p>}
       {status == "CREATEDOFFER" && <p>Ajánlat elküldve</p>}
       {status == "ACCEPTEDOFFER" && (
-        <>
+        <div className="flex flex-col items-center gap-4">
           <p>Ajánlat elfogadva</p>
           <Button
             onClick={() => {
@@ -164,7 +167,7 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
           >
             Munka befejezve
           </Button>
-        </>
+        </div>
       )}
       {status == "REJECTEDOFFER" && <p>Ajánlat elutasítva</p>}
       {status == "COMPLETED" && <p>A munka teljesítve</p>}

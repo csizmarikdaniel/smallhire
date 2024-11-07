@@ -42,7 +42,7 @@ const DescriptionBlock = ({
   };
   return (
     <div>
-      <h2 className="mb-5 mt-10 text-xl">Feladat leírása</h2>
+      <h2 className="mb-5 mt-10 text-xl font-bold">Feladat leírása</h2>
       {isEditing ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextArea

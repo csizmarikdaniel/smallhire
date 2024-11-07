@@ -48,8 +48,8 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
   };
 
   return (
-    <div className="flex justify-between rounded-lg bg-white p-5">
-      <div className="flex grow flex-col gap-3">
+    <div className="flex flex-col rounded-lg bg-white p-5 shadow-lg">
+      <div className="flex justify-between gap-3">
         {isEditing ? (
           <Input
             value={description}
@@ -57,7 +57,10 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
             error={error}
           />
         ) : (
-          <p>{data?.description}</p>
+          <div className="">
+            <p className="font-bold">Leírás:</p>
+            <p>{data?.description}</p>
+          </div>
         )}
         <div className="flex gap-3">
           {data?.image.map((image) => (

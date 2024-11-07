@@ -35,6 +35,7 @@ const ReservationForm = ({
         if (check(e))
           onReservation(e, selectedDays!).catch(() => setError("error"));
       }}
+      className="flex flex-col items-center gap-5"
     >
       <Calendar selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
       <Textarea

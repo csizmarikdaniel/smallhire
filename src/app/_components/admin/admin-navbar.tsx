@@ -1,10 +1,10 @@
 import { api } from "@/trpc/server";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import Link from "next/link";
 
 const AdminNavbar = async () => {
   return (
-    <div className="navbar sticky top-0 z-10 bg-gradient-to-b from-sky-600 to-transparent">
+    <div className="navbar sticky top-0 z-10 bg-gradient-to-b from-sky-600 via-sky-600 via-75% to-transparent pb-4 text-white">
       <div className="flex-1">
         <h1 className="text-2xl font-bold">
           <Link href="/admin">SmallHire Admin</Link>
@@ -22,7 +22,7 @@ const AdminNavbar = async () => {
             action={async () => {
               "use server";
               await api.auth.user.logout();
-              redirect("/");
+              redirect("/", RedirectType.replace);
             }}
           >
             <button type="submit">Kijelentkezés</button>

@@ -33,7 +33,9 @@ const AdminAddTrade = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Szakma hozzáadása</Button>
+      <Button onClick={() => setOpen(true)} className="mt-5">
+        Szakma hozzáadása
+      </Button>
       <Modal
         type="client"
         onClose={() => setOpen(false)}

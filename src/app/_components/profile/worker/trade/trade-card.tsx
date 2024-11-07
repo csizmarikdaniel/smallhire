@@ -23,10 +23,14 @@ const TradeCard = ({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex justify-between rounded-lg border border-gray-200 p-4 shadow-lg">
+    <div className="flex justify-between rounded-lg p-4 shadow-lg">
       <div className="">
         <div>{trade.name}</div>
-        <div>{trade.yearsOfExperience}</div>
+        <div>Tapasztalat: {trade.yearsOfExperience} év</div>
+      </div>
+      <div>
+        <p>Órabér (Ft/óra)</p>
+        <p>{trade.pricePerHour}</p>
       </div>
       <div className="flex items-center">
         <Button onClick={() => setOpen(true)}>Módosítás</Button>

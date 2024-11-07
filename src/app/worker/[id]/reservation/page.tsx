@@ -18,8 +18,8 @@ const ReservationPage = async () => {
     redirect("/reservation/" + result);
   };
   return (
-    <div>
-      <h1>Foglalás</h1>
+    <div className="mx-auto mt-10 max-w-[1000px] rounded-lg bg-white p-5">
+      <h1 className="mb-5 text-center text-4xl">Foglalás</h1>
       <ReservationForm onReservation={onReservation} />
     </div>
   );

@@ -1,6 +1,5 @@
 import { api } from "@/trpc/server";
 import Button from "./_components/button";
-import { redirect } from "next/navigation";
 import NotificationList from "./_components/notification-list";
 
 export default async function Home() {
@@ -21,7 +20,7 @@ export default async function Home() {
                     action={async () => {
                       "use server";
                       await api.auth.user.logout();
-                      redirect("/");
+                      window.location.reload();
                     }}
                   >
                     <Button type="submit">Kijelentkezés</Button>
@@ -36,7 +35,7 @@ export default async function Home() {
                     action={async () => {
                       "use server";
                       await api.auth.user.logout();
-                      redirect("/");
+                      window.location.reload();
                     }}
                   >
                     <Button type="submit">Kijelentkezés</Button>

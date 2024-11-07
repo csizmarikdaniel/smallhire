@@ -7,7 +7,6 @@ const ReferenceCard = async ({ referenceId }: { referenceId: string }) => {
   const reference = await api.worker.reference.get({ referenceId });
   const onupload = async (formData: FormData) => {
     "use server";
-    console.log(formData);
     await api.worker.reference.image.upload(formData);
   };
 

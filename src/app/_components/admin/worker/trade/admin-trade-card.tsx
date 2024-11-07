@@ -33,7 +33,7 @@ const AdminTradeCard = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className="">
+    <div className="rounded-lg p-5 shadow-lg">
       {isEditing ? (
         data && (
           <AdminEditTradeForm
@@ -47,6 +47,10 @@ const AdminTradeCard = ({ id }: { id: string }) => {
           <div>
             <h2 className="text-xl font-bold">{data?.name}</h2>
             <div>Tapasztalat: {data?.yearsOfExperience} év</div>
+          </div>
+          <div>
+            Órabér:
+            <div>{data?.pricePerHour} Ft/óra</div>
           </div>
           <div>
             <Button onClick={onDelete}>Törlés</Button>

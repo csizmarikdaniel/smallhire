@@ -25,10 +25,19 @@ type ImagesBlockProps = {
 
 const ImagesBlock = ({ images, onupload }: ImagesBlockProps) => {
   const [toggler, setToggler] = useState(false);
+  const [imagenumber, setImagenumber] = useState(0);
   const session = api.auth.getSession.useQuery().data;
-  console.log(images);
   return (
-    <div className="relative mt-5 flex flex-wrap justify-center gap-5">
+    <div className="relative mt-5 flex flex-wrap items-center justify-center gap-5">
+      {images && images.length > 0 && (
+        <FsLightbox
+          toggler={toggler}
+          slide={imagenumber + 1}
+          sources={images.map((item) => {
+            return getImageUrl(item.url);
+          })}
+        />
+      )}
       {images?.map((image) => (
         <div className="relative" key={image.id}>
           <Image
@@ -36,7 +45,10 @@ const ImagesBlock = ({ images, onupload }: ImagesBlockProps) => {
             alt="description"
             width={200}
             height={200}
-            onClick={() => setToggler(!toggler)}
+            onClick={() => {
+              setImagenumber(images?.indexOf(image) || 0);
+              setToggler(!toggler);
+            }}
           />
           {image.userId == session?.user.id && (
             <RemoveReservationImage imageId={image.id} />
@@ -44,10 +56,6 @@ const ImagesBlock = ({ images, onupload }: ImagesBlockProps) => {
         </div>
       ))}
       <AddReservationImage onupload={onupload} />
-      <FsLightbox
-        toggler={toggler}
-        sources={images?.map((image) => getImageUrl(image.url))}
-      />
     </div>
   );
 };
