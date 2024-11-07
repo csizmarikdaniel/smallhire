@@ -8,6 +8,10 @@ const removeReferenceImage = async (
   session: SessionType,
   input: DeleteReferenceImageInput,
 ) => {
+  if (session?.user.role !== "WORKER") {
+    throw new Error("Unauthorized");
+  }
+
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,
@@ -39,10 +43,6 @@ const removeReferenceImage = async (
     throw new Error("Image not found");
   }
 
-  if (!reference.image.some((img) => img.id === image.id)) {
-    throw new Error("Image not found in reference");
-  }
-
   await utapi.deleteFiles(image.url);
 
   await db.image.delete({
@@ -51,20 +51,7 @@ const removeReferenceImage = async (
     },
   });
 
-  await db.reference.update({
-    where: {
-      id: reference.id,
-    },
-    data: {
-      image: {
-        disconnect: {
-          id: image.id,
-        },
-      },
-    },
-  });
-
-  return true;
+  return { success: true };
 };
 
 export default removeReferenceImage;

@@ -33,7 +33,7 @@ const deleteReference = async (db: PrismaClient, input: ReferenceIdInput) => {
     },
   });
 
-  return reference;
+  return { success: true };
 };
 
 export default deleteReference;

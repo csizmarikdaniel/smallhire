@@ -44,7 +44,7 @@ const createOffer = async (
     },
   });
 
-  return;
+  return { success: true };
 };
 
 export default createOffer;

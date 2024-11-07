@@ -42,7 +42,7 @@ const rejectReservation = async (
     },
   });
 
-  return;
+  return { success: true };
 };
 
 export default rejectReservation;

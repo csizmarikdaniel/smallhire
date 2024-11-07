@@ -6,6 +6,9 @@ const getReferenceById = async (
   session: SessionType,
   input: ReferenceIdInput,
 ) => {
+  if (session?.user.role !== "WORKER") {
+    throw new Error("Unauthorized");
+  }
   const reference = await db.reference.findUnique({
     where: {
       id: input.referenceId,

@@ -21,22 +21,15 @@ const removeProfilePicture = async (db: PrismaClient, session: SessionType) => {
 
   if (user.images && user.images.length > 0 && user.images[0]) {
     await utapi.deleteFiles(user.images[0].url);
+
+    await db.image.delete({
+      where: {
+        id: user.images[0].id,
+      },
+    });
   }
 
-  await db.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      images: {
-        delete: {
-          id: user.images[0]?.id,
-        },
-      },
-    },
-  });
-
-  return true;
+  return { success: true };
 };
 
 export default removeProfilePicture;

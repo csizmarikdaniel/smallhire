@@ -1,4 +1,7 @@
-import type { PrismaClient } from "@prisma/client";
-import { mockDeep } from "jest-mock-extended";
+export const mockAdminSession = {
+  user: { id: "1", role: "ADMIN" },
+};
 
-export const mockDb = () => mockDeep<PrismaClient>();
+export const mockCustomerSession = { user: { id: "2", role: "CUSTOMER" } };
+
+export const mockWorkerSession = { id: "3", role: "WORKER" };

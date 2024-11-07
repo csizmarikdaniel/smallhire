@@ -35,7 +35,18 @@ const getWorkerReservedDays = async (
       endDate: true,
     },
   });
-  return reservations;
+
+  const reservedDaysMap = reservations.reduce((acc, reservation) => {
+    const start = new Date(reservation.startDate);
+    const end = new Date(reservation.endDate);
+    const days = [];
+    for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
+      days.push(new Date(date));
+    }
+    return [...acc, ...days];
+  }, [] as Date[]);
+
+  return reservedDaysMap;
 };
 
 export default getWorkerReservedDays;

@@ -12,7 +12,12 @@ export const register = async (db: PrismaClient, input: RegisterInput) => {
   // Create the user
   if (input.role === "WORKER") {
     const user = await db.user.create({
-      data: { ...input, worker: { create: {} } },
+      data: { ...input },
+    });
+    await db.worker.create({
+      data: {
+        userId: user.id,
+      },
     });
     await db.notification.create({
       data: {
@@ -23,8 +28,13 @@ export const register = async (db: PrismaClient, input: RegisterInput) => {
       },
     });
   } else {
-    await db.user.create({
-      data: { ...input, customer: { create: {} } },
+    const customer = await db.user.create({
+      data: { ...input },
+    });
+    await db.customer.create({
+      data: {
+        userId: customer.id,
+      },
     });
   }
 

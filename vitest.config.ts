@@ -6,6 +6,13 @@ export default defineConfig({
   test: {
     watch: false,
     clearMocks: true,
-    globalSetup: ["./src/test/setup-env.ts"],
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
+    globals: true,
+    environment: "node",
+    setupFiles: ["./src/test/setup-env.ts", "./src/test/setup-db.ts"],
   },
 });

@@ -12,7 +12,7 @@ const setToSeen = async (db: PrismaClient, input: NotificationIdInput) => {
     throw new Error("Notification not found");
   }
 
-  await db.notification.update({
+  return await db.notification.update({
     where: {
       id: input.notificationId,
     },

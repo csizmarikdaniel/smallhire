@@ -33,7 +33,7 @@ const completeReservation = async (
     },
   });
 
-  return;
+  return { success: true };
 };
 
 export default completeReservation;

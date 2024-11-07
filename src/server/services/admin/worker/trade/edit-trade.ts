@@ -9,6 +9,7 @@ const editTrade = async (db: PrismaClient, input: EditTradeInput) => {
     data: {
       name: input.name,
       yearsOfExperience: input.yearsOfExperience,
+      pricePerHour: input.pricePerHour,
     },
   });
 

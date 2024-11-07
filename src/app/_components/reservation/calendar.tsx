@@ -16,22 +16,12 @@ const Calendar = ({
     workerId: id,
   });
 
-  const reservedDaysMap = reservedDays.data?.reduce((acc, reservation) => {
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
-    const days = [];
-    for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
-      days.push(new Date(date));
-    }
-    return [...acc, ...days];
-  }, [] as Date[]);
-
   return (
     <DayPicker
       mode="range"
       selected={selectedDays}
       onSelect={setSelectedDays}
-      disabled={reservedDaysMap}
+      disabled={reservedDays.data}
       required={true}
       modifiersClassNames={{
         disabled: "line-through",

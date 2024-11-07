@@ -24,7 +24,7 @@ const cancelReservation = async (
     throw new Error("Reservation cannot be cancelled");
   }
 
-  const cancelledReservation = await db.reservation.update({
+  await db.reservation.update({
     where: {
       id: input.reservationId,
     },
@@ -35,7 +35,7 @@ const cancelReservation = async (
 
   await db.notification.create({
     data: {
-      title: "Foglalás törlés",
+      title: "Foglalás törölve",
       description: `A foglalás törölve lett a(z) ${reservation.startDate.toLocaleDateString(
         "hu-HU",
       )} - ${reservation.endDate.toLocaleDateString("hu-HU")} időszakra a megrendelő által`,
@@ -44,7 +44,7 @@ const cancelReservation = async (
     },
   });
 
-  return cancelledReservation;
+  return { success: true };
 };
 
 export default cancelReservation;

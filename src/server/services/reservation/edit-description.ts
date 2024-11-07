@@ -7,7 +7,17 @@ const editDescription = async (
   session: SessionType,
   input: EditDescriptionInput,
 ) => {
-  const reservation = await db.reservation.update({
+  const reservation = await db.reservation.findUnique({
+    where: {
+      id: input.reservationId,
+    },
+  });
+
+  if (!reservation) {
+    throw new Error("Reservation not found");
+  }
+
+  await db.reservation.update({
     where: {
       id: input.reservationId,
     },
@@ -28,7 +38,7 @@ const editDescription = async (
     },
   });
 
-  return;
+  return { success: true };
 };
 
 export default editDescription;

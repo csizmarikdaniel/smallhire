@@ -20,6 +20,16 @@ const createReservation = async (
     throw new Error("Start date must be in the future");
   }
 
+  const worker = await db.worker.findUnique({
+    where: {
+      userId: input.formData.workerId,
+    },
+  });
+
+  if (!worker) {
+    throw new Error("Worker not found");
+  }
+
   const workerReservations = await db.reservation.findMany({
     where: {
       workerId: input.formData.workerId,

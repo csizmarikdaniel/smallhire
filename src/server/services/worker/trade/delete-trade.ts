@@ -2,10 +2,10 @@ import { type TradeIdInput } from "@/types";
 import { type PrismaClient } from "@prisma/client";
 
 const deleteTrade = async (db: PrismaClient, input: TradeIdInput) => {
-  const trade = await db.trade.delete({
+  await db.trade.delete({
     where: { id: input.tradeId },
   });
-  return trade;
+  return { success: true };
 };
 
 export default deleteTrade;

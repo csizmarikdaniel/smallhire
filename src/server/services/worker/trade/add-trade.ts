@@ -7,6 +7,20 @@ const addTrade = async (
   session: SessionType,
   input: AddTradeInput,
 ) => {
+  if (session?.user.role !== "WORKER") {
+    throw new Error("Unauthorized");
+  }
+
+  const user = await db.user.findUnique({
+    where: {
+      id: session?.user.id,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
   const trades = await db.trade.findMany({
     where: {
       workerId: session?.user.id,
@@ -15,7 +29,7 @@ const addTrade = async (
 
   trades.forEach((trade) => {
     if (trade.name === input.name) {
-      throw new Error("Ez a szakma már létezik");
+      throw new Error("Trade already exists");
     }
   });
 
@@ -24,7 +38,7 @@ const addTrade = async (
       name: input.name,
       yearsOfExperience: input.yearsOfExperience,
       pricePerHour: input.pricePerHour,
-      workerId: session?.user.id as string,
+      workerId: session?.user.id ?? "",
     },
   });
 };

@@ -1,6 +1,7 @@
 import Button from "@/app/_components/button";
 import Input from "@/app/_components/form-components/input";
 import { type EditTradeInput, EditTradeSchema } from "@/types/worker";
+import { setNumberValueAs } from "@/utils/form-value-conversion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -29,9 +30,15 @@ const AdminEditTradeForm = ({
       <Input {...register("id")} type="hidden" />
       <Input {...register("name")} label="Név" error={errors.name?.message} />
       <Input
-        {...register("yearsOfExperience")}
+        {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}
         label="Tapasztalat"
         error={errors.yearsOfExperience?.message}
+        type="number"
+      />
+      <Input
+        {...register("pricePerHour", { setValueAs: setNumberValueAs })}
+        label="Órabér"
+        error={errors.pricePerHour?.message}
         type="number"
       />
       <Button type="submit">Mentés</Button>

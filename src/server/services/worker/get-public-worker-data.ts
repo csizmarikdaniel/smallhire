@@ -28,6 +28,13 @@ const getPublicWorkerData = async (db: PrismaClient, input: WorkerIdInput) => {
               pricePerHour: true,
             },
           },
+          references: {
+            select: {
+              id: true,
+              image: true,
+              description: true,
+            },
+          },
         },
       },
     },

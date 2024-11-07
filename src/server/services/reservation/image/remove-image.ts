@@ -51,20 +51,7 @@ const removeImage = async (
     },
   });
 
-  await db.reservation.update({
-    where: {
-      id: input.reservationId,
-    },
-    data: {
-      images: {
-        disconnect: {
-          id: input.imageId,
-        },
-      },
-    },
-  });
-
-  return true;
+  return { success: true };
 };
 
 export default removeImage;

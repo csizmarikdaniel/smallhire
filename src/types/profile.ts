@@ -4,7 +4,6 @@ import { zfd } from "zod-form-data";
 export type EditUserInput = {
   id: string;
   name: string;
-  email: string;
   address: string;
   city: string;
   zipCode: string;
@@ -16,9 +15,6 @@ export const EditUserSchema = z.object({
   name: z
     .string({ message: "Név megadása kötelező!" })
     .min(1, { message: "Név megadása kötelező!" }),
-  email: z
-    .string({ message: "Email megadása kötelező!" })
-    .email({ message: "Nem megfelelő email formátum!" }),
   address: z
     .string({ message: "Cím megadása kötelező!" })
     .min(1, { message: "Cím megadása kötelező!" }),

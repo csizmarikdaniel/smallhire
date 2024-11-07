@@ -6,6 +6,16 @@ const addReference = async (
   db: PrismaClient,
   input: AdminAddReferenceInput,
 ) => {
+  const worker = await db.worker.findUnique({
+    where: {
+      userId: input.workerId,
+    },
+  });
+
+  if (!worker) {
+    throw new Error("Worker not found");
+  }
+
   const reference = await db.reference.create({
     data: {
       description: input.formData.description,

@@ -37,7 +37,7 @@ const acceptOffer = async (
       userId: reservation.workerId,
     },
   });
-  return;
+  return { success: true };
 };
 
 export default acceptOffer;

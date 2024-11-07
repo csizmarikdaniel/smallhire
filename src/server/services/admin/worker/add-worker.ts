@@ -16,9 +16,12 @@ const addWorker = async (db: PrismaClient, input: AddWorkerInput) => {
     data: {
       ...input,
       role: "WORKER",
-      worker: {
-        create: {},
-      },
+    },
+  });
+
+  await db.worker.create({
+    data: {
+      userId: worker.id,
     },
   });
 

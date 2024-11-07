@@ -99,22 +99,31 @@ const listPublicWorkerData = async (
     : 1;
 
   if (input.sort == "asc") {
-    return paginate(
-      workers.sort((a, b) => a.name.localeCompare(b.name)),
-      { page: safePage, perPage: input.limit },
-    );
-  } else if (input.sort == "desc") {
-    return paginate(
-      workers.sort((a, b) => b.name.localeCompare(a.name)),
-      { page: safePage, perPage: input.limit },
-    );
-  } else if (input.sort == "earliest") {
-    return paginate(
-      workers.sort(
-        (a, b) => a.earliestFreeDay!.getDate() - b.earliestFreeDay!.getDate(),
+    return {
+      fullListLength: workers.length,
+      workers: paginate(
+        workers.sort((a, b) => a.name.localeCompare(b.name)),
+        { page: safePage, perPage: input.limit },
       ),
-      { page: safePage, perPage: input.limit },
-    );
+    };
+  } else if (input.sort == "desc") {
+    return {
+      fullListLength: workers.length,
+      workers: paginate(
+        workers.sort((a, b) => b.name.localeCompare(a.name)),
+        { page: safePage, perPage: input.limit },
+      ),
+    };
+  } else if (input.sort == "earliest") {
+    return {
+      fullListLength: workers.length,
+      workers: paginate(
+        workers.sort(
+          (a, b) => a.earliestFreeDay!.getDate() - b.earliestFreeDay!.getDate(),
+        ),
+        { page: safePage, perPage: input.limit },
+      ),
+    };
   }
 
   return {
