@@ -4,6 +4,7 @@ type ModalProps = {
   children: React.ReactNode;
   open: boolean;
   onClose: () => void;
+  onCancel?: () => void;
   type: "client" | "server" | undefined;
   onSubmit?: () => void;
   action?: (formData: FormData) => Promise<void>;
@@ -13,6 +14,7 @@ const Modal = ({
   children,
   open,
   onClose,
+  onCancel,
   type,
   onSubmit,
   action,
@@ -29,10 +31,8 @@ const Modal = ({
             {children}
 
             <div className="mt-6 flex justify-end gap-4">
-              <Button type="submit" className="btn-primary">
-                Megerősítés
-              </Button>
-              <Button type="button" onClick={onClose}>
+              <Button type="submit">Megerősítés</Button>
+              <Button type="button" onClick={onCancel ?? onClose}>
                 Mégse
               </Button>
             </div>
@@ -49,10 +49,10 @@ const Modal = ({
             {children}
 
             <div className="mt-6 flex justify-end gap-4">
-              <Button type="submit" className="btn-primary" onClick={onClose}>
+              <Button type="submit" onClick={onClose}>
                 Megerősítés
               </Button>
-              <Button type="button" onClick={onClose}>
+              <Button type="button" onClick={onCancel ?? onClose}>
                 Mégse
               </Button>
             </div>

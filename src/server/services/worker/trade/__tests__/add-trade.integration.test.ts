@@ -120,5 +120,5 @@ test("should not add trade with already existing trade", async () => {
       { user: { id: "1", role: "WORKER" } },
       { name: "name", pricePerHour: 10, yearsOfExperience: 5 },
     ),
-  ).rejects.toThrow("Trade already exists");
+  ).rejects.toThrow("Ez a szakma már létezik");
 });

@@ -129,3 +129,35 @@ export const AdminAddReferenceSchema = z.object({
   }),
   workerId: z.string({ message: "A munkás ID megadása kötelező!" }),
 });
+
+export type AdminEditProfileInput = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  zipCode: string;
+  address: string;
+};
+
+export const AdminEditProfileSchema = z.object({
+  id: z.string({ message: "Az ID megadása kötelező!" }),
+  name: z
+    .string({ message: "A név csak szöveg lehet!" })
+    .min(1, { message: "A név megadása kötelező!" }),
+  email: z
+    .string({ message: "Az email csak szöveg lehet!" })
+    .email({ message: "Az email formátuma nem megfelelő!" }),
+  phone: z
+    .string({ message: "Telefonszám megadása kötelező!" })
+    .min(1, { message: "Telefonszám megadása kötelező!" }),
+  city: z
+    .string({ message: "Város megadása kötelező!" })
+    .min(1, { message: "Város megadása kötelező!" }),
+  zipCode: z
+    .string({ message: "Irányítószám megadása kötelező!" })
+    .min(1, { message: "Irányítószám megadása kötelező!" }),
+  address: z
+    .string({ message: "Cím megadása kötelező!" })
+    .min(1, { message: "Cím megadása kötelező!" }),
+});

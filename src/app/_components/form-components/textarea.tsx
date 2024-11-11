@@ -18,7 +18,7 @@ const TextArea = forwardRef(function TextAreaInput(
       <textarea
         ref={ref}
         {...props}
-        className="textarea border-2 border-sky-500 focus:border-sky-700 focus:outline-none"
+        className="text-md textarea border-2 border-sky-500 focus:border-sky-700 focus:outline-none"
       />
       {error && <span className="label text-red-500">{error}</span>}
     </label>

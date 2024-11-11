@@ -6,13 +6,12 @@ import Button from "../../button";
 import { useState } from "react";
 import AdminDeleteConfirm from "../admin-delete-confirm";
 
-const AdminDeleteWorker = ({
-  workerId,
-  name,
-}: {
+type AdminDeleteWorkerProps = {
   workerId: string;
   name: string;
-}) => {
+};
+
+const AdminDeleteWorker = ({ workerId, name }: AdminDeleteWorkerProps) => {
   const deleteWorker = api.admin.worker.delete.useMutation({
     onSuccess: async () => {
       window.location.reload();

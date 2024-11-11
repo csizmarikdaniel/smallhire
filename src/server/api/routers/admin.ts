@@ -3,7 +3,6 @@ import { adminProcedure, router } from "../trpc";
 import getWorkers from "@/server/services/admin/worker/get-workers";
 import getCustomers from "@/server/services/admin/customer/get-customers";
 import getCustomer from "@/server/services/admin/customer/get-customer";
-import { EditUserSchema } from "@/types/profile";
 import editPersonalData from "@/server/services/admin/edit-personal-data";
 import deleteCustomer from "@/server/services/admin/customer/delete-customer";
 import addCustomer from "@/server/services/admin/customer/add-customer";
@@ -13,6 +12,7 @@ import {
   type AdminAddReferenceInput,
   AdminAddReferenceSchema,
   AdminAddTradeSchema,
+  AdminEditProfileSchema,
   AdminListCustomersSchema,
   AdminListWorkersSchema,
 } from "@/types/admin";
@@ -60,7 +60,7 @@ const adminRouter = router({
       .input(WorkerIdSchema)
       .query(async ({ ctx, input }) => await getWorker(ctx.db, input)),
     edit: adminProcedure
-      .input(EditUserSchema)
+      .input(AdminEditProfileSchema)
       .mutation(
         async ({ ctx, input }) => await editPersonalData(ctx.db, input),
       ),
@@ -130,7 +130,7 @@ const adminRouter = router({
       .input(CustomerIdSchema)
       .query(async ({ ctx, input }) => await getCustomer(ctx.db, input)),
     edit: adminProcedure
-      .input(EditUserSchema)
+      .input(AdminEditProfileSchema)
       .mutation(
         async ({ ctx, input }) => await editPersonalData(ctx.db, input),
       ),

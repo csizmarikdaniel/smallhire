@@ -1,9 +1,8 @@
 "use client";
-import { api } from "@/trpc/react";
 import Button from "../../../button";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import EditTradeForm from "./edit-trade-form";
+import EditTrade from "./edit-trade";
+import RemoveTrade from "./remove-trade";
 
 const TradeCard = ({
   trade,
@@ -15,12 +14,6 @@ const TradeCard = ({
     pricePerHour: number;
   };
 }) => {
-  const deleteTrade = api.worker.trades.delete.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-  });
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   return (
     <div className="flex justify-between rounded-lg p-4 shadow-lg">
@@ -33,16 +26,9 @@ const TradeCard = ({
         <p>{trade.pricePerHour}</p>
       </div>
       <div className="flex items-center">
-        <Button onClick={() => setOpen(true)}>Módosítás</Button>
-        <Button
-          onClick={() => {
-            deleteTrade.mutate({ tradeId: trade.id });
-          }}
-        >
-          Törlés
-        </Button>
+        <EditTrade trade={trade} />
+        <RemoveTrade tradeId={trade.id} />
       </div>
-      <EditTradeForm open={open} setOpen={setOpen} defaultValues={trade} />
     </div>
   );
 };

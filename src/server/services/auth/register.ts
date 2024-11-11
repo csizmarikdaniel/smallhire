@@ -7,7 +7,7 @@ export const register = async (db: PrismaClient, input: RegisterInput) => {
       email: input.email,
     },
   });
-  if (dbUser) throw new Error("User already exists");
+  if (dbUser) throw new Error("Ez az email cím már használatban van!");
 
   // Create the user
   if (input.role === "WORKER") {

@@ -1,4 +1,8 @@
-const ReservationStatusTag = ({ status }: { status: string }) => {
+type ReservationStatusTagProps = {
+  status: string;
+};
+
+const ReservationStatusTag = ({ status }: ReservationStatusTagProps) => {
   const statusClasses = (status: string) => {
     switch (status) {
       case "RESERVED":

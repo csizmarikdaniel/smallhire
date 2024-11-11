@@ -27,7 +27,7 @@ const Calendar = ({
         booked: reservedDays.data,
       }}
       modifiersClassNames={{
-        disabled: "line-through",
+        disabled: "text-gray-400",
         booked: "line-through",
       }}
       onDayClick={(date, modifiers) => {

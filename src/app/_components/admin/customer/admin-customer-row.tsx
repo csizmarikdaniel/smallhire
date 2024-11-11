@@ -3,15 +3,19 @@
 import { api } from "@/trpc/react";
 import Button from "../../button";
 import { useState } from "react";
-import { type EditUserInput } from "@/types/profile";
 import AdminDeleteConfirm from "../admin-delete-confirm";
 import EditCustomerForm from "./edit-customer-form";
 
-const AdminCustomerRow = ({ customerId }: { customerId: string }) => {
+type AdminCustomerRowProps = {
+  customerId: string;
+};
+
+const AdminCustomerRow = ({ customerId }: AdminCustomerRowProps) => {
   const customer = api.admin.customer.get.useQuery({ customerId });
   const editCustomer = api.admin.customer.edit.useMutation({
     onSuccess: async () => {
       await customer.refetch();
+      setIsEditing(false);
     },
   });
   const deleteCustomer = api.admin.customer.delete.useMutation({
@@ -21,20 +25,6 @@ const AdminCustomerRow = ({ customerId }: { customerId: string }) => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const onEdit = (values: EditUserInput) => {
-    editCustomer.mutate({
-      id: values.id,
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      address: values.address,
-      city: values.city,
-      zipCode: values.zipCode,
-    });
-
-    setIsEditing(false);
-  };
 
   const onDelete = () => {
     setOpen(true);
@@ -47,7 +37,8 @@ const AdminCustomerRow = ({ customerId }: { customerId: string }) => {
           <EditCustomerForm
             defaultValues={customer.data}
             setIsEditing={setIsEditing}
-            onEdit={onEdit}
+            onEdit={editCustomer.mutate}
+            error={editCustomer.error?.message}
           />
         )
       ) : (
@@ -75,7 +66,7 @@ const AdminCustomerRow = ({ customerId }: { customerId: string }) => {
               open={open}
               name={customer.data.name}
               onDelete={() => {
-                deleteCustomer.mutate({ customerId: customer.data!.id });
+                deleteCustomer.mutate({ customerId: customer.data.id });
                 setOpen(false);
               }}
             />

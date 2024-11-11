@@ -1,24 +1,31 @@
-import { type EditUserInput, EditUserSchema } from "@/types/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Input from "../../form-components/input";
 import Button from "../../button";
+import {
+  type AdminEditProfileInput,
+  AdminEditProfileSchema,
+} from "@/types/admin";
+
+type EditCustomerFormProps = {
+  defaultValues: AdminEditProfileInput;
+  setIsEditing: (value: boolean) => void;
+  onEdit: (values: AdminEditProfileInput) => void;
+  error: string | undefined;
+};
 
 const EditCustomerForm = ({
   defaultValues,
   setIsEditing,
   onEdit,
-}: {
-  defaultValues: EditUserInput;
-  setIsEditing: (value: boolean) => void;
-  onEdit: (values: EditUserInput) => void;
-}) => {
+  error,
+}: EditCustomerFormProps) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditUserSchema),
+    resolver: zodResolver(AdminEditProfileSchema),
     defaultValues: {
       id: defaultValues.id,
       name: defaultValues.name,
@@ -65,7 +72,9 @@ const EditCustomerForm = ({
           label="Irányítószam"
           error={errors.zipCode?.message}
         />
+        {error && <p className="col-span-3 mt-5 text-red-500">{error}</p>}
       </div>
+
       <div className="justify-self-end">
         <Button type="submit">Mentés</Button>
         <Button onClick={() => setIsEditing(false)}>Mégse</Button>

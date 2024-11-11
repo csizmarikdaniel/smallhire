@@ -1,26 +1,31 @@
-import { type EditUserInput, EditUserSchema } from "@/types/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Input from "../../form-components/input";
 import Button from "../../button";
+import {
+  AdminEditProfileSchema,
+  type AdminEditProfileInput,
+} from "@/types/admin";
 
 type EditWorkerFormProps = {
-  defaultValues: EditUserInput;
-  onSubmit: (values: EditUserInput) => void;
+  defaultValues: AdminEditProfileInput;
+  onSubmit: (values: AdminEditProfileInput) => void;
   onClose: () => void;
+  error: string | undefined;
 };
 
 const EditWorkerForm = ({
   defaultValues,
   onSubmit,
   onClose,
+  error,
 }: EditWorkerFormProps) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditUserSchema),
+    resolver: zodResolver(AdminEditProfileSchema),
     defaultValues: {
       id: defaultValues.id,
       name: defaultValues.name,
@@ -57,6 +62,7 @@ const EditWorkerForm = ({
         label="Irányítószám"
         error={errors.zipCode?.message}
       />
+      {error && <div className="mt-5 text-red-500">{error}</div>}
       <Button type="submit">Mentés</Button>
       <Button onClick={onClose}>Mégse</Button>
     </form>

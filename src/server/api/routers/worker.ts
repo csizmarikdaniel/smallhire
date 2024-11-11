@@ -16,6 +16,7 @@ import {
   AddReferenceSchema,
   AddTradeSchema,
   DeleteReferenceImageSchema,
+  EditReferenceSchema,
   EditTradeSchema,
   ListTradesSchema,
 } from "@/types/worker";
@@ -24,6 +25,8 @@ import { ListWorkersSchema } from "@/types/worker";
 import getPublicWorkerData from "@/server/services/worker/get-public-worker-data";
 import getTradeNames from "@/server/services/worker/get-trade-names";
 import { ReferenceIdSchema, TradeIdSchema, WorkerIdSchema } from "@/types";
+import removeReference from "@/server/services/worker/reference/remove-reference";
+import editReference from "@/server/services/worker/reference/edit-reference";
 
 const workerRouter = router({
   list: authProcedure
@@ -46,7 +49,7 @@ const workerRouter = router({
     edit: authProcedure
       .input(EditTradeSchema)
       .mutation(async ({ ctx, input }) => await editTrade(ctx.db, input)),
-    delete: authProcedure
+    remove: authProcedure
       .input(TradeIdSchema)
       .mutation(async ({ ctx, input }) => await deleteTrade(ctx.db, input)),
     get: authProcedure
@@ -91,6 +94,18 @@ const workerRouter = router({
       .mutation(
         async ({ ctx, input }) =>
           await addReference(ctx.db, ctx.session, input as AddReferenceInput),
+      ),
+    remove: authProcedure
+      .input(ReferenceIdSchema)
+      .mutation(
+        async ({ ctx, input }) =>
+          await removeReference(ctx.db, ctx.session, input),
+      ),
+    edit: authProcedure
+      .input(EditReferenceSchema)
+      .mutation(
+        async ({ ctx, input }) =>
+          await editReference(ctx.db, ctx.session, input),
       ),
   }),
 });

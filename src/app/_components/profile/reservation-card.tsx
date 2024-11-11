@@ -2,9 +2,7 @@ import Link from "next/link";
 import Button from "../button";
 import ReservationStatusTag from "./reservation-status-tag";
 
-const ReservationCard = ({
-  reservation,
-}: {
+type ReservationCardProps = {
   reservation: {
     name: string;
     startDate: Date;
@@ -12,7 +10,9 @@ const ReservationCard = ({
     status: string;
     id: string;
   };
-}) => {
+};
+
+const ReservationCard = ({ reservation }: ReservationCardProps) => {
   return (
     <div className="my-5 flex items-center justify-between rounded-lg p-3 shadow-lg">
       <div className="flex flex-col">

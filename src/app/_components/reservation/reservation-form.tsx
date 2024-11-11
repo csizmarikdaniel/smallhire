@@ -8,11 +8,11 @@ import Button from "../button";
 import Input from "../form-components/input";
 import { useParams } from "next/navigation";
 
-const ReservationForm = ({
-  onReservation,
-}: {
+type ReservationFormProps = {
   onReservation: (formData: FormData, selectedDays: DateRange) => Promise<void>;
-}) => {
+};
+
+const ReservationForm = ({ onReservation }: ReservationFormProps) => {
   const [selectedDays, setSelectedDays] = useState<DateRange>();
   const [error, setError] = useState("");
   const params = useParams();
@@ -44,9 +44,9 @@ const ReservationForm = ({
         placeholder="Leírás"
         required
       />
-      {error && <p>{error}</p>}
       <Input type="file" name="images" multiple />
       <Input type="hidden" name="workerId" value={params.id?.toString()} />
+      {error && <p className="mt-5 text-red-500">{error}</p>}
       <Button type="submit">Foglalás</Button>
     </form>
   );

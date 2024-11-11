@@ -21,7 +21,16 @@ const getWorker = async (db: PrismaClient, input: WorkerIdInput) => {
   if (!worker) {
     throw new Error(`Worker with id ${input.workerId} not found`);
   }
-  return worker;
+  return {
+    id: worker.id,
+    name: worker.name,
+    email: worker.email,
+    phone: worker.phone,
+    address: worker.address,
+    city: worker.city,
+    zipCode: worker.zipCode,
+    image: worker.images.find((image) => image.profileImage)?.url,
+  };
 };
 
 export default getWorker;

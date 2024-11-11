@@ -3,15 +3,19 @@ import { zfd } from "zod-form-data";
 
 export type EditTradeInput = {
   id: string;
+  workerId: string;
   name: string;
   yearsOfExperience: number;
   pricePerHour: number;
 };
 export const EditTradeSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  yearsOfExperience: z.coerce.number(),
-  pricePerHour: z.coerce.number(),
+  workerId: z.string(),
+  name: z.string().min(1, { message: "Név megadása kötelező" }),
+  yearsOfExperience: z.coerce.number({
+    message: "Tapasztalat megadása kötelező",
+  }),
+  pricePerHour: z.coerce.number({ message: "Órabér megadása kötelező" }),
 });
 
 export type AddTradeInput = {
@@ -21,8 +25,10 @@ export type AddTradeInput = {
 };
 export const AddTradeSchema = z.object({
   name: z.string({ message: "Név megadása kötelező" }),
-  yearsOfExperience: z.coerce.number(),
-  pricePerHour: z.coerce.number(),
+  yearsOfExperience: z.coerce.number({
+    message: "Tapasztalat megadása kötelező",
+  }),
+  pricePerHour: z.coerce.number({ message: "Órabér megadása kötelező" }),
 });
 
 export type AddReferenceInput = {
@@ -42,7 +48,7 @@ export type EditReferenceInput = {
 
 export const EditReferenceSchema = z.object({
   referenceId: z.string(),
-  description: z.string(),
+  description: z.string().min(1, { message: "Leírás megadása kötelező" }),
 });
 
 export type AddReferenceImageInput = {

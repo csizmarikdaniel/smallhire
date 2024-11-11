@@ -12,7 +12,7 @@ const MyProfilePage = async () => {
     <div className="my-5 flex h-full w-full flex-col gap-5">
       <h1 className="text-center text-3xl">Profilom</h1>
       <ProfileCard />
-      {session.user.role === "WORKER" && (
+      {session?.user.role === "WORKER" && (
         <>
           <TradesList />
           <ReferenceList />

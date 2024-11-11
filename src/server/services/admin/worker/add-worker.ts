@@ -9,7 +9,7 @@ const addWorker = async (db: PrismaClient, input: AddWorkerInput) => {
   });
 
   if (dbWorker) {
-    throw new Error("User already exists");
+    throw new Error("Ez az email cím már foglalt");
   }
 
   const worker = await db.user.create({

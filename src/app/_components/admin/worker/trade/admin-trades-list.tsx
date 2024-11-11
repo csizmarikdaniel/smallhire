@@ -2,7 +2,11 @@ import { api } from "@/trpc/server";
 import AdminTradeCard from "./admin-trade-card";
 import AdminAddTrade from "./admin-add-trade";
 
-const AdminTradesList = async ({ id }: { id: string }) => {
+type AdminTradesListInput = {
+  id: string;
+};
+
+const AdminTradesList = async ({ id }: AdminTradesListInput) => {
   const tradeIds = await api.admin.worker.trade.list({ workerId: id });
   return (
     <div className="rounded-lg bg-white p-5">

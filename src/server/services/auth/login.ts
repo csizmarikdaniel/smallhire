@@ -2,6 +2,7 @@ import type { LoginInput } from "@/types/auth";
 import { encrypt } from "@/utils/auth";
 import type { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
 
 const login = async (db: PrismaClient, input: LoginInput) => {
   // Verify credentials && get the user
@@ -10,9 +11,9 @@ const login = async (db: PrismaClient, input: LoginInput) => {
       email: input.email,
     },
   });
-  if (!dbUser) throw new Error("Invalid email or password");
-  if (dbUser.password !== input.password)
-    throw new Error("Invalid email or password");
+  if (!dbUser) throw new Error("Nem megfelelő email vagy jelszó!");
+  if (!bcrypt.compareSync(input.password, dbUser.password))
+    throw new Error("Nem megfelelő email vagy jelszó!");
 
   const user = {
     id: dbUser.id,

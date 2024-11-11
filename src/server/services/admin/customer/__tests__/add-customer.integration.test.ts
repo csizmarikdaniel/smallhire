@@ -70,5 +70,5 @@ test("should throw error if user exists", async () => {
       city: "city1",
       zipCode: "zipCode1",
     }),
-  ).rejects.toThrowError("User already exists");
+  ).rejects.toThrowError("Ez az email cím már foglalt");
 });

@@ -12,10 +12,22 @@ import { useForm } from "react-hook-form";
 
 const AdminAddTrade = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | undefined>();
   const addTrade = api.admin.worker.trade.add.useMutation({
     onSuccess: () => {
       setOpen(false);
       window.location.reload();
+    },
+    onError: (error) => {
+      if (
+        error.message.startsWith("[") &&
+        JSON.parse(error.message) instanceof Array
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+        setError(JSON.parse(error.message)[0].message);
+      } else {
+        setError(error.message);
+      }
     },
   });
 
@@ -38,7 +50,10 @@ const AdminAddTrade = ({ id }: { id: string }) => {
       </Button>
       <Modal
         type="client"
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          if (!error) setOpen(false);
+        }}
+        onCancel={() => setOpen(false)}
         open={open}
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -58,6 +73,7 @@ const AdminAddTrade = ({ id }: { id: string }) => {
           {...register("pricePerHour", { setValueAs: setNumberValueAs })}
           error={errors.pricePerHour?.message}
         />
+        {error && <div className="mt-5 text-red-500">{error}</div>}
       </Modal>
     </>
   );

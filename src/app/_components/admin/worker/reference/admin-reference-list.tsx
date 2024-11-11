@@ -7,7 +7,9 @@ const AdminReferenceList = async ({ id }: { id: string }) => {
 
   const onupload = async (formData: FormData) => {
     "use server";
-    await api.admin.worker.reference.image.add(formData);
+    await api.admin.worker.reference.image.add(formData).then(() => {
+      location.reload();
+    });
   };
 
   const onCreate = async (formData: FormData) => {

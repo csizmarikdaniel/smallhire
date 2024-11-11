@@ -14,20 +14,20 @@ const ProfilePicture = ({
 }: {
   onupload: (formdata: FormData) => Promise<void>;
 }) => {
-  const image = api.profile.image.get.useQuery();
+  const { data, refetch } = api.profile.image.get.useQuery();
   const [open, setOpen] = useState(false);
   const removeImage = api.profile.image.remove.useMutation({
     onSuccess: async () => {
-      await image.refetch();
+      await refetch();
     },
   });
 
   return (
     <div className="mb-10">
-      {image.data ? (
+      {data ? (
         <div className="relative mx-auto w-fit">
           <Image
-            src={getImageUrl(image.data.url)}
+            src={getImageUrl(data.url)}
             alt="Profilkép"
             width={200}
             height={200}

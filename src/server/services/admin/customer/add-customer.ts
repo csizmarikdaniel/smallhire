@@ -9,7 +9,7 @@ const addCustomer = async (db: PrismaClient, input: AddCustomerInput) => {
   });
 
   if (dbCustomer) {
-    throw new Error("User already exists");
+    throw new Error("Ez az email cím már foglalt!");
   }
 
   const customer = await db.user.create({

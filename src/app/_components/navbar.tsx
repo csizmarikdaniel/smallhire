@@ -1,8 +1,6 @@
 import { api } from "@/trpc/server";
 import Link from "next/link";
 import NotificationDropdown from "./notification-dropdown";
-import AdminNavbar from "./admin/admin-navbar";
-import { redirect, RedirectType } from "next/navigation";
 
 const Navbar = async () => {
   return (
@@ -28,7 +26,7 @@ const Navbar = async () => {
               action={async () => {
                 "use server";
                 await api.auth.user.logout();
-                window.location.reload();
+                api.auth.getSession();
               }}
             >
               <button type="submit">Kijelentkezés</button>

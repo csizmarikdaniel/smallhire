@@ -4,11 +4,18 @@ import { api } from "@/trpc/react";
 import { useParams } from "next/navigation";
 import RemoveIcon from "../icons/remove";
 
-const RemoveReservationImage = ({ imageId }: { imageId: string }) => {
+type RemoveReservationImageProps = {
+  imageId: string;
+};
+
+const RemoveReservationImage = ({ imageId }: RemoveReservationImageProps) => {
   const params = useParams();
   const deleteImage = api.reservation.image.remove.useMutation({
     onSuccess: () => {
       location.reload();
+    },
+    onError: (error) => {
+      alert("Hiba történt a kép törlése közben! Kérem próbálja újra!");
     },
   });
   return (

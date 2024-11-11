@@ -3,11 +3,15 @@
 import { api } from "@/trpc/react";
 import { useState } from "react";
 import Button from "../../button";
-import { type EditUserInput } from "@/types/profile";
 import EditWorkerForm from "./edit-worker-form";
+import { type AdminEditProfileInput } from "@/types/admin";
+import Image from "next/image";
+import { getImageUrl } from "@/utils/get-image-url";
+import { da } from "@faker-js/faker";
 
 const UserDataBlock = ({ id }: { id: string }) => {
   const [editing, setEditing] = useState(false);
+  const [error, setError] = useState<string | undefined>();
 
   const { data, refetch } = api.admin.worker.getPersonalData.useQuery({
     workerId: id,
@@ -17,9 +21,20 @@ const UserDataBlock = ({ id }: { id: string }) => {
       setEditing(false);
       await refetch();
     },
+    onError: (error) => {
+      if (
+        error.message.startsWith("[") &&
+        JSON.parse(error.message) instanceof Array
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+        setError(JSON.parse(error.message)[0].message);
+      } else {
+        setError(error.message);
+      }
+    },
   });
 
-  const onSubmit = (data: EditUserInput) => {
+  const onSubmit = (data: AdminEditProfileInput) => {
     mutate(data);
   };
 
@@ -31,9 +46,13 @@ const UserDataBlock = ({ id }: { id: string }) => {
           defaultValues={data}
           onSubmit={onSubmit}
           onClose={() => setEditing(false)}
+          error={error}
         />
       ) : (
         <div className="flex flex-col gap-3">
+          {data?.image && (
+            <Image src={getImageUrl(data?.image)} alt="Profilkép" />
+          )}
           <div>Email: {data?.email}</div>
           <div>Telefonszám: {data?.phone}</div>
           <div>Cím: {data?.address}</div>

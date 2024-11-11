@@ -5,15 +5,13 @@ import Input from "../form-components/input";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 
-const ReservationActions = ({
-  id,
-  status,
-  role,
-}: {
+type ReservationActionsProps = {
   id: string;
   status: string;
   role: string;
-}) => {
+};
+
+const ReservationActions = ({ id, status, role }: ReservationActionsProps) => {
   return (
     <div className="rounded-lg p-5 shadow-lg">
       {role == "CUSTOMER" && <CustomerActions status={status} id={id} />}
@@ -23,20 +21,19 @@ const ReservationActions = ({
 };
 
 const CustomerActions = ({ status, id }: { status: string; id: string }) => {
-  const router = useRouter();
   const cancel = api.reservation.cancel.useMutation({
     onSuccess: () => {
-      router.refresh();
+      window.location.reload();
     },
   });
   const acceptOffer = api.reservation.acceptOffer.useMutation({
     onSuccess: () => {
-      router.refresh();
+      window.location.reload();
     },
   });
   const rejectOffer = api.reservation.rejectOffer.useMutation({
     onSuccess: () => {
-      router.refresh();
+      window.location.reload();
     },
   });
 

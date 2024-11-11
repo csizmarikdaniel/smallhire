@@ -5,11 +5,12 @@ import { RegisterSchema } from "@/types/auth";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useState } from "react";
 import Input from "../form-components/input";
 import Button from "../button";
 import { useRouter } from "next/navigation";
 import Radio from "../form-components/radio";
+import bcrypt from "bcryptjs";
 
 type FormValues = z.infer<typeof RegisterSchema>;
 
@@ -25,8 +26,21 @@ const defaultValues: FormValues = {
 };
 
 const RegisterForm = () => {
-  const registerMutation = api.auth.user.register.useMutation();
+  const registerMutation = api.auth.user.register.useMutation({
+    onError: (error) => {
+      if (error.message === "Ez az email cím már használatban van!") {
+        setEmailError(error.message);
+      } else {
+        setError("Ismeretlen hiba történt! Kérjük próbálja újra!");
+      }
+    },
+    onSuccess: () => {
+      router.push("/login");
+    },
+  });
   const router = useRouter();
+  const [emailError, setEmailError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const {
     register,
@@ -38,14 +52,9 @@ const RegisterForm = () => {
   });
 
   const onSubmit = (values: FormValues) => {
+    values.password = bcrypt.hashSync(values.password, 10);
     registerMutation.mutate(values);
   };
-
-  useEffect(() => {
-    if (registerMutation.isSuccess) {
-      router.push("/login");
-    }
-  }, [registerMutation, router]);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       <div className="flex justify-center">
@@ -56,7 +65,7 @@ const RegisterForm = () => {
         <div className="flex flex-col">
           <Input
             label="Email"
-            error={errors.email?.message}
+            error={errors.email?.message ?? emailError}
             {...register("email")}
           />
           <Input
@@ -94,6 +103,7 @@ const RegisterForm = () => {
           />
         </div>
       </div>
+      {error && <p className="text-red-500">{error}</p>}
       <Button type="submit">Regisztráció</Button>
     </form>
   );

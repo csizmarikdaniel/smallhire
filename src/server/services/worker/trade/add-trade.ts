@@ -29,7 +29,7 @@ const addTrade = async (
 
   trades.forEach((trade) => {
     if (trade.name === input.name) {
-      throw new Error("Trade already exists");
+      throw new Error("Ez a szakma már létezik!");
     }
   });
 

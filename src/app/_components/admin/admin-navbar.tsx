@@ -22,7 +22,7 @@ const AdminNavbar = async () => {
             action={async () => {
               "use server";
               await api.auth.user.logout();
-              redirect("/", RedirectType.replace);
+              api.auth.getSession();
             }}
           >
             <button type="submit">Kijelentkezés</button>

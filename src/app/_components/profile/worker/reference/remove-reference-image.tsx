@@ -12,7 +12,12 @@ const RemoveReferenceImage = ({
   referenceId,
   imageId,
 }: RemoveReferenceImageProps) => {
-  const deleteImage = api.worker.reference.image.delete.useMutation();
+  const deleteImage = api.worker.reference.image.delete.useMutation({
+    onSuccess: () => window.location.reload(),
+    onError: () => {
+      alert("Hiba történt a kép törlése közben.");
+    },
+  });
 
   return (
     <div

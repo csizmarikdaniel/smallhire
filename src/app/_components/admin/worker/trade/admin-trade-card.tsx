@@ -5,9 +5,16 @@ import Button from "../../../button";
 import { useState } from "react";
 import { type EditTradeInput } from "@/types/worker";
 import AdminEditTradeForm from "./admin-edit-trade-form";
+import AdminDeleteConfirm from "../../admin-delete-confirm";
 
-const AdminTradeCard = ({ id }: { id: string }) => {
+type AdminTradeCardProps = {
+  id: string;
+};
+
+const AdminTradeCard = ({ id }: AdminTradeCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | undefined>();
   const { data, refetch } = api.admin.worker.trade.get.useQuery({
     tradeId: id,
   });
@@ -19,7 +26,19 @@ const AdminTradeCard = ({ id }: { id: string }) => {
 
   const { mutate: editTrade } = api.admin.worker.trade.edit.useMutation({
     onSuccess: async () => {
+      setIsEditing(false);
       await refetch();
+    },
+    onError: (error) => {
+      if (
+        error.message.startsWith("[") &&
+        JSON.parse(error.message) instanceof Array
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+        setError(JSON.parse(error.message)[0].message);
+      } else {
+        setError(error.message);
+      }
     },
   });
 
@@ -29,7 +48,6 @@ const AdminTradeCard = ({ id }: { id: string }) => {
 
   const onEdit = (values: EditTradeInput) => {
     editTrade(values);
-    setIsEditing(false);
   };
 
   return (
@@ -40,6 +58,7 @@ const AdminTradeCard = ({ id }: { id: string }) => {
             defaultValues={data}
             onCancel={() => setIsEditing(false)}
             onEdit={onEdit}
+            error={error}
           />
         )
       ) : (
@@ -53,7 +72,15 @@ const AdminTradeCard = ({ id }: { id: string }) => {
             <div>{data?.pricePerHour} Ft/óra</div>
           </div>
           <div>
-            <Button onClick={onDelete}>Törlés</Button>
+            <Button onClick={() => setOpen(true)}>Törlés</Button>
+            {open && data && (
+              <AdminDeleteConfirm
+                name={data.name}
+                onDelete={onDelete}
+                open={open}
+                setOpen={setOpen}
+              />
+            )}
             <Button onClick={() => setIsEditing(true)}>Szerkesztés</Button>
           </div>
         </div>

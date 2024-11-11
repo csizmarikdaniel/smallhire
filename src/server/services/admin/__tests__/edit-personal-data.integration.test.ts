@@ -49,3 +49,45 @@ test("should throw error if user is not found", async () => {
     }),
   ).rejects.toThrowError();
 });
+
+test("should throw error if email is already taken", async () => {
+  await prisma.user.create({
+    data: {
+      id: "1",
+      email: "email1@email.com",
+      password: "password",
+      role: "ADMIN",
+      address: "address1",
+      phone: "phone1",
+      name: "name1",
+      city: "city1",
+      zipCode: "zipCode1",
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      id: "2",
+      email: "email2@email.com",
+      password: "password",
+      role: "ADMIN",
+      address: "address2",
+      phone: "phone2",
+      name: "name2",
+      city: "city2",
+      zipCode: "zipCode2",
+    },
+  });
+
+  await expect(
+    editPersonalData(prisma, {
+      id: "2",
+      email: "email1@email.com",
+      address: "address1",
+      phone: "phone1",
+      name: "name1",
+      city: "city1",
+      zipCode: "zipCode1",
+    }),
+  ).rejects.toThrowError("Ez az email cím már foglalt");
+});

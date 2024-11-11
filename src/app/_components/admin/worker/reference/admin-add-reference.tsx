@@ -11,6 +11,7 @@ type AdminAddReferenceProps = {
 
 const AdminAddReference = ({ onCreate }: AdminAddReferenceProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState<string | undefined>();
   return (
     <>
       <div className="mt-5 flex justify-center">
@@ -21,12 +22,32 @@ const AdminAddReference = ({ onCreate }: AdminAddReferenceProps) => {
       <Modal
         open={isOpen}
         type="server"
-        action={onCreate}
-        onClose={() => setIsOpen(false)}
+        action={async (data) => {
+          try {
+            await onCreate(data);
+            setError(undefined);
+          } catch (error) {
+            if (error instanceof Error) {
+              if (error.message.startsWith("[")) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+                setError(JSON.parse(error.message)[0].message);
+              } else {
+                setError(error.message);
+              }
+            }
+          }
+        }}
+        onClose={() => {
+          if (!error) {
+            setIsOpen(false);
+          }
+        }}
+        onCancel={() => setIsOpen(false)}
       >
         <h1 className="text-center text-2xl">Új referencia</h1>
         <Input name="description" label="Leírás" />
         <Input name="images" type="file" label="Képek" multiple />
+        {error && <p className="mt-5 text-red-500">{error}</p>}
       </Modal>
     </>
   );

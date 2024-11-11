@@ -1,5 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 import { fakerHU as faker } from "@faker-js/faker";
+import bcrypt from "bcryptjs";
 
 export const seedWorkers = async (prisma: PrismaClient) => {
   console.log("🌱 Seeding workers");
@@ -25,7 +26,7 @@ export const seedWorkers = async (prisma: PrismaClient) => {
       await prisma.user.create({
         data: {
           email: `worker${i}@email.com`,
-          password: "password",
+          password: bcrypt.hashSync("password", 10),
           role: "WORKER",
           name: faker.person.fullName(),
           address: faker.location.streetAddress(),

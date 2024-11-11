@@ -9,12 +9,14 @@ type AdminEditTradeFormProps = {
   defaultValues: EditTradeInput;
   onCancel: () => void;
   onEdit: (data: EditTradeInput) => void;
+  error: string | undefined;
 };
 
 const AdminEditTradeForm = ({
   defaultValues,
   onCancel,
   onEdit,
+  error,
 }: AdminEditTradeFormProps) => {
   const {
     register,
@@ -28,6 +30,7 @@ const AdminEditTradeForm = ({
   return (
     <form onSubmit={handleSubmit(onEdit)}>
       <Input {...register("id")} type="hidden" />
+      <Input {...register("workerId")} type="hidden" />
       <Input {...register("name")} label="Név" error={errors.name?.message} />
       <Input
         {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}
@@ -41,6 +44,7 @@ const AdminEditTradeForm = ({
         error={errors.pricePerHour?.message}
         type="number"
       />
+      {error && <div className="mt-5 text-red-500">{error}</div>}
       <Button type="submit">Mentés</Button>
       <Button onClick={onCancel}>Mégse</Button>
     </form>

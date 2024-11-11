@@ -1,7 +1,20 @@
-import { type EditUserInput } from "@/types/profile";
+import { type AdminEditProfileInput } from "@/types/admin";
 import { type PrismaClient } from "@prisma/client";
 
-const editPersonalData = async (db: PrismaClient, input: EditUserInput) => {
+const editPersonalData = async (
+  db: PrismaClient,
+  input: AdminEditProfileInput,
+) => {
+  const dbUser = await db.user.findUnique({
+    where: {
+      email: input.email,
+    },
+  });
+
+  if (dbUser && dbUser.id !== input.id) {
+    throw new Error("Ez az email cím már foglalt");
+  }
+
   const user = await db.user.update({
     where: {
       id: input.id,

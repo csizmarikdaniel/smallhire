@@ -75,5 +75,5 @@ test("should throw error if email is already taken", async () => {
       zipCode: "zipCode1",
       role: "WORKER",
     }),
-  ).rejects.toThrowError("User already exists");
+  ).rejects.toThrowError("Ez az email cím már használatban van!");
 });

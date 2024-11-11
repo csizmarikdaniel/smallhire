@@ -11,10 +11,13 @@ import Input from "../../form-components/input";
 
 const AdminAddCustomer = () => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const addCustomer = api.admin.customer.add.useMutation({
     onSuccess: async () => {
       setOpen(false);
-      window.location.reload();
+    },
+    onError: (error) => {
+      setError(error.message);
     },
   });
 
@@ -35,7 +38,10 @@ const AdminAddCustomer = () => {
       <Button onClick={() => setOpen(true)}>Új megrendelő</Button>
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          if (!error) setOpen(false);
+        }}
+        onCancel={() => setOpen(false)}
         type="client"
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -50,6 +56,7 @@ const AdminAddCustomer = () => {
           {...register("password")}
           label="Jelszó"
           error={errors.password?.message}
+          type="password"
         />
         <Input
           {...register("phone")}
@@ -71,6 +78,7 @@ const AdminAddCustomer = () => {
           label="Cím"
           error={errors.address?.message}
         />
+        {error && <p className="mt-5 text-red-500">{error}</p>}
       </Modal>
     </>
   );
