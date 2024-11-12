@@ -13,7 +13,7 @@ const NotificationDropdown = () => {
   return (
     <div className="relative">
       <button onClick={() => setOpen(!open)}>Értesítések</button>
-      {unSeenCount.data && (
+      {unSeenCount.data !== undefined && (
         <div className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 text-white">
           {unSeenCount.data}
         </div>

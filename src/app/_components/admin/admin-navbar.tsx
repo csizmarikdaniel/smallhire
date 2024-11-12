@@ -18,6 +18,9 @@ const AdminNavbar = async () => {
           <Link href="/admin/customers">Megrendelők</Link>
         </li>
         <li>
+          <Link href="/admin/reservations">Foglalások</Link>
+        </li>
+        <li>
           <form
             action={async () => {
               "use server";

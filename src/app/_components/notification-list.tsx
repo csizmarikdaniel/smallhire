@@ -48,7 +48,7 @@ const NotificationList = ({ setOpen, className }: NotificationListProps) => {
         className,
       )}
     >
-      {notifications ? (
+      {notifications.data ? (
         notifications.data?.length !== 0 ? (
           notifications.data?.map((noti) => (
             <NotificationCard

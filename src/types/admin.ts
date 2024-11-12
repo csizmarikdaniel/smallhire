@@ -161,3 +161,37 @@ export const AdminEditProfileSchema = z.object({
     .string({ message: "Cím megadása kötelező!" })
     .min(1, { message: "Cím megadása kötelező!" }),
 });
+
+export type EditStatusInput = {
+  reservationId: string;
+  status: string;
+};
+
+export const EditStatusSchema = z.object({
+  reservationId: z.string({ message: "A foglalás ID megadása kötelező!" }),
+  status: z.string({ message: "Az állapot megadása kötelező!" }),
+});
+
+export type EditReservationUserInput = {
+  reservationId: string;
+  email: string;
+};
+
+export const EditReservationUserSchema = z.object({
+  reservationId: z.string({ message: "A foglalás ID megadása kötelező!" }),
+  email: z
+    .string({ message: "Az email csak szöveg lehet!" })
+    .email({ message: "Az email formátuma nem megfelelő!" }),
+});
+
+export type EditDatesInput = {
+  reservationId: string;
+  startDate: Date;
+  endDate: Date;
+};
+
+export const EditDatesSchema = z.object({
+  reservationId: z.string({ message: "A foglalás ID megadása kötelező!" }),
+  startDate: z.date({ message: "A kezdő dátum megadása kötelező!" }),
+  endDate: z.date({ message: "A befejező dátum megadása kötelező!" }),
+});

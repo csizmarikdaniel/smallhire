@@ -15,6 +15,9 @@ import {
   AdminEditProfileSchema,
   AdminListCustomersSchema,
   AdminListWorkersSchema,
+  EditDatesSchema,
+  EditReservationUserSchema,
+  EditStatusSchema,
 } from "@/types/admin";
 import addWorker from "@/server/services/admin/worker/add-worker";
 import { DeleteReferenceImageSchema } from "@/types/worker";
@@ -41,9 +44,16 @@ import deleteWorker from "@/server/services/admin/worker/delete-worker";
 import {
   CustomerIdSchema,
   ReferenceIdSchema,
+  ReservationIdSchema,
   TradeIdSchema,
   WorkerIdSchema,
 } from "@/types";
+import getReservations from "@/server/services/admin/reservation/get-reservations";
+import getReservation from "@/server/services/admin/reservation/get-reservation";
+import editWorker from "@/server/services/admin/reservation/edit-worker";
+import editCustomer from "@/server/services/admin/reservation/edit-customer";
+import editStatus from "@/server/services/admin/reservation/edit-status";
+import editDates from "@/server/services/admin/reservation/edit-dates";
 
 const adminRouter = router({
   get: adminProcedure.query(
@@ -140,6 +150,26 @@ const adminRouter = router({
     add: adminProcedure
       .input(AddCustomerSchema)
       .mutation(async ({ ctx, input }) => await addCustomer(ctx.db, input)),
+  }),
+  reservation: router({
+    list: adminProcedure.query(
+      async ({ ctx }) => await getReservations(ctx.db),
+    ),
+    get: adminProcedure
+      .input(ReservationIdSchema)
+      .query(async ({ ctx, input }) => await getReservation(ctx.db, input)),
+    editWorker: adminProcedure
+      .input(EditReservationUserSchema)
+      .mutation(async ({ ctx, input }) => await editWorker(ctx.db, input)),
+    editCustomer: adminProcedure
+      .input(EditReservationUserSchema)
+      .mutation(async ({ ctx, input }) => await editCustomer(ctx.db, input)),
+    editStatus: adminProcedure
+      .input(EditStatusSchema)
+      .mutation(async ({ ctx, input }) => await editStatus(ctx.db, input)),
+    editDates: adminProcedure
+      .input(EditDatesSchema)
+      .mutation(async ({ ctx, input }) => await editDates(ctx.db, input)),
   }),
 });
 

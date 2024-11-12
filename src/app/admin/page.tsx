@@ -15,6 +15,7 @@ const AdminPage = async () => {
       <div className="flex gap-3">
         <Button.Link href="/admin/workers">Szakemberek</Button.Link>
         <Button.Link href="/admin/customers">Megrendelők</Button.Link>
+        <Button.Link href="/admin/reservations">Foglalások</Button.Link>
       </div>
     </div>
   );
