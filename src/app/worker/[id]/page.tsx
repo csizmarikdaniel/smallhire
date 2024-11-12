@@ -4,7 +4,7 @@ import { getImageUrl } from "@/utils/get-image-url";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
-import Loading from "@/app/loading";
+import Loading from "@/app/_components/loading";
 
 const WorkerPage = async ({ params: { id } }: { params: { id: string } }) => {
   const worker = await api.worker.get({ workerId: id });

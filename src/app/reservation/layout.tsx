@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Navbar from "../_components/navbar";
-import Loading from "../loading";
+import Loading from "../_components/loading";
 
 const ReservationsPageLayout = ({
   children,

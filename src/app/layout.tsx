@@ -5,7 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { Suspense } from "react";
-import Loading from "./loading";
+import Loading from "./_components/loading";
 
 export const metadata: Metadata = {
   title: "SmallHire",

@@ -1,5 +1,5 @@
 import RegisterForm from "@/app/_components/auth/registerForm";
-import Loading from "@/app/loading";
+import Loading from "@/app/_components/loading";
 import Link from "next/link";
 import { Suspense } from "react";
 

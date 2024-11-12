@@ -1,5 +1,5 @@
 import ReservationForm from "@/app/_components/reservation/reservation-form";
-import Loading from "@/app/loading";
+import Loading from "@/app/_components/loading";
 import { api } from "@/trpc/server";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";

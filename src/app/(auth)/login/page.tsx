@@ -1,5 +1,5 @@
 import LoginForm from "@/app/_components/auth/loginForm";
-import Loading from "@/app/loading";
+import Loading from "@/app/_components/loading";
 import { api } from "@/trpc/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import AdminNavbar from "../_components/admin/admin-navbar";
-import Loading from "../loading";
+import Loading from "../_components/loading";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
