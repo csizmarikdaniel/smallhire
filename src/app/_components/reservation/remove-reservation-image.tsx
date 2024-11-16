@@ -14,7 +14,7 @@ const RemoveReservationImage = ({ imageId }: RemoveReservationImageProps) => {
     onSuccess: () => {
       location.reload();
     },
-    onError: (error) => {
+    onError: () => {
       alert("Hiba történt a kép törlése közben! Kérem próbálja újra!");
     },
   });

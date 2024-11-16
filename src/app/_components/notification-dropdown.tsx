@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
 import NotificationList from "./notification-list";
 
 const NotificationDropdown = () => {
   const unSeenCount = api.notification.unseenNotificationsCount.useQuery();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   return (

@@ -7,7 +7,6 @@ import EditWorkerForm from "./edit-worker-form";
 import { type AdminEditProfileInput } from "@/types/admin";
 import Image from "next/image";
 import { getImageUrl } from "@/utils/get-image-url";
-import { da } from "@faker-js/faker";
 
 const UserDataBlock = ({ id }: { id: string }) => {
   const [editing, setEditing] = useState(false);

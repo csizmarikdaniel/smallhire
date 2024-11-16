@@ -1,5 +1,5 @@
-import { EditStatusInput } from "@/types/admin";
-import { PrismaClient } from "@prisma/client";
+import { type EditStatusInput } from "@/types/admin";
+import { type PrismaClient } from "@prisma/client";
 
 const editStatus = async (db: PrismaClient, input: EditStatusInput) => {
   await db.reservation.update({

@@ -53,26 +53,28 @@ const addReference = async (
         });
       }
     } else {
-      if (
-        input.images.type !== "image/png" &&
-        input.images.type !== "image/jpeg"
-      ) {
-        throw new Error("Invalid file type");
-      }
-      const response = await utapi.uploadFiles(input.images);
-      await db.reference.update({
-        where: {
-          id: reference.id,
-        },
-        data: {
-          image: {
-            create: {
-              url: response.data?.key ?? "",
-              userId: reference.workerId,
+      if (input.images.size !== 0) {
+        if (
+          input.images.type !== "image/png" &&
+          input.images.type !== "image/jpeg"
+        ) {
+          throw new Error("Invalid file type");
+        }
+        const response = await utapi.uploadFiles(input.images);
+        await db.reference.update({
+          where: {
+            id: reference.id,
+          },
+          data: {
+            image: {
+              create: {
+                url: response.data?.key ?? "",
+                userId: reference.workerId,
+              },
             },
           },
-        },
-      });
+        });
+      }
     }
   } else {
     throw new Error("No images provided");

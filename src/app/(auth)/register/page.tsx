@@ -3,7 +3,7 @@ import Loading from "@/app/_components/loading";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default async function RegisterPage() {
+const RegisterPage = async () => {
   return (
     <Suspense fallback={<Loading />}>
       <div className="mx-auto mt-10 max-w-[1000px] rounded-lg bg-white p-5">
@@ -20,4 +20,6 @@ export default async function RegisterPage() {
       </div>
     </Suspense>
   );
-}
+};
+
+export default RegisterPage;

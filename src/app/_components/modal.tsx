@@ -3,7 +3,7 @@ import Button from "./button";
 type ModalProps = {
   children: React.ReactNode;
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onCancel?: () => void;
   type: "client" | "server" | undefined;
   onSubmit?: () => void;

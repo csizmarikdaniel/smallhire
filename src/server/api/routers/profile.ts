@@ -1,7 +1,7 @@
 import { authProcedure, router } from "../trpc";
 import getPersonalData from "@/server/services/profile/get-personal-data";
 import {
-  EditProfilePictureInput,
+  type EditProfilePictureInput,
   EditProfilePictureSchema,
   EditUserSchema,
 } from "@/types/profile";

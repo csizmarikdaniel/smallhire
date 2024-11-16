@@ -26,7 +26,7 @@ const Navbar = async () => {
               action={async () => {
                 "use server";
                 await api.auth.user.logout();
-                api.auth.getSession();
+                await api.auth.getSession();
               }}
             >
               <button type="submit">Kijelentkezés</button>

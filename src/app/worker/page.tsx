@@ -1,7 +1,9 @@
+import { api } from "@/trpc/server";
 import CategoryFilter from "../_components/category-filter";
 import Search from "../_components/search";
 import SortMode from "../_components/sort-mode";
 import WorkerList from "../_components/worker/worker-list";
+import { redirect } from "next/navigation";
 
 type HomePageProps = {
   searchParams?: {
@@ -13,7 +15,12 @@ type HomePageProps = {
   };
 };
 
-const WorkerListPage = ({ searchParams }: HomePageProps) => {
+const WorkerListPage = async ({ searchParams }: HomePageProps) => {
+  const session = await api.auth.getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
   const search = searchParams?.search;
   const trades = searchParams?.trade?.split("&");
   const sort = searchParams?.sort;

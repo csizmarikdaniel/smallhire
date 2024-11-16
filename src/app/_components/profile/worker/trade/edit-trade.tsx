@@ -59,6 +59,7 @@ const EditTrade = ({ trade }: EditTradeProps) => {
         type="client"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <h1 className="text-3xl">Mesterség módosítása</h1>
         <Input {...register("name")} label="Név" error={errors.name?.message} />
         <Input
           {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}

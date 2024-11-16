@@ -5,7 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function LoginPage() {
+const LoginPage = async () => {
   const session = await api.auth.getSession();
   if (session) {
     if (session.user.role === "ADMIN") {
@@ -38,4 +38,6 @@ export default async function LoginPage() {
       </div>
     </Suspense>
   );
-}
+};
+
+export default LoginPage;

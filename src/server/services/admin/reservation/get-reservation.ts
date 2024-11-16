@@ -1,5 +1,5 @@
-import { ReservationIdInput } from "@/types";
-import { PrismaClient } from "@prisma/client";
+import { type ReservationIdInput } from "@/types";
+import { type PrismaClient } from "@prisma/client";
 
 const getReservation = async (db: PrismaClient, input: ReservationIdInput) => {
   return db.reservation.findUnique({

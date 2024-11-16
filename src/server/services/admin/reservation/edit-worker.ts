@@ -1,5 +1,5 @@
-import { EditReservationUserInput } from "@/types/admin";
-import { PrismaClient } from "@prisma/client";
+import { type EditReservationUserInput } from "@/types/admin";
+import { type PrismaClient } from "@prisma/client";
 
 const editWorker = async (
   db: PrismaClient,

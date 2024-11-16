@@ -5,7 +5,7 @@ import Button from "../button";
 import Modal from "../modal";
 import Input from "../form-components/input";
 import { useForm } from "react-hook-form";
-import { EditUserInput, EditUserSchema } from "@/types/profile";
+import { type EditUserInput, EditUserSchema } from "@/types/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/trpc/react";
 

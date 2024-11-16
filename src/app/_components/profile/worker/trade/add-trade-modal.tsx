@@ -42,15 +42,8 @@ const AddTradeModal = ({
   };
 
   return (
-    <Modal
-      open={open}
-      onClose={() => {
-        if (!error) setOpen(false);
-      }}
-      onCancel={() => setOpen(false)}
-      type="client"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <Modal open={open} type="client" onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-center text-2xl">Mesterség hozzáadása</h1>
       <Input {...register("name")} label="Név" error={errors.name?.message} />
       <Input
         {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}

@@ -110,12 +110,12 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
   });
 
   return (
-    <div className="flex gap-4">
+    <div className="flex items-center justify-center gap-4">
       {status == "RESERVED" && (
         <div className="flex flex-col items-center gap-4">
           <p>Új foglalás érkezett. Kérem válaszoljon a foglalásra!</p>
           {!accepted ? (
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
               <Button onClick={() => setAccepted(true)}>
                 Foglalás elfogadása
               </Button>
@@ -128,25 +128,27 @@ const WorkerActions = ({ status, id }: { status: string; id: string }) => {
               </Button>
             </div>
           ) : (
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
               <Input
                 label="Ár"
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.valueAsNumber)}
               />
-              <Button
-                onClick={() => {
-                  if (price <= 0) {
-                    alert("Az ár nem lehet nulla vagy negatív szám");
-                    return;
-                  }
-                  createOffer.mutate({ price: price, reservationId: id });
-                }}
-              >
-                Mentés
-              </Button>
-              <Button onClick={() => setAccepted(false)}>Mégse</Button>
+              <div className="self-end">
+                <Button
+                  onClick={() => {
+                    if (price <= 0) {
+                      alert("Az ár nem lehet nulla vagy negatív szám");
+                      return;
+                    }
+                    createOffer.mutate({ price: price, reservationId: id });
+                  }}
+                >
+                  Mentés
+                </Button>
+                <Button onClick={() => setAccepted(false)}>Mégse</Button>
+              </div>
             </div>
           )}
         </div>

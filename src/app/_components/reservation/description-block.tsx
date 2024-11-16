@@ -6,10 +6,9 @@ import TextArea from "../form-components/textarea";
 import { api } from "@/trpc/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import Input from "../form-components/input";
 import {
-  EditDescriptionInput,
+  type EditDescriptionInput,
   EditDescriptionSchema,
 } from "@/types/reservation";
 

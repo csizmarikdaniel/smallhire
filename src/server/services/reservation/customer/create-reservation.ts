@@ -39,6 +39,17 @@ const createReservation = async (
       endDate: {
         gte: input.startDate,
       },
+      OR: [
+        {
+          status: "RESERVED",
+        },
+        {
+          status: "CREATEDOFFER",
+        },
+        {
+          status: "ACCEPTEDOFFER",
+        },
+      ],
     },
   });
   if (workerReservations.length > 0) {

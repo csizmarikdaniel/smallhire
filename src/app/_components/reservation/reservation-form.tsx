@@ -38,15 +38,10 @@ const ReservationForm = ({ onReservation }: ReservationFormProps) => {
       className="flex flex-col items-center gap-5"
     >
       <Calendar selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
-      <Textarea
-        name="description"
-        label="Leírás"
-        placeholder="Leírás"
-        required
-      />
+      <Textarea name="description" label="Leírás" placeholder="Leírás" />
       <Input type="file" name="images" multiple />
       <Input type="hidden" name="workerId" value={params.id?.toString()} />
-      {error && <p className="mt-5 text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <Button type="submit">Foglalás</Button>
     </form>
   );

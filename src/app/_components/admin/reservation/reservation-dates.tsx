@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DateRange, DayPicker } from "react-day-picker";
+import { type DateRange, DayPicker } from "react-day-picker";
 import Button from "../../button";
 import { api } from "@/trpc/react";
 import "react-day-picker/style.css";

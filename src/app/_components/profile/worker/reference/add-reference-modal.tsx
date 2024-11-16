@@ -11,35 +11,22 @@ const AddReferenceModal = ({
   setOpen: (open: boolean) => void;
   onCreate: (formData: FormData) => Promise<void>;
 }) => {
-  const [descriptionError, setDescriptionError] = useState<
-    string | undefined
-  >();
-  const [error, setError] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>(undefined);
   return (
     <Modal
       open={open}
       onClose={() => {
-        if (
-          error !== undefined &&
-          descriptionError !== undefined &&
-          error !== "" &&
-          descriptionError !== ""
-        )
-          setOpen(false);
+        setError(undefined);
       }}
       onCancel={() => {
-        setDescriptionError(undefined);
         setError(undefined);
         setOpen(false);
       }}
       type="server"
       action={async (data) => {
-        if (data.get("description") == "") {
-          setDescriptionError("Leírás megadása kötelező!");
-          return;
-        }
         try {
           await onCreate(data);
+          setOpen(false);
         } catch (error) {
           if (error instanceof Error) {
             if (error.message.startsWith("[")) {
@@ -52,7 +39,8 @@ const AddReferenceModal = ({
         }
       }}
     >
-      <Input name="description" label="Leírás" error={descriptionError} />
+      <h1 className="text-2xl">Referencia hozzáadása</h1>
+      <Input name="description" label="Leírás" />
       <Input type="file" name="images" label="Képek" multiple />
       {error && <p className="mt-5 text-red-500">{error}</p>}
     </Modal>

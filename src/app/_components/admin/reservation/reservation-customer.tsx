@@ -6,7 +6,7 @@ import Button from "../../button";
 import { api } from "@/trpc/react";
 import { useForm } from "react-hook-form";
 import {
-  EditReservationUserInput,
+  type EditReservationUserInput,
   EditReservationUserSchema,
 } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";

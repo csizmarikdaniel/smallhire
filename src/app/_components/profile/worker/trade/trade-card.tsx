@@ -1,6 +1,4 @@
 "use client";
-import Button from "../../../button";
-import { useState } from "react";
 import EditTrade from "./edit-trade";
 import RemoveTrade from "./remove-trade";
 
@@ -14,7 +12,6 @@ const TradeCard = ({
     pricePerHour: number;
   };
 }) => {
-  const [open, setOpen] = useState(false);
   return (
     <div className="flex justify-between rounded-lg p-4 shadow-lg">
       <div className="">

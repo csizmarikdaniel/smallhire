@@ -4,7 +4,7 @@ import Button from "@/app/_components/button";
 import Input from "@/app/_components/form-components/input";
 import Modal from "@/app/_components/modal";
 import { api } from "@/trpc/react";
-import { EditReferenceInput, EditReferenceSchema } from "@/types/worker";
+import { type EditReferenceInput, EditReferenceSchema } from "@/types/worker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -53,7 +53,7 @@ const EditReference = ({ reference }: EditReferenceProps) => {
         type="client"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-xl font-bold">Referencia szerkesztése</h1>
+        <h1 className="text-2xl">Referencia leírásának szerkesztése</h1>
         <Input {...register("referenceId")} type="hidden" />
         <Input
           label="Leírás"

@@ -10,7 +10,7 @@ import createOffer from "@/server/services/reservation/worker/create-offer";
 import completeReservation from "@/server/services/reservation/worker/complete-reservation";
 import rejectReservation from "@/server/services/reservation/worker/reject-reservation";
 import {
-  AddReservationImageInput,
+  type AddReservationImageInput,
   AddReservationImageSchema,
   CreateOfferSchema,
   type CreateReservationInput,

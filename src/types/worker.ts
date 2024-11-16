@@ -24,7 +24,9 @@ export type AddTradeInput = {
   pricePerHour: number;
 };
 export const AddTradeSchema = z.object({
-  name: z.string({ message: "Név megadása kötelező" }),
+  name: z
+    .string({ message: "Név megadása kötelező" })
+    .min(1, { message: "Név megadása kötelező" }),
   yearsOfExperience: z.coerce.number({
     message: "Tapasztalat megadása kötelező",
   }),
@@ -37,8 +39,10 @@ export type AddReferenceInput = {
 };
 
 export const AddReferenceSchema = zfd.formData({
-  description: z.string({ message: "Leírás megadása kötelező" }),
-  images: z.array(z.any()),
+  description: z
+    .string({ message: "Leírás megadása kötelező" })
+    .min(1, { message: "Leírás megadása kötelező" }),
+  images: z.any(),
 });
 
 export type EditReferenceInput = {
