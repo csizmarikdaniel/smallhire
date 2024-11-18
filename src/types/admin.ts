@@ -195,3 +195,17 @@ export const EditDatesSchema = z.object({
   startDate: z.date({ message: "A kezdő dátum megadása kötelező!" }),
   endDate: z.date({ message: "A befejező dátum megadása kötelező!" }),
 });
+
+export type AdminGetReservationsInput = {
+  search?: string;
+  page?: number;
+  limit?: number;
+};
+
+export const AdminGetReservationsSchema = z
+  .object({
+    search: z.string().optional(),
+    page: z.number().optional(),
+    limit: z.number().optional(),
+  })
+  .optional();

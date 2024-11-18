@@ -8,7 +8,7 @@ const removeReferenceImage = async (
   session: SessionType,
   input: DeleteReferenceImageInput,
 ) => {
-  if (session?.user.role !== "WORKER") {
+  if (session?.user.role !== "WORKER" && session?.user.role !== "ADMIN") {
     throw new Error("Unauthorized");
   }
 
@@ -25,7 +25,10 @@ const removeReferenceImage = async (
     throw new Error("Reference not found");
   }
 
-  if (reference.workerId !== session?.user.id) {
+  if (
+    reference.workerId !== session?.user.id &&
+    session?.user.role !== "ADMIN"
+  ) {
     throw new Error("Unauthorized");
   }
 

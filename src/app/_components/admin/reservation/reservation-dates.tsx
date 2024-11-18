@@ -58,7 +58,7 @@ const ReservationDates = ({
       {isEditing ? (
         startDate &&
         endDate && (
-          <div>
+          <div className="flex flex-col items-center">
             <DayPicker
               mode="range"
               selected={selectedDays}
@@ -79,8 +79,11 @@ const ReservationDates = ({
                 }
               }}
             />
-            <Button onClick={onSave}>Mentés</Button>
-            <Button onClick={() => setIsEditing(false)}>Mégse</Button>
+            {error && <p className="mt-5 text-red-500">{error}</p>}
+            <div>
+              <Button onClick={onSave}>Mentés</Button>
+              <Button onClick={() => setIsEditing(false)}>Mégse</Button>
+            </div>
           </div>
         )
       ) : (

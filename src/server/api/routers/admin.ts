@@ -13,6 +13,7 @@ import {
   AdminAddReferenceSchema,
   AdminAddTradeSchema,
   AdminEditProfileSchema,
+  AdminGetReservationsSchema,
   AdminListCustomersSchema,
   AdminListWorkersSchema,
   EditDatesSchema,
@@ -152,9 +153,11 @@ const adminRouter = router({
       .mutation(async ({ ctx, input }) => await addCustomer(ctx.db, input)),
   }),
   reservation: router({
-    list: adminProcedure.query(
-      async ({ ctx }) => await getReservations(ctx.db),
-    ),
+    list: adminProcedure
+      .input(AdminGetReservationsSchema)
+      .query(
+        async ({ ctx, input }) => await getReservations(ctx.db, input ?? {}),
+      ),
     get: adminProcedure
       .input(ReservationIdSchema)
       .query(async ({ ctx, input }) => await getReservation(ctx.db, input)),

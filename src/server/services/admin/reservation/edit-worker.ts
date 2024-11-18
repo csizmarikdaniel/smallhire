@@ -14,6 +14,9 @@ const editWorker = async (
   if (!user) {
     throw new Error("Nem létezik ezzel az email címmel felhasználó.");
   }
+  if (user.role !== "WORKER") {
+    throw new Error("A felhasználó nem szakember.");
+  }
   await db.reservation.update({
     where: {
       id: input.reservationId,

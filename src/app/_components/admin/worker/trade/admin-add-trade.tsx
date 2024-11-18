@@ -46,7 +46,7 @@ const AdminAddTrade = ({ id }: { id: string }) => {
   return (
     <>
       <Button onClick={() => setOpen(true)} className="mt-5">
-        Szakma hozzáadása
+        Mesterség hozzáadása
       </Button>
       <Modal
         type="client"
@@ -57,12 +57,8 @@ const AdminAddTrade = ({ id }: { id: string }) => {
         open={open}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1>Szakma hozzáadása</h1>
-        <Input
-          label="Szakma"
-          {...register("name")}
-          error={errors.name?.message}
-        />
+        <h1 className="text-3xl">Mesterség hozzáadása</h1>
+        <Input label="Név" {...register("name")} error={errors.name?.message} />
         <Input
           label="Tapasztalat (év)"
           {...register("yearsOfExperience", { setValueAs: setNumberValueAs })}

@@ -9,6 +9,7 @@ import { getImageUrl } from "@/utils/get-image-url";
 import FsLightbox from "fslightbox-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import AdminDeleteConfirm from "../../admin-delete-confirm";
 
 type AdminReferenceCardProps = {
   id: string;
@@ -45,6 +46,7 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
   const [error, setError] = useState<string | undefined>();
   const [toggler, setToggler] = useState(false);
   const [imagenumber, setImagenumber] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const onEdit = async () => {
     mutate({
@@ -70,6 +72,7 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
           <div className="flex-grow">
             <TextArea
               value={description}
+              label="Leírás"
               onChange={(e) => setDescription(e.target.value)}
               error={error}
               className="w-full flex-grow"
@@ -116,7 +119,15 @@ const AdminReferenceCard = ({ id, onupload }: AdminReferenceCardProps) => {
             <Button onClick={() => setIsEditing(true)}>
               Leírás szerkesztése
             </Button>
-            <Button onClick={onDelete}>Törlés</Button>
+            <Button onClick={() => setOpen(true)}>Törlés</Button>
+            {open && data && (
+              <AdminDeleteConfirm
+                name={data.description}
+                onDelete={onDelete}
+                open={open}
+                setOpen={setOpen}
+              />
+            )}
           </>
         )}
       </div>

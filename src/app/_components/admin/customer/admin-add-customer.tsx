@@ -45,7 +45,7 @@ const AdminAddCustomer = () => {
         type="client"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1>Új megrendelő</h1>
+        <h1 className="text-3xl">Új megrendelő</h1>
         <Input {...register("name")} label="Név" error={errors.name?.message} />
         <Input
           {...register("email")}

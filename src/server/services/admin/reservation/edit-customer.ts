@@ -14,6 +14,9 @@ const editCustomer = async (
   if (!user) {
     throw new Error("Nem létezik ezzel az email címmel felhasználó.");
   }
+  if (user.role !== "CUSTOMER") {
+    throw new Error("A felhasználó nem megrendelő.");
+  }
   await db.reservation.update({
     where: {
       id: input.reservationId,
