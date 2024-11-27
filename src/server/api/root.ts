@@ -3,7 +3,6 @@ import authRouter from "./routers/auth";
 import workerRouter from "./routers/worker";
 import profileRouter from "./routers/profile";
 import reservationRouter from "./routers/reservation";
-import customerRouter from "./routers/customer";
 import notificationRouter from "./routers/notification";
 import adminRouter from "./routers/admin";
 
@@ -17,7 +16,6 @@ export const appRouter = router({
   worker: workerRouter,
   profile: profileRouter,
   reservation: reservationRouter,
-  customer: customerRouter,
   notification: notificationRouter,
   admin: adminRouter,
 });

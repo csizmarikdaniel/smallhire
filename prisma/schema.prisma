@@ -132,8 +132,8 @@ model Notification {
 model Image {
   id          String    @id @default(cuid())
 
-  userId      String?  
-  user        User?      @relation(fields: [userId], references: [id])
+  userId      String  
+  user        User      @relation(fields: [userId], references: [id])
   profileImage Boolean @default(false)
 
   referenceId String?

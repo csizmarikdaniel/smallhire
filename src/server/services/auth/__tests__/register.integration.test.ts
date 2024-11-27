@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { register } from "../register";
+import register from "../register";
 import { prisma } from "@/test/setup-db";
 
 test("should register customer", async () => {

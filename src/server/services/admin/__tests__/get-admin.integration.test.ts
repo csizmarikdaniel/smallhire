@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
 import getAdmin from "../get-admin";
 import { prisma } from "@/test/setup-db";
-import { mockAdminSession, mockCustomerSession } from "@/test/mock";
 
 test("should return admin", async () => {
   await prisma.user.create({
@@ -18,7 +17,7 @@ test("should return admin", async () => {
     },
   });
 
-  const admin = await getAdmin(prisma, mockAdminSession);
+  const admin = await getAdmin(prisma, { user: { id: "1", role: "ADMIN" } });
   expect(admin.id).toEqual("1");
   expect(admin.email).toEqual("email@email.com");
   expect(admin.role).toEqual("ADMIN");
@@ -43,9 +42,13 @@ test("should throw error if user is not admin", async () => {
       zipCode: "zipCode",
     },
   });
-  await expect(getAdmin(prisma, mockCustomerSession)).rejects.toThrowError();
+  await expect(
+    getAdmin(prisma, { user: { id: "1", role: "ADMIN" } }),
+  ).rejects.toThrowError();
 });
 
 test("should throw error if user is not found", async () => {
-  await expect(getAdmin(prisma, mockAdminSession)).rejects.toThrowError();
+  await expect(
+    getAdmin(prisma, { user: { id: "1", role: "ADMIN" } }),
+  ).rejects.toThrowError();
 });

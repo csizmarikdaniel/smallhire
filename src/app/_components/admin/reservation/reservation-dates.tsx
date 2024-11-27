@@ -25,7 +25,7 @@ const ReservationDates = ({
     from: startDate,
     to: endDate,
   });
-  const reservedDays = api.customer.worker.reservedDays.useQuery({
+  const reservedDays = api.worker.reservedDays.useQuery({
     workerId,
   });
 

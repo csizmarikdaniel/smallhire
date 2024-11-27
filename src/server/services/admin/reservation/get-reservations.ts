@@ -1,4 +1,4 @@
-import { AdminGetReservationsInput } from "@/types/admin";
+import { type AdminGetReservationsInput } from "@/types/admin";
 import { paginate } from "@/utils/paginate";
 import { type PrismaClient } from "@prisma/client";
 

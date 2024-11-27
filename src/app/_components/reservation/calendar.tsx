@@ -12,7 +12,7 @@ const Calendar = ({
 }) => {
   const params = useParams();
   const id = params.id?.toString() ?? "";
-  const reservedDays = api.customer.worker.reservedDays.useQuery({
+  const reservedDays = api.worker.reservedDays.useQuery({
     workerId: id,
   });
 

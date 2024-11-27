@@ -1,7 +1,7 @@
 import type { PrismaClient } from "@prisma/client";
 import type { RegisterInput } from "@/types/auth";
 
-export const register = async (db: PrismaClient, input: RegisterInput) => {
+const register = async (db: PrismaClient, input: RegisterInput) => {
   const dbUser = await db.user.findUnique({
     where: {
       email: input.email,
@@ -40,3 +40,5 @@ export const register = async (db: PrismaClient, input: RegisterInput) => {
 
   return { success: true, role: input.role };
 };
+
+export default register;

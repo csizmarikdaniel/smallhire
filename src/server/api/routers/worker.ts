@@ -27,6 +27,7 @@ import getTradeNames from "@/server/services/worker/get-trade-names";
 import { ReferenceIdSchema, TradeIdSchema, WorkerIdSchema } from "@/types";
 import removeReference from "@/server/services/worker/reference/remove-reference";
 import editReference from "@/server/services/worker/reference/edit-reference";
+import getWorkerReservedDays from "@/server/services/worker/get-worker-reserved-days";
 
 const workerRouter = router({
   list: authProcedure
@@ -40,6 +41,11 @@ const workerRouter = router({
   tradeNames: authProcedure.query(
     async ({ ctx }) => await getTradeNames(ctx.db),
   ),
+  reservedDays: authProcedure
+    .input(WorkerIdSchema)
+    .query(
+      async ({ ctx, input }) => await getWorkerReservedDays(ctx.db, input),
+    ),
   trades: router({
     list: authProcedure
       .input(ListTradesSchema)
