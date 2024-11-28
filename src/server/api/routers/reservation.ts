@@ -2,13 +2,13 @@ import getReservation from "@/server/services/reservation/get-reservation";
 import { authProcedure, router } from "../trpc";
 import getReservations from "@/server/services/reservation/get-reservations";
 import editDescription from "@/server/services/reservation/edit-description";
-import createReservation from "@/server/services/reservation/customer/create-reservation";
-import cancelReservation from "@/server/services/reservation/customer/cancel-reservation";
-import acceptOffer from "@/server/services/reservation/customer/accept-offer";
-import rejectOffer from "@/server/services/reservation/customer/reject-offer";
-import createOffer from "@/server/services/reservation/worker/create-offer";
-import completeReservation from "@/server/services/reservation/worker/complete-reservation";
-import rejectReservation from "@/server/services/reservation/worker/reject-reservation";
+import createReservation from "@/server/services/reservation/create-reservation";
+import cancelReservation from "@/server/services/reservation/cancel-reservation";
+import acceptOffer from "@/server/services/reservation/accept-offer";
+import rejectOffer from "@/server/services/reservation/reject-offer";
+import createOffer from "@/server/services/reservation/create-offer";
+import completeReservation from "@/server/services/reservation/complete-reservation";
+import rejectReservation from "@/server/services/reservation/reject-reservation";
 import {
   type AddReservationImageInput,
   AddReservationImageSchema,

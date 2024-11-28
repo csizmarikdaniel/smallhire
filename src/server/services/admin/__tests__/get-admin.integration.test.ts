@@ -43,7 +43,7 @@ test("should throw error if user is not admin", async () => {
     },
   });
   await expect(
-    getAdmin(prisma, { user: { id: "1", role: "ADMIN" } }),
+    getAdmin(prisma, { user: { id: "2", role: "CUSTOMER" } }),
   ).rejects.toThrowError();
 });
 
