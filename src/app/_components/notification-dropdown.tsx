@@ -24,7 +24,7 @@ const NotificationDropdown = () => {
           ></div>
           <NotificationList
             setOpen={setOpen}
-            className="absolute right-0 top-10 w-96"
+            className="absolute right-0 top-10 w-96 text-black"
           />
         </>
       )}

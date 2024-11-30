@@ -5,7 +5,7 @@ import Modal from "../modal";
 type EditProfilePictureProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onupload: (formData: FormData) => Promise<void>;
+  onupload: (formData: FormData) => Promise<boolean | undefined>;
 };
 
 const EditProfilePicture = ({
@@ -26,6 +26,7 @@ const EditProfilePicture = ({
         try {
           await onupload(data);
           setError(undefined);
+          window.location.reload();
         } catch (e) {
           if (e instanceof Error) setError(e.message);
         }

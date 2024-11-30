@@ -12,7 +12,7 @@ import { getImageUrl } from "@/utils/get-image-url";
 const ProfilePicture = ({
   onupload,
 }: {
-  onupload: (formdata: FormData) => Promise<void>;
+  onupload: (formdata: FormData) => Promise<boolean | undefined>;
 }) => {
   const { data, refetch } = api.profile.image.get.useQuery();
   const [open, setOpen] = useState(false);

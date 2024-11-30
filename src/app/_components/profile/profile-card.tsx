@@ -6,7 +6,14 @@ const ProfileCard = async () => {
   const user = await api.profile.get();
   const onupload = async (formData: FormData) => {
     "use server";
-    await api.profile.image.edit(formData);
+    try {
+      const { success } = await api.profile.image.edit(formData);
+      return success;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    }
   };
   return (
     <div>

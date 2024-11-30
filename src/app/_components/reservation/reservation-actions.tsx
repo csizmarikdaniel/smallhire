@@ -59,8 +59,8 @@ const CustomerActions = ({ status, id }: { status: string; id: string }) => {
       {status == "CREATEDOFFER" && (
         <div className="flex flex-col items-center">
           <p>
-            A szakember árajánlatot adott. Kérem válassza ki hogy elfogadja vagy
-            nem!
+            A szakember árajánlatot adott. Kérem válassza ki, hogy elfogadja
+            vagy nem!
           </p>
           <div className="flex gap-4">
             <Button

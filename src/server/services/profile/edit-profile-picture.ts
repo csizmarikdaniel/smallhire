@@ -66,6 +66,10 @@ const editProfilePicture = async (
       },
     },
   });
+
+  return {
+    success: true,
+  };
 };
 
 export default editProfilePicture;
