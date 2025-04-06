@@ -34,7 +34,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           }
         }
       }}
-      className="flex flex-col gap-5"
+      className="mx-auto flex w-1/2 flex-col gap-5"
     >
       <Input label="Email" placeholder="Email" type="email" name="email" />
       <Input

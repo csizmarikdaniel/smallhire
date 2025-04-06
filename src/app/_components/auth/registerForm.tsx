@@ -61,8 +61,8 @@ const RegisterForm = () => {
         <Radio label="Megrendelő" value="CUSTOMER" {...register("role")} />
         <Radio label="Szakember" value="WORKER" {...register("role")} />
       </div>
-      <div className="grid grid-cols-2 items-center gap-5">
-        <div className="flex flex-col">
+      <div className="mb-8 grid grid-cols-2 gap-8">
+        <div className="flex flex-col gap-2">
           <Input
             label="Email"
             error={errors.email?.message ?? emailError}
@@ -80,27 +80,30 @@ const RegisterForm = () => {
             type="password"
           />
         </div>
-        <div>
-          <Input
-            label="Cím"
-            error={errors.address?.message}
-            {...register("address")}
-          />
-          <Input
-            label="Város"
-            error={errors.city?.message}
-            {...register("city")}
-          />
-          <Input
-            label="Irányítószám"
-            error={errors.zipCode?.message}
-            {...register("zipCode")}
-          />
+        <div className="flex flex-col gap-2">
           <Input
             label="Telefonszám"
             error={errors.phone?.message}
             {...register("phone")}
           />
+          <Input
+            label="Cím"
+            error={errors.address?.message}
+            {...register("address")}
+          />
+          <div className="grid grid-cols-3 gap-2">
+            <Input
+              label="Irányítószám"
+              error={errors.zipCode?.message}
+              {...register("zipCode")}
+            />
+            <Input
+              label="Város"
+              error={errors.city?.message}
+              {...register("city")}
+              className="col-span-2"
+            />
+          </div>
         </div>
       </div>
       {error && <p className="text-red-500">{error}</p>}

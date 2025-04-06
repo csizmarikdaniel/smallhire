@@ -1,4 +1,5 @@
 import { type ForwardedRef, forwardRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -6,18 +7,18 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Input = forwardRef(function InputInput(
-  { label, error, ...props }: InputProps,
+  { label, error, className, ...props }: InputProps,
   ref: ForwardedRef<HTMLInputElement>,
 ) {
   return (
-    <label className="form-control">
-      <div className={label ? "label" : "hidden"}>
+    <label className={twMerge("form-control", className)}>
+      <div className={twMerge(label ? "label" : "hidden", "pb-1")}>
         <span className="label-text text-lg">{label}</span>
       </div>
       <input
         ref={ref}
         {...props}
-        className="input rounded-full border-2 border-sky-500 focus:border-sky-700 focus:outline-none"
+        className="input rounded-xl border-2 border-sky-700 focus:border-sky-700 focus:outline-none"
       />
       {error && <span className="label text-red-500">{error}</span>}
     </label>

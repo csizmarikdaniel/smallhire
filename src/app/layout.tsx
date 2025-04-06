@@ -16,11 +16,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable} bg-sky-200`}
-      data-theme="light"
-    >
+    <html lang="en" className={`${GeistSans.variable}`} data-theme="light">
       <body>
         <TRPCReactProvider>
           <Suspense fallback={<Loading />}>{children}</Suspense>

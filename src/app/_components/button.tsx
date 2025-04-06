@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const ButtonClassName =
-  "rounded-full border-2 border-sky-500 bg-white px-4 py-2 transition-all hover:bg-sky-100 duration-200 m-1";
+  "rounded-xl border-2 border-sky-700 bg-sky-700 px-4 py-4 m-1 text-white font-semibold text-lg";
 
 export function Button({ children, className, ...props }: ButtonProps) {
   return (
