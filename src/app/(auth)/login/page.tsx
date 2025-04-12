@@ -24,7 +24,7 @@ const LoginPage = async () => {
   };
   return (
     <Suspense fallback={<Loading />}>
-      <div className="mx-auto mt-10 max-w-[1000px] rounded-lg bg-white p-5">
+      <div className="mx-auto mt-28 max-w-[1000px] rounded-lg bg-white p-5">
         <h1 className="mb-8 text-center text-4xl">Bejelentkezés</h1>
         <LoginForm onLogin={onLogin} />
       </div>

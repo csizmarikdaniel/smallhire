@@ -13,11 +13,20 @@ const getReservations = async (db: PrismaClient, session: SessionType) => {
         startDate: true,
         endDate: true,
         status: true,
+        description: true,
         customer: {
           select: {
             user: {
               select: {
                 name: true,
+                images: {
+                  where: {
+                    profileImage: true,
+                  },
+                  select: {
+                    url: true,
+                  },
+                },
               },
             },
           },
@@ -29,7 +38,9 @@ const getReservations = async (db: PrismaClient, session: SessionType) => {
       endDate: reservation.endDate,
       startDate: reservation.startDate,
       status: reservation.status,
+      description: reservation.description,
       name: reservation.customer.user.name,
+      image: reservation.customer.user.images[0]?.url,
     }));
     return _reservations;
   } else {
@@ -43,11 +54,20 @@ const getReservations = async (db: PrismaClient, session: SessionType) => {
         startDate: true,
         endDate: true,
         status: true,
+        description: true,
         worker: {
           select: {
             user: {
               select: {
                 name: true,
+                images: {
+                  where: {
+                    profileImage: true,
+                  },
+                  select: {
+                    url: true,
+                  },
+                },
               },
             },
           },
@@ -59,7 +79,9 @@ const getReservations = async (db: PrismaClient, session: SessionType) => {
       endDate: reservation.endDate,
       startDate: reservation.startDate,
       status: reservation.status,
+      description: reservation.description,
       name: reservation.worker.user.name,
+      image: reservation.worker.user.images[0]?.url,
     }));
     return _reservations;
   }

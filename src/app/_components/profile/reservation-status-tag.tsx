@@ -24,7 +24,7 @@ const ReservationStatusTag = ({ status }: ReservationStatusTagProps) => {
     }
   };
   return (
-    <div className={`badge ${statusClasses(status).bg}`}>
+    <div className={`badge ${statusClasses(status).bg} text-nowrap text-white`}>
       {statusClasses(status).text}
     </div>
   );

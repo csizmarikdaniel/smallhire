@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
 import { Suspense } from "react";
 import Loading from "./_components/loading";
+import Navbar from "./_components/navbar";
 
 export const metadata: Metadata = {
   title: "SmallHire",
@@ -19,7 +20,10 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`} data-theme="light">
       <body>
         <TRPCReactProvider>
-          <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Suspense fallback={<Loading />}>
+            <Navbar />
+            {children}
+          </Suspense>
         </TRPCReactProvider>
       </body>
     </html>
