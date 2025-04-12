@@ -44,7 +44,9 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         name="password"
       />
       {error && <p className="text-red-500">{error}</p>}
-      <Button type="submit">Bejelentkezés</Button>
+      <Button type="submit" size="lg">
+        Bejelentkezés
+      </Button>
     </form>
   );
 };

@@ -60,3 +60,13 @@ export const AddReservationImageSchema = zfd.formData({
   images: z.any(),
   reservationId: z.string(),
 });
+
+export type GetReservationsInput = {
+  search?: string;
+  status?: string[];
+};
+
+export const GetReservationsSchema = z.object({
+  search: z.string().optional(),
+  status: z.array(z.string()).optional(),
+});

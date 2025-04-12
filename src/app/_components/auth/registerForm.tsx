@@ -107,7 +107,9 @@ const RegisterForm = () => {
         </div>
       </div>
       {error && <p className="text-red-500">{error}</p>}
-      <Button type="submit">Regisztráció</Button>
+      <Button type="submit" size="lg">
+        Regisztráció
+      </Button>
     </form>
   );
 };

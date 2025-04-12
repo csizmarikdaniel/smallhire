@@ -1,12 +1,38 @@
 import { type SessionType } from "@/types";
+import { type GetReservationsInput } from "@/types/reservation";
 import { type PrismaClient } from "@prisma/client";
 
-const getReservations = async (db: PrismaClient, session: SessionType) => {
+const getReservations = async (
+  db: PrismaClient,
+  session: SessionType,
+  input: GetReservationsInput,
+) => {
+  if (input.status === undefined) {
+    input.status = [
+      "RESERVED",
+      "CANCELLED",
+      "REJECTED",
+      "CREATEDOFFER",
+      "ACCEPTEDOFFER",
+      "COMPLETED",
+      "REJECTEDOFFER",
+    ];
+  }
   if (session?.user.role === "WORKER") {
     // Get reservations for worker
     const reservations = await db.reservation.findMany({
       where: {
         workerId: session.user.id,
+        customer: {
+          user: {
+            name: {
+              contains: input.search,
+            },
+          },
+        },
+        status: {
+          in: input.status,
+        },
       },
       select: {
         id: true,
@@ -48,6 +74,16 @@ const getReservations = async (db: PrismaClient, session: SessionType) => {
     const reservations = await db.reservation.findMany({
       where: {
         customerId: session?.user.id,
+        worker: {
+          user: {
+            name: {
+              contains: input.search,
+            },
+          },
+        },
+        status: {
+          in: input.status,
+        },
       },
       select: {
         id: true,

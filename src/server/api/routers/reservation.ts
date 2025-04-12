@@ -16,6 +16,7 @@ import {
   type CreateReservationInput,
   CreateReservationSchema,
   EditDescriptionSchema,
+  GetReservationsSchema,
   RemoveReservationImageSchema,
 } from "@/types/reservation";
 import removeImage from "@/server/services/reservation/image/remove-image";
@@ -29,9 +30,12 @@ const reservationRouter = router({
       async ({ ctx, input }) =>
         await getReservation(ctx.db, ctx.session, input),
     ),
-  list: authProcedure.query(
-    async ({ ctx }) => await getReservations(ctx.db, ctx.session),
-  ),
+  list: authProcedure
+    .input(GetReservationsSchema)
+    .query(
+      async ({ ctx, input }) =>
+        await getReservations(ctx.db, ctx.session, input),
+    ),
   create: authProcedure
     .input(CreateReservationSchema)
     .mutation(

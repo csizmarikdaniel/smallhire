@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
-  label: string;
+  label?: string;
   name: string;
   options: { label: string; value: string }[];
   error?: string;
@@ -13,9 +13,11 @@ const Select = forwardRef(function SelectField(
 ) {
   return (
     <label className="form-control">
-      <div className="label">
-        <span className="label-text text-lg">{label}</span>
-      </div>
+      {label && (
+        <div className="label">
+          <span className="label-text text-lg">{label}</span>
+        </div>
+      )}
       <select
         ref={ref}
         name={name}
