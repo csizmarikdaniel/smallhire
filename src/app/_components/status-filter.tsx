@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from "react";
 import ArrowIcon from "./icons/arrow";
 import ReservationStatusTag from "./profile/reservation-status-tag";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+const AllStatuses = [
+  "RESERVED",
+  "CANCELLED",
+  "REJECTED",
+  "CREATEDOFFER",
+  "ACCEPTEDOFFER",
+  "REJECTEDOFFER",
+  "COMPLETED",
+];
 
 const StatusFilter = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const params = new URLSearchParams(searchParams);
+  const status = params.get("status");
+  const checkedStatuses = status?.split(",") ?? [...AllStatuses];
   const handleCheckboxChange = (
     newStatus:
       | "RESERVED"
@@ -20,23 +31,16 @@ const StatusFilter = () => {
       | "REJECTEDOFFER"
       | "COMPLETED",
   ) => {
-    const params = new URLSearchParams(searchParams);
-    const status = params.get("status");
-    const checkedStatuses = status?.split(",") || [
-      "RESERVED",
-      "CANCELLED",
-      "REJECTED",
-      "CREATEDOFFER",
-      "ACCEPTEDOFFER",
-      "REJECTEDOFFER",
-      "COMPLETED",
-    ];
     if (checkedStatuses.includes(newStatus)) {
       checkedStatuses.splice(checkedStatuses.indexOf(newStatus), 1);
     } else {
       checkedStatuses.push(newStatus);
     }
-    params.set("status", checkedStatuses.join(","));
+    if (checkedStatuses.sort().join(",") == AllStatuses.sort().join(",")) {
+      params.delete("status");
+    } else {
+      params.set("status", checkedStatuses.join(","));
+    }
     router.replace(`${pathname}?${params.toString()}`);
   };
   return (
@@ -54,7 +58,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("RESERVED")
+                  ? checkedStatuses.includes("RESERVED")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -69,7 +73,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("CANCELLED")
+                  ? checkedStatuses.includes("CANCELLED")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -84,7 +88,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("REJECTED")
+                  ? checkedStatuses.includes("REJECTED")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -99,7 +103,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("CREATEDOFFER")
+                  ? checkedStatuses.includes("CREATEDOFFER")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -114,7 +118,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("ACCEPTEDOFFER")
+                  ? checkedStatuses.includes("ACCEPTEDOFFER")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -129,7 +133,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("REJECTEDOFFER")
+                  ? checkedStatuses.includes("REJECTEDOFFER")
                   : true
               }
               className="checkbox checkbox-sm"
@@ -144,7 +148,7 @@ const StatusFilter = () => {
               type="checkbox"
               defaultChecked={
                 params.get("status")
-                  ? params.get("status")?.includes("COMPLETED")
+                  ? checkedStatuses.includes("COMPLETED")
                   : true
               }
               className="checkbox checkbox-sm"

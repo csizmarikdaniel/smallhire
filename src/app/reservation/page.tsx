@@ -15,7 +15,7 @@ const ReservationsPage = async ({ searchParams }: ReservationsPageProps) => {
     redirect("/login");
   }
 
-  const statusArray = searchParams.status?.split(",") || undefined;
+  const statusArray = searchParams.status?.split(",") ?? undefined;
   return <ReservationList search={searchParams.search} status={statusArray} />;
 };
 
