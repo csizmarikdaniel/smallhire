@@ -10,7 +10,7 @@ const MyProfilePage = async () => {
   if (!session) redirect("/login");
   return (
     <div className="my-5 flex h-full w-full flex-col gap-5">
-      <h1 className="text-center text-3xl">Profilom</h1>
+      <h1 className="mt-5 text-center text-4xl">Profilom</h1>
       <ProfileCard />
       {session?.user.role === "WORKER" && (
         <>
