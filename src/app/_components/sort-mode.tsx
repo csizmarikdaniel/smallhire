@@ -21,7 +21,7 @@ const SortMode = () => {
       <div
         tabIndex={0}
         role="button"
-        className="m-1 flex gap-2 rounded-full border-2 border-sky-500 bg-white px-4 py-2 transition-all duration-200 hover:bg-sky-100"
+        className="flex h-full gap-2 rounded-xl border-2 border-sky-700 bg-white px-4 py-2 transition-all duration-200 hover:bg-sky-100"
       >
         Rendezés
         <ArrowIcon direction="down" height={20} width={20} />

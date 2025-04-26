@@ -24,7 +24,7 @@ const WorkerCard = ({ worker }: WorkerCardProps) => {
             {worker.trades?.map((trade) => (
               <div
                 key={trade.id}
-                className="rounded-full bg-sky-500 px-3 text-white"
+                className="rounded-full bg-sky-700 px-3 text-white"
               >
                 {trade.name}
               </div>

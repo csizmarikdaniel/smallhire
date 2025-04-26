@@ -42,7 +42,7 @@ const Pagination = ({ listLength }: PaginationProps) => {
           <div
             tabIndex={0}
             role="button"
-            className="m-1 flex gap-2 rounded-full border-2 border-sky-500 bg-white px-4 py-2 transition-all duration-200 hover:bg-sky-100"
+            className="m-1 flex gap-2 rounded-xl border-2 border-sky-700 bg-white px-4 py-2 transition-all duration-200 hover:bg-sky-100"
           >
             {new URLSearchParams(searchParams).get("limit") ?? 10}
             <ArrowIcon direction="down" height={20} width={20} />
@@ -83,7 +83,7 @@ const Pagination = ({ listLength }: PaginationProps) => {
         {Array.from({ length: pages }, (_, index) => (
           <Button
             key={index}
-            className={`${(new URLSearchParams(searchParams).get("page") === null && index == 0) || new URLSearchParams(searchParams).get("page") === (index + 1).toString() ? "bg-sky-500 text-white" : ""}`}
+            className={`${(new URLSearchParams(searchParams).get("page") === null && index == 0) || new URLSearchParams(searchParams).get("page") === (index + 1).toString() ? "border-sky-900 bg-sky-900 text-white" : ""}`}
             onClick={() => handlePagination(index + 1)}
           >
             {index + 1}

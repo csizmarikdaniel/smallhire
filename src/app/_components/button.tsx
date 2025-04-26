@@ -8,7 +8,7 @@ export type ButtonProps = {
 
 const ButtonClassName = (size?: "sm" | "md" | "lg") =>
   twMerge(
-    "rounded-xl border-2 border-sky-700 bg-sky-700 m-1 text-white font-semibold",
+    "rounded-xl border-2 border-sky-700 bg-sky-700 m-1 text-white font-semibold hover:bg-sky-900 transition-all duration-200",
     size === "lg"
       ? "px-4 py-4 text-lg"
       : size === "sm"
