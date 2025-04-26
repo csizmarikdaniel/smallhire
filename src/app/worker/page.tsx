@@ -31,7 +31,7 @@ const WorkerListPage = async ({ searchParams }: HomePageProps) => {
       <p className="mb-10 mt-5 text-center text-4xl font-bold">
         Elérhető szakemberek
       </p>
-      <div className="flex">
+      <div className="flex gap-2">
         <div className="grow">
           <Search />
         </div>
