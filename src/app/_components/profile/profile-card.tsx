@@ -17,33 +17,33 @@ const ProfileCard = async () => {
   };
   return (
     <div>
-      <div className="mx-auto max-w-[1000px] rounded-lg bg-white p-5 shadow-xl">
-        <h1 className="mb-10 text-center text-3xl">{user?.name}</h1>
-        <ProfilePicture onupload={onupload} />
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-row justify-between">
-            <p className="font-bold">Email:</p>
-            <p>{user?.email}</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="font-bold">Telefonszám:</p>
-            <p>{user?.phone}</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="font-bold">Cím:</p>
-            <p>{user?.address}</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="font-bold">Város:</p>
-            <p>{user?.city}</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="font-bold">Irányítószám:</p>
-            <p>{user?.zipCode}</p>
-          </div>
+      <div className="mx-auto grid max-w-[1000px] grid-cols-1 p-5 md:grid-cols-3">
+        <div>
+          <ProfilePicture onupload={onupload} />
         </div>
-        <div className="text-center">
-          {user && <EditPersonalData data={user} />}
+        <div className="divide-y-2 md:col-span-2">
+          <div className="mb-5 flex items-center justify-between">
+            <h1 className="text-3xl">{user?.name}</h1>
+            <div className="text-center">
+              {user && <EditPersonalData data={user} />}
+            </div>
+          </div>
+          <div className="flex w-full flex-row pt-5">
+            <div className="basis-1/4">
+              <p className="text-gray-400">Email:</p>
+              <p className="text-gray-400">Telefonszám:</p>
+              <p className="text-gray-400">Cím:</p>
+              <p className="text-gray-400">Város:</p>
+              <p className="text-gray-400">Irányítószám:</p>
+            </div>
+            <div>
+              <p>{user?.email}</p>
+              <p>{user?.phone}</p>
+              <p>{user?.address}</p>
+              <p>{user?.city}</p>
+              <p>{user?.zipCode}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

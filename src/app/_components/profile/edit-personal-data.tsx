@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { type EditUserInput, EditUserSchema } from "@/types/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/trpc/react";
+import EditIcon from "../icons/edit";
 
 type EditPersonalDataProps = {
   data: {
@@ -57,7 +58,13 @@ const EditPersonalData = ({ data }: EditPersonalDataProps) => {
 
   return (
     <div>
-      <Button onClick={() => setOpen(!open)}>Adatok módosítása</Button>
+      <Button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2"
+      >
+        <EditIcon color="#FFFFFF" height={20} width={20} />
+        Adatok módosítása
+      </Button>
       <Modal
         open={open}
         onClose={() => {
